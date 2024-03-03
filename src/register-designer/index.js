@@ -18,7 +18,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
-import * from 'yup';
+// import * from 'yup';
 import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik'
 
@@ -37,22 +37,22 @@ const RegisterDesigner = () => {
         event.preventDefault();
     };
 
-    const validatorFormRegisterDesigner = yub.object().shape({
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required")
-    })
-   
+    // const validatorFormRegisterDesigner = yub.object().shape({
+    //     email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
+    //     email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
+    //     email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required")
+    // })
+
     const formikSubmit = useFormik({
         initialValues: {
-          firstName: '',
-          lastName: '',
-          email: '',
+            firstName: '',
+            lastName: '',
+            email: '',
         },
         onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+            alert(JSON.stringify(values, null, 2));
         },
-      });
+    });
 
     return <div className='flex items-center justify-center h-screen banner-bg-all'>
         <div className='max-w-custom-width-register-designer' >
@@ -66,7 +66,7 @@ const RegisterDesigner = () => {
             <div className='with-banner-login-register-designer flex justify-center items-center'>
                 <div>
                     <div className='text-xs font-bold  mb-1'> WELCOME </div>
-                    <div className='text-3xl font-bold mb-4'> Sign Up as: </div>
+                    <div className='text-3xl font-bold mb-4'> Sign Up as Customer: </div>
                     <div>
                         <TextField
                             label="First name"
