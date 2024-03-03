@@ -1,27 +1,24 @@
-import { useState } from 'react'
-import { Image } from 'antd';
-import RegisterCunstomerImage from '../images/register-customer.png';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import dayjs, { Dayjs } from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import * from 'yup';
 import Checkbox from '@mui/material/Checkbox';
-import { useFormik } from 'formik'
-
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import Link from '@mui/material/Link';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Image } from 'antd';
+import dayjs from 'dayjs';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import RegisterCunstomerImage from '../images/register-customer.png';
 const RegisterDesigner = () => {
 
     const [showPassword, setShowPassword] = useState(false);
@@ -37,12 +34,7 @@ const RegisterDesigner = () => {
         event.preventDefault();
     };
 
-    const validatorFormRegisterDesigner = yub.object().shape({
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required"),
-        email: yub.string().email("Vui lòng nhập đúng định dạng email").required("Required")
-    })
-   
+  
     const formikSubmit = useFormik({
         initialValues: {
           firstName: '',
