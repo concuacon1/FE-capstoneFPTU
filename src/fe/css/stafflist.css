@@ -1,0 +1,196 @@
+{
+    box-sizing: border-box;
+  }
+  body {
+    font-size: 14px;
+  }
+  .v453_1853 {
+    width: 100%;
+    height: 1024px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+  }
+  .v453_1854 {
+    width: 100%;
+    height: 85px;
+    background: rgba(207,207,207,1);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15000000596046448);
+    overflow: hidden;
+  }
+  .v453_1855 {
+    width: 100%;
+    height: 85px;
+    background: linear-gradient(rgba(0,0,0,1), rgba(167,101,59,1));
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 295px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15000000596046448);
+    overflow: hidden;
+  }
+  .v453_1856 {
+    width: 293px;
+    color: rgba(255,255,255,1);
+    position: absolute;
+    top: 28px;
+    left: 337px;
+    font-family: Roboto;
+    font-weight: Medium;
+    font-size: 36px;
+    opacity: 1;
+    text-align: left;
+  }
+  .v453_1857 {
+    width: 295px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    font-family: Sacramento;
+    font-weight: Regular;
+    font-size: 48px;
+    opacity: 1;
+    text-align: center;
+  }
+  .v453_1858 {
+    width: 39px;
+    height: 40px;
+    background: url("../images/v453_1858.png");
+    opacity: 1;
+    position: absolute;
+    top: 24px;
+    left: 1368px;
+    border-radius: 50%;
+  }
+  .v453_1859 {
+    width: 221px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 179px;
+    left: 155px;
+    font-family: IBM Plex Sans;
+    font-weight: Medium;
+    font-size: 24px;
+    opacity: 1;
+    text-align: left;
+  }
+  .v453_1860 {
+    width: 221px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 182px;
+    left: 630px;
+    font-family: IBM Plex Sans;
+    font-weight: Medium;
+    font-size: 24px;
+    opacity: 1;
+    text-align: left;
+  }
+  .v453_1861 {
+    width: 221px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 122px;
+    left: 155px;
+    font-family: IBM Plex Sans;
+    font-weight: Medium;
+    font-size: 24px;
+    opacity: 1;
+    text-align: left;
+  }
+  .v453_1862 {
+    width: 221px;
+    color: rgba(0,0,0,1);
+    position: absolute;
+    top: 122px;
+    left: 630px;
+    font-family: IBM Plex Sans;
+    font-weight: Medium;
+    font-size: 24px;
+    opacity: 1;
+    text-align: left;
+  }
+  .name {
+    color: #fff;
+  }
+  .v453_1864 {
+    width: 232px;
+    height: 46px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: absolute;
+    top: 122px;
+    left: 306px;
+    border: 1px solid rgba(0,0,0,1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+  }
+  .v453_1865 {
+    width: 232px;
+    height: 46px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: absolute;
+    top: 177px;
+    left: 306px;
+    border: 1px solid rgba(0,0,0,1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+  }
+  .v453_1866 {
+    width: 324px;
+    height: 46px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: absolute;
+    top: 122px;
+    left: 732px;
+    border: 1px solid rgba(0,0,0,1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+  }
+  .v453_1867 {
+    width: 232px;
+    height: 46px;
+    background: rgba(255,255,255,1);
+    opacity: 1;
+    position: absolute;
+    top: 177px;
+    left: 824px;
+    border: 1px solid rgba(0,0,0,1);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+  }
+  .v453_1868 {
+    width: 149px;
+    height: 51px;
+    background: url("../images/v453_1868.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 122px;
+    left: 1159px;
+    overflow: hidden;
+  }
