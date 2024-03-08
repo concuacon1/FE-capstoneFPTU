@@ -14,7 +14,8 @@ import HomeOne from '../images/home_image_one.png'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
-
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 const HomePage = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openNotipush, setOpenNotipush] = useState(null);
@@ -88,7 +89,15 @@ const HomePage = () => {
         },
     }));
 
+    const pushLink = useNavigate();
+    const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
+    const logout = () =>{
+        localStorage.removeItem('datawebfpt')
+        setOpenListInAvatar(null);
+        Cookies.remove('tokenfpt');
+        pushLink("/login")
+    }
 
     return (
         <div>
@@ -96,8 +105,9 @@ const HomePage = () => {
                 <div className='bg_header_custom '>
                     <div className='flex header-custom'>
                         <HomeIcon className='icon_home_header' />
-                        <div className='cursor-pointer'>Account</div>
-                        <div className='cursor-pointer'>Schedule</div>
+                        { (checkRole =="ADMIN" ) &&  <div className='cursor-pointer'>Account</div>}
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) && <div className='cursor-pointer'>Schedule</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER"  ) &&  
                         <div className='cursor-pointer' ><Button
                             id="demo-customized-button"
                             aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -110,12 +120,12 @@ const HomePage = () => {
                             endIcon={<KeyboardArrowDownIcon />}
                         >
                             Project
-                        </Button></div>
-                        <div className='cursor-pointer'>Staff</div>
-                        <div className='cursor-pointer'>Designer</div>
-                        <div className='cursor-pointer'>Customer</div>
-                        <div className='cursor-pointer'>Blogs</div>
-                        <div className='cursor-pointer'>About</div>
+                        </Button></div> }
+                        { (checkRole =="ADMIN") && <div className='cursor-pointer'>Staff</div> }
+                        { (checkRole =="ADMIN" || checkRole == "STAFF" ||  checkRole =="CUSTOMER" ) &&  <div className='cursor-pointer'>Designer</div> }
+                        { (checkRole =="ADMIN" || checkRole == "STAFF"  ) &&  <div className='cursor-pointer'>Customer</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) &&   <div className='cursor-pointer'>Blogs</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) &&   <div className='cursor-pointer'>About</div> }
                     </div>
                 </div>
 
@@ -134,9 +144,6 @@ const HomePage = () => {
                         >
                             <NotificationsIcon className='cursor-pointer' />
                         </Button> </div>
-
-                    <div className='cursor-pointer' >LogOut</div>
-
 
                     <Button
                         id="listInAvarat-customized-button"
@@ -183,9 +190,9 @@ const HomePage = () => {
                     open={openListAvatarBool}
                     onClose={handleCloseListInAvatar}
                 >
-                    <MenuItem onClick={handleCloseListInAvatar} disableRipple>
+                    <MenuItem onClick={logout} disableRipple>
 
-                        Contract
+                        Logout
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
                     <MenuItem onClick={handleCloseListInAvatar} disableRipple>
@@ -260,8 +267,6 @@ const HomePage = () => {
                             </div>
                         </div>
                     </MenuItem>
-
-                    <button className='delete_all_noti'>Delete all</button>
                 </StyledMenu>
             </div>
 
@@ -329,7 +334,7 @@ const HomePage = () => {
                     <h2 className='tittle_footer'>Account</h2>
                     <p>My Profile</p>
                     <p>My catalog</p>
-                    <p>Log out</p>
+                    <p onClick ={logout} className="cursor-pointer">Log out</p>
                 </div>
 
             </div>

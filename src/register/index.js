@@ -8,6 +8,7 @@ const Register = () => {
 
     const linkScreenDesigner = () => {
         pushLink("/register-designer");
+
     }
 
     const linkScreenCustomer = () => {
