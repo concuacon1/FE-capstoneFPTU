@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes ,Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 import './index.css'
 import Register from "./register/index"
 import RegisterCustomer from "./register-customer/index"
@@ -9,7 +9,7 @@ import EditPasswordOtp from './edit-password-otp'
 import ChangePassword from "./change-password/index"
 import Login from "./login/index"
 import 'react-toastify/dist/ReactToastify.css';
-
+import ListProject from "./projects/list-project"
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +21,7 @@ function App() {
         <Route path="/edit-password-otp" element={<EditPasswordOtp />} />
         <Route path="/home-page" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/project-list" element={<ListProject />} />
       </Routes>
     </BrowserRouter>
   );
