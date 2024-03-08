@@ -123,7 +123,6 @@
     justify-content: space-between;
     padding-top: 35px;
     margin-top: -7px;
-
   }
 
   .block_footer_one {
@@ -139,7 +138,7 @@
     font-size: 24px;
   }
 
-  .icon_notipush-yellow{
+  .icon_notipush-yellow {
     color: rgba(0, 0, 0, 0.6);
     margin-right: 12px;
     border: 1px solid black;
@@ -151,7 +150,7 @@
     background-color: yellow;
   }
 
-  .icon_notipush-green{
+  .icon_notipush-green {
     color: rgba(0, 0, 0, 0.6);
     margin-right: 12px;
     border: 1px solid black;
@@ -160,32 +159,47 @@
     padding: 5px;
     border-radius: 15px;
     display: flex;
-    background-color: #00FF0A;
+    background-color: #00ff0a;
   }
 
-  .read_notipush{
+  .read_notipush {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #00FF0A;
+    background-color: #00ff0a;
     margin: 0px 10px;
   }
 
-  .delete_all_noti{
-    background-image: linear-gradient(to right, #e89f71, #A8653B);
+  .delete_all_noti {
+    background-image: linear-gradient(to right, #e89f71, #a8653b);
     width: 100%;
     position: sticky;
     padding: 8px;
   }
 
-  .item-title-notipush{
+  .item-title-notipush {
     font-size: 13px;
     font-weight: bold;
   }
 
-  .item-information-notipush{
+  .item-information-notipush {
     font-size: 17px;
     font-weight: 500;
     padding-left: 10px;
+  }
+
+  .errors-file {
+    color: red;
+    font-size: 15px;
+  }
+
+  .change-password-custom {
+    width: 1300px;
+    background-color: white;
+  }
+  .with-banner-change-pass {
+    width: 785px;
+    background-color: white;
+    height: 679px;
   }
 }
