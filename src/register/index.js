@@ -11,7 +11,7 @@ const Register = () => {
     }
 
     const linkScreenCustomer = () => {
-        pushLink("/register-designer");
+        pushLink("/register-customer");
     }
     return <div className='flex items-center justify-center h-screen banner-bg-all'>
         <div className='flex max-w-custom-width' >
