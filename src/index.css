@@ -85,6 +85,7 @@
 
   .header-custom {
     height: 100px;
+    
     justify-content: space-around;
     font-size: 16px;
     align-items: center;
@@ -123,7 +124,6 @@
     justify-content: space-between;
     padding-top: 35px;
     margin-top: -7px;
-
   }
 
   .block_footer_one {
@@ -139,7 +139,7 @@
     font-size: 24px;
   }
 
-  .icon_notipush-yellow{
+  .icon_notipush-yellow {
     color: rgba(0, 0, 0, 0.6);
     margin-right: 12px;
     border: 1px solid black;
@@ -151,7 +151,7 @@
     background-color: yellow;
   }
 
-  .icon_notipush-green{
+  .icon_notipush-green {
     color: rgba(0, 0, 0, 0.6);
     margin-right: 12px;
     border: 1px solid black;
@@ -160,32 +160,117 @@
     padding: 5px;
     border-radius: 15px;
     display: flex;
-    background-color: #00FF0A;
+    background-color: #00ff0a;
   }
 
-  .read_notipush{
+  .read_notipush {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #00FF0A;
+    background-color: #00ff0a;
     margin: 0px 10px;
   }
 
-  .delete_all_noti{
-    background-image: linear-gradient(to right, #e89f71, #A8653B);
+  .delete_all_noti {
+    background-image: linear-gradient(to right, #e89f71, #a8653b);
     width: 100%;
     position: sticky;
     padding: 8px;
   }
 
-  .item-title-notipush{
+  .item-title-notipush {
     font-size: 13px;
     font-weight: bold;
   }
 
-  .item-information-notipush{
+  .item-information-notipush {
     font-size: 17px;
     font-weight: 500;
     padding-left: 10px;
+  }
+
+  .errors-file {
+    color: red;
+    font-size: 15px;
+  }
+
+  .change-password-custom {
+    width: 1300px;
+    background-color: white;
+  }
+  .with-banner-change-pass {
+    width: 785px;
+    background-color: white;
+    height: 679px;
+  }
+
+  .bg-account {
+    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    width: 100%;
+    padding-left: 120px;
+    padding: 30px 0px 30px 120px;
+  }
+
+  .table-account {
+    width: 100%;
+  }
+
+  .custom-button-step {
+    float: right;
+    padding-right: 150px;
+  }
+
+  .buttonNext {
+    background-image: linear-gradient(to top, #e89f71, #a8653b);
+  }
+
+  .customByCode {
+    width: 500px;
+    display: flex;
+  }
+
+  .custom_step div:first-child {
+    line-height: 0px !important;
+  }
+
+  .item_categorys {
+    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 300px;
+    word-wrap: break-word;
+    color: white;
+  }
+
+  .item_categorysNo{
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 300px;
+    word-wrap: break-word;
+    color: black;
+  }
+
+  .block_left_category {
+    width: 400px;
+  }
+  .MuiImageListItemBar-root.MuiImageListItemBar-positionBottom.css-ztrqiq-MuiImageListItemBar-root {
+    background: none !important;
+  }
+  .button-upload-images {
+    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    width: 150px;
+    padding: 10px;
+    float: right;
+    margin-bottom: 5px;
+    color: white;
+    border-radius: 10px;
+  }
+
+  .button-add-link {
+    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    padding: 10px;
+    margin-right: 20px;
   }
 }
