@@ -27,7 +27,7 @@ const AccountList = () => {
         startDate: "",
         endDate: "",
     });
-   
+
 
     const onChangeInput = (event) => {
         const data = {
@@ -39,17 +39,17 @@ const AccountList = () => {
     };
 
 
-    const searchData = async () =>{
+    const searchData = async () => {
         try {
             const dataCreate = await instance.post("/search_user_role_admin", formSearch);
-             console.log(dataCreate)
+            console.log(dataCreate)
             return toast.success(dataCreate.data.message)
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
             } else if (error.response.status === 400) {
                 return toast.error(error.response.data.message)
-            }else if (error.response.status === 401) {
+            } else if (error.response.status === 401) {
                 return toast.error(error.response.data.message)
             }
             return toast.error("Server error")
@@ -60,10 +60,10 @@ const AccountList = () => {
         const data = {
             ...formSearch,
             startDate: newDateRange[0],
-            endDate :  newDateRange[1],
+            endDate: newDateRange[1],
         };
         setFormSearch(data);
-      };
+    };
 
     return (
         <div>
@@ -118,8 +118,8 @@ const AccountList = () => {
                                         >
                                             <DemoItem component="DateRangePicker">
                                                 <DateRangePicker
-                                                  value={[formSearch.startDate , formSearch.endDate]}
-                                                  onChange={handleDateRangeChange}
+                                                    value={[formSearch.startDate, formSearch.endDate]}
+                                                    onChange={handleDateRangeChange}
                                                     localeText={{
                                                         start: "",
                                                         end: "",
