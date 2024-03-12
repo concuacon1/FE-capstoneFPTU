@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectBannerImage from '../images/list-project-screen-banner.png'
+import ProjectListBannerImage from '../images/list-project-screen-banner.png'
 import ProjectImage from '../images/project-image.png'
 import AIchatBoxIcon from '../images/support.png'
 import { Image, Col, Divider, Row, Carousel } from 'antd';
@@ -32,7 +32,7 @@ const ListProject = () => {
          <div className='list-project-screen__image-banner'>
             <Image
                style={{ width: "100vw", height: "auto" }}
-               src={ProjectBannerImage}
+               src={ProjectListBannerImage}
                className='bg-white'
                preview={false}
             />

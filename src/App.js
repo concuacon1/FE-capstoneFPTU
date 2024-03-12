@@ -10,6 +10,8 @@ import ChangePassword from "./change-password/index"
 import Login from "./login/index"
 import 'react-toastify/dist/ReactToastify.css';
 import ListProject from "./projects/list-project"
+import ProjectValue from "./projects/project-value"
+
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +24,7 @@ function App() {
         <Route path="/home-page" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/project-list" element={<ListProject />} />
+        <Route path="/project/:project_id" element={<ProjectValue />} />
       </Routes>
     </BrowserRouter>
   );
