@@ -1,21 +1,23 @@
 
-import HomeIcon from '@mui/icons-material/Home';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
-import { useState } from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Avatar from '@mui/material/Avatar';
-import { Image } from 'antd';
-import HomeOne from '../images/home_image_one.png'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import { Image } from 'antd';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import HomeOne from '../images/home_image_one.png';
+
+
 const HomePage = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openNotipush, setOpenNotipush] = useState(null);
@@ -92,7 +94,7 @@ const HomePage = () => {
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
-    const logout = () => {
+    const logout = () =>{
         localStorage.removeItem('datawebfpt')
         setOpenListInAvatar(null);
         Cookies.remove('tokenfpt');
@@ -105,28 +107,27 @@ const HomePage = () => {
                 <div className='bg_header_custom '>
                     <div className='flex header-custom'>
                         <HomeIcon className='icon_home_header' />
-                        {(checkRole == "ADMIN") && <div className='cursor-pointer'>Account</div>}
-                        {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Schedule</div>}
-                        <div className='cursor-pointer'>
-                            <Button
-                                id="demo-customized-button"
-                                aria-controls={open ? 'demo-customized-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                variant="contained"
-                                disableElevation
-                                style={{ background: 'none', textTransform: 'none', fontSize: '20px' }}
-                                onClick={handleClick}
-                                endIcon={<KeyboardArrowDownIcon />}
-                            >
-                                Project
-                            </Button>
-                        </div>
-                        {(checkRole == "ADMIN") && <div className='cursor-pointer'>Staff</div>}
-                        {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Designer</div>}
-                        {(checkRole == "ADMIN" || checkRole == "STAFF") && <div className='cursor-pointer'>Customer</div>}
-                        {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Blogs</div>}
-                        <div className='cursor-pointer'>About us</div>
+                        {(checkRole === "ADMIN") && <Link to="/list-user-admin" className='cursor-pointer'>Account</Link>}
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) && <div className='cursor-pointer'>Schedule</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER"  ) &&  
+                        <div className='cursor-pointer' ><Button
+                            id="demo-customized-button"
+                            aria-controls={open ? 'demo-customized-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            variant="contained"
+                            disableElevation
+                            style={{ background: 'none', textTransform: 'none' }}
+                            onClick={handleClick}
+                            endIcon={<KeyboardArrowDownIcon />}
+                        >
+                            Project
+                        </Button></div> }
+                        { (checkRole =="ADMIN") && <div className='cursor-pointer'>Staff</div> }
+                        { (checkRole =="ADMIN" || checkRole == "STAFF" ||  checkRole =="CUSTOMER" ) &&  <div className='cursor-pointer'>Designer</div> }
+                        { (checkRole =="ADMIN" || checkRole == "STAFF"  ) &&  <div className='cursor-pointer'>Customer</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) &&   <div className='cursor-pointer'>Blogs</div> }
+                        { (checkRole =="ADMIN" || checkRole == "DESIGNER" || checkRole =="STAFF" || checkRole =="CUSTOMER" ) &&   <div className='cursor-pointer'>About</div> }
                     </div>
                 </div>
 
@@ -335,7 +336,7 @@ const HomePage = () => {
                     <h2 className='tittle_footer'>Account</h2>
                     <p>My Profile</p>
                     <p>My catalog</p>
-                    <p onClick={logout} className="cursor-pointer">Log out</p>
+                    <p onClick ={logout} className="cursor-pointer">Log out</p>
                 </div>
 
             </div>
