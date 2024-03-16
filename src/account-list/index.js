@@ -63,21 +63,21 @@ const AccountList = () => {
             id: 'permission',
             label: 'Permission',
             minWidth: 170,
-            align: 'right',
+            align: 'center',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
             id: 'created_date',
             label: 'Created Date',
             minWidth: 170,
-            align: 'right',
+            align: 'center',
             format: (value) => value.toLocaleString('en-US'),
         },
         {
             id: 'action',
             label: 'Action',
             minWidth: 170,
-            align: 'right',
+            align: 'center',
             format: (value) => value.toFixed(2),
         },
     ];
@@ -132,9 +132,9 @@ const AccountList = () => {
     const editAccountAsync = async () => {
         try {
 
-            if (formEdit.passwordNew.length < 1) {
-                return toast.error("Vui lòng nhập password mới")
-            }
+            // if (formEdit.passwordNew.length < 1) {
+            //     return toast.error("Vui lòng nhập password mới")
+            // }
 
             const formDataEdit = {
                 email: formEdit.email,
@@ -230,7 +230,7 @@ const AccountList = () => {
                             'permission': item_data.role,
                             'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
                             'action': <div >
-                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Edit</button>
+                                <button className="bg_edit_account mr-5" style={{color: 'white'}} onClick={() => editAccount(item_data)}>Edit</button>
                                 <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
                             </div>
                         };
@@ -563,7 +563,14 @@ const AccountList = () => {
                     </div>
                 </div>
 
-                <Paper sx={{ width: '100%', overflow: 'hidden' }} className="px-20 pt-10">
+                <Paper sx={{
+                    width: '100%',
+                    overflow: 'hidden',
+                    display:'flex',
+                    flexDirection:'column',
+                    justifyContent:'space-between',
+                    height:'750px',
+                    }} className="px-20 pt-10">
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
