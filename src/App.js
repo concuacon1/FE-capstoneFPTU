@@ -1,19 +1,22 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
-import './index.css'
-import Register from "./register/index"
-import RegisterCustomer from "./register-customer/index"
-import HomePage from "./homePage/index"
-import RegisterDesigner from './register-designer/index'
-import EditPasswordOtp from './edit-password-otp'
-import ChangePassword from "./change-password/index"
-import Login from "./login/index"
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import AccountList from "./account-list/index";
-import CreateProject from "./create-project/index"
-import ListProject from "./projects_category/list-project"
-import ProjectValue from "./projects_category/project-value"
-import ProjectServices from "./projects/project-services"
+import ChangePassword from "./change-password/index";
+import CreateProject from "./create-project/index";
+import DesignerList from './designer-list';
+import EditPasswordOtp from './edit-password-otp';
+import HomePage from "./homePage/index";
+import './index.css';
+import Login from "./login/index";
+import ProjectServices from "./projects/project-services";
+import ListProject from "./projects_category/list-project";
+import ProjectValue from "./projects_category/project-value";
+import RegisterCustomer from "./register-customer/index";
+import RegisterDesigner from './register-designer/index';
+import Register from "./register/index";
+import StaffList from './staff-list';
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +28,9 @@ function App() {
         <Route path="/edit-password-otp" element={<EditPasswordOtp />} />
         <Route path="/home-page" element={<HomePage />} />
         <Route path="/list-user-admin" element={<AccountList />} />
+        <Route path="/list-user-staff" element={<StaffList />} />
+        <Route path="/list-user-designer" element={<DesignerList />} />
+        <Route path="/list-user-staff" element={<StaffList />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
         <Route path="/project-list" element={<ListProject />} />
