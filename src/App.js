@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
 import CreateProject from "./create-project/index";
+import DesignerList from './designer-list';
 import EditPasswordOtp from './edit-password-otp';
 import HomePage from "./homePage/index";
 import './index.css';
@@ -14,6 +15,8 @@ import ProjectValue from "./projects_category/project-value";
 import RegisterCustomer from "./register-customer/index";
 import RegisterDesigner from './register-designer/index';
 import Register from "./register/index";
+import StaffList from './staff-list';
+
 function App() {
   return (
     <BrowserRouter>
