@@ -4,21 +4,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
+import ContractList from './contract-list';
 import CreateProject from "./create-project/index";
+import CustomerList from './customer-list';
 import DesignerList from './designer-list';
 import EditPasswordOtp from './edit-password-otp';
 import HomePage from "./homePage/index";
 import './index.css';
 import Login from "./login/index";
-import ProjectServices from "./projects/project-services";
 import ListProject from "./projects_category/list-project";
 import ProjectValue from "./projects_category/project-value";
 import RegisterCustomer from "./register-customer/index";
 import RegisterDesigner from './register-designer/index';
 import Register from "./register/index";
+import ScheduleList from './schedule-list';
+import ProjectServices from './service-list/project-services';
 import StaffList from './staff-list';
-
-
 function App() {
   return (
     <BrowserRouter>
@@ -32,12 +33,16 @@ function App() {
         <Route path="/list-user-admin" element={<AccountList />} />
         <Route path="/list-user-staff" element={<StaffList />} />
         <Route path="/list-user-designer" element={<DesignerList />} />
+        <Route path="/list-user-customer" element={<CustomerList />} />
+        <Route path="/list-schedule" element={<ScheduleList />} />
+        <Route path="/list-contract" element={<ContractList />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/project-list" element={<ListProject />} />
-        <Route path="/project/:project_id" element={<ProjectValue />} />
-        <Route path="/service" element={<ProjectServices />} />
         <Route path="/about-screen" element={<AboutScreen />} />
+        <Route path="/project-list" element={<ListProject />} />
+        {/* <Route path="/project-list/:project_type" element={<ListProject />} /> */}
+        <Route path="/project/:project_id" element={<ProjectValue />} />
+        <Route path="service" element={<ProjectServices />} />
       </Routes>
     </BrowserRouter>
   );

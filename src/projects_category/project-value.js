@@ -1,18 +1,16 @@
+import { Avatar, Button, Col, Flex, FloatButton, Image, Popover, Row } from 'antd';
+import dayjs from "dayjs";
 import React, { useEffect, useState } from 'react';
-import { Image } from 'antd';
-import { Button, Flex, Popover } from 'antd';
-import { Avatar } from 'antd';
-import { FloatButton, Row, Col } from 'antd';
-import ProjectValueBannerImage from '../images/project-screen-banner.png'
-import AvatarCustomer from '../images/avatar-customer.png';
-import AIchatBoxIcon from '../images/support.png'
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import '../App.css';
 import instance from "../configApi/axiosConfig";
-import { toast, ToastContainer } from 'react-toastify'
+import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import FooterComponent from "../footer/index"
-import '../App.css'
-import './project-value.css'
+import AvatarCustomer from '../images/avatar-customer.png';
+import ProjectValueBannerImage from '../images/project-screen-banner.png';
+import AIchatBoxIcon from '../images/support.png';
+import './project-value.css';
 
 const ProjectValue = () => {
     const [clicked, setClicked] = useState(false);
@@ -31,6 +29,7 @@ const ProjectValue = () => {
     };
     const { project_id } = useParams();
     const [listCategoris, setListCategoris] = useState([])
+
     useEffect(() => {
         async function getItemProject() {
             try {
@@ -52,8 +51,15 @@ const ProjectValue = () => {
         getItemProject()
 
     }, [])
-   
-    console.log(listCategoris)
+
+    const [isActive, setIsActive] = useState(0);
+    const onClickActive = (index) => {
+        setIsActive(index);
+    }
+
+    const removeProject = (id) => {
+        console.log("id == ", id);
+    }
 
     const hoverContent = <div style={{ fontSize: "24px" }}>Có thể giúp gì cho bạn ... ?</div>;
     const clickContent = <div ></div>;
@@ -76,27 +82,29 @@ const ProjectValue = () => {
                         <div className='feedback-title'>FEEDBACK</div>
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
-                                <Avatar
-                                    size={343}
-                                    src={<img src={AvatarCustomer} alt="avatar" />}
-                                />
+                                {
+                                    listCategoris?.dataDesigner?.imageDesigner.length > 0 ? <Avatar
+                                        size={343}
+                                        src={<img src={`http://localhost:8000/img/${listCategoris?.dataDesigner?.imageDesigner}`} alt="avatar" />}
+                                    /> : <Avatar
+                                        size={343}
+                                        src={<img src={AvatarCustomer} alt="avatar" />}
+                                    />
+                                }
                             </div>
                             <div className='feedback-content'>
-                                " Cuối cùng thì mình cũng đã tìm được lời giải cho bài
-                                toán khó nhất từ trước đến giờ của mình, chọn được mảnh đất
-                                để làm nơi an cư lạc nghiệp đã khó ( Nhất Vị, Nhị Hướng ),
-                                chọn được phương án thiết kế, thi công theo đúng sở thích
-                                và công việc còn khó khăn hơn rất nhiều. Sau đúng 6 tháng
-                                đưa lên đặt xuống, cuối cùng tôi và Ekip đã tìm dc lời giải
-                                cho bài toán khó của mình. “
+                                " {listCategoris?.description} “
                             </div>
                         </div>
                     </div>
                     <div className='project-value-container'>
                         <div className='title'>Sản phẩm hoàn thiện</div>
                         <div className='first-values'>
-                            <div className='project-name'>{listCategoris.name}</div>
-                            <Button className='catalog'>Catalog</Button>
+                            <div className='project-name'>{listCategoris?.name}</div>
+                            <a href={listCategoris?.catalog}>
+                                <Button className='catalog'>Catalog</Button>
+                            </a>
+                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Delete</Button>
                         </div>
                         <div className='second-values'>
                             <div className='project-values'>
@@ -105,23 +113,21 @@ const ProjectValue = () => {
                                         <Flex vertical gap="20px" style={{ width: '100%' }}>
 
                                             {
-                                                listCategoris.categoryData.length > 0 && listCategoris.categoryData.map((item ,index) => {
+                                                listCategoris?.categoryData?.length > 0 && listCategoris?.categoryData.map((item, index) => {
                                                     return (
-                                                        <Button type="primary" autoFocus key={index}>
+                                                        <Button type="primary" key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item" : "item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
                                                             {item.categoriesName}
                                                         </Button>
                                                     )
                                                 })
                                             }
-
-
                                         </Flex>
                                     </div>
                                     <div className='date'>
                                         <label className='design-date'>
-                                            Design date : <span className='date-value'>20/10/2024</span></label>
+                                            Design date : <span className='date-value'> {dayjs(listCategoris?.designerDate).format('DD/MM/YYYY')} </span></label>
                                         <label className='construction-date'>
-                                            Construction date: <span className='date-value'>20/10/2024</span></label>
+                                            Construction date: <span className='date-value'>{dayjs(listCategoris?.constructionDate).format('DD/MM/YYYY')} </span></label>
                                     </div>
                                 </div>
                                 <div className='middle-line'>
@@ -129,62 +135,22 @@ const ProjectValue = () => {
                                 </div>
                                 <div className='category-images'>
                                     <Row gutter={[40, 24]}>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={AvatarCustomer}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
+                                        {
+                                            !!listCategoris?.categoryData && listCategoris?.categoryData.length > 0 && listCategoris?.categoryData[isActive]?.images.length > 0 &&
+                                            listCategoris?.categoryData[isActive]?.images?.map(e => {
+                                                return (
+                                                    <Col className="gutter-row" span={12}>
+                                                        <Image
+                                                            src={`http://localhost:8000/img/${e}`}
+                                                            className='bg-white'
+                                                            preview={true}
+                                                        />
+                                                    </Col>
+                                                );
+                                            }
+                                            )
+                                        }
+
                                     </Row>
                                 </div>
                             </div>
@@ -194,7 +160,7 @@ const ProjectValue = () => {
                                 <hr />
                             </div>
                             <div className='designer-info'>
-                                Design by <span className='designer-name'>Văn Minh Tuấn</span>
+                                Design by <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
                             </div>
                         </div>
                     </div>
