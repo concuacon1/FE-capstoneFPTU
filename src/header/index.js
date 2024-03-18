@@ -1,21 +1,19 @@
 
-import HomeIcon from '@mui/icons-material/Home';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
-import { useState } from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Avatar from '@mui/material/Avatar';
-import { Image } from 'antd';
-import HomeOne from '../images/home_image_one.png'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LockIcon from '@mui/icons-material/Lock';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import Cookies from 'js-cookie';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
 
 
 
@@ -51,6 +49,10 @@ const HeaderComponent = () => {
     const handleCloseListInAvatar = () => {
         setOpenListInAvatar(null);
     };
+
+    const createProject = () => {
+        pushLink("/create-project")
+    }
 
     const StyledMenu = styled((props) => (
         <Menu
@@ -96,21 +98,23 @@ const HeaderComponent = () => {
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
-    const logout = () =>{
+    const logout = () => {
         localStorage.removeItem('datawebfpt')
         setOpenListInAvatar(null);
         Cookies.remove('tokenfpt');
         pushLink("/login")
     }
 
-    
+
     return (
         <div className="header_all flex">
             <div className='bg_header_custom '>
                 <div className='flex header-custom'>
                     <HomeIcon className='icon_home_header' />
-                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>Account</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Schedule</div>}
+                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>
+                        <a href='/list-user-admin'>Tài khoản</a>
+                    </div>}
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Lịch hẹn</div>}
                     {(checkRole == "ADMIN" || checkRole == "DESIGNER") &&
                         <div className='cursor-pointer' ><Button
                             id="demo-customized-button"
@@ -123,13 +127,13 @@ const HeaderComponent = () => {
                             onClick={handleClick}
                             endIcon={<KeyboardArrowDownIcon />}
                         >
-                            Project
+                            Dự án
                         </Button></div>}
-                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>Staff</div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Designer</div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF") && <div className='cursor-pointer'>Customer</div>}
+                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>Nhân viên</div>}
+                    {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Kiến trúc sư</div>}
+                    {(checkRole == "ADMIN" || checkRole == "STAFF") && <div className='cursor-pointer'>Khách hàng</div>}
                     {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Blogs</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>About</div>}
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Doanh nghiêp</div>}
                 </div>
             </div>
 
@@ -174,7 +178,7 @@ const HeaderComponent = () => {
             >
                 <MenuItem onClick={handleClose} disableRipple>
 
-                    Edit
+                    Sửa
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleClose} disableRipple>
@@ -196,12 +200,16 @@ const HeaderComponent = () => {
             >
                 <MenuItem onClick={logout} disableRipple>
 
-                    Logout
+                    Đăng Xuất
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem onClick={createProject} disableRipple>
+                    Tạo dự án
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem onClick={handleCloseListInAvatar} disableRipple>
 
-                    Profile
+                    Hồ sơ
                 </MenuItem>
 
             </StyledMenu>
@@ -222,7 +230,7 @@ const HeaderComponent = () => {
                             <CalendarMonthIcon />
                         </div>
                         <div>
-                            <p className='item-title-notipush'>Schedule</p>
+                            <p className='item-title-notipush'>Lịch hẹn</p>
                             <p className='item-information-notipush'>Need confirm schedule !!!</p>
                         </div>
                         <p className='read_notipush'></p>
@@ -241,7 +249,7 @@ const HeaderComponent = () => {
                             <CalendarMonthIcon />
                         </div>
                         <div>
-                            <p className='item-title-notipush'>Schedule</p>
+                            <p className='item-title-notipush'>Lịch hẹn</p>
                             <p className='item-information-notipush'>Need confirm schedule !!!</p>
                         </div>
                         <p className='read_notipush'></p>
@@ -261,7 +269,7 @@ const HeaderComponent = () => {
                             <LockIcon />
                         </div>
                         <div>
-                            <p className='item-title-notipush'>Schedule</p>
+                            <p className='item-title-notipush'>Lịch hẹn</p>
                             <p className='item-information-notipush'>Need confirm schedule !!!</p>
                         </div>
                         <p className='read_notipush'></p>

@@ -1,4 +1,3 @@
-import { Image } from "antd";
 import React, { useEffect, useState } from "react";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
@@ -6,9 +5,11 @@ import VuGia from "../images/Vu_gia.png";
 // import { Image } from "antd";
 import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
+import AddIcon from '@mui/icons-material/Add';
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Paper from '@mui/material/Paper';
 import Select from "@mui/material/Select";
@@ -25,12 +26,12 @@ import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { Switch } from "antd";
+import { Image, Switch } from "antd";
 import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 
-const AccountList = () => {
+const ContractList = () => {
     const [formSearch, setFormSearch] = useState({
         userCode: "",
         fullName: "",
@@ -58,31 +59,22 @@ const AccountList = () => {
     }
 
     const columns = [
-        { id: 'accountcode', label: 'Mã tài khoản', minWidth: 170, fontWeight: 600, fontSize: 20 },
-        { id: 'username', label: 'Tên tài khoản', minWidth: 100, fontWeight: 600, fontSize: 20 },
+        { id: 'contractcode', label: 'Contract Code', minWidth: 170 },
+        { id: 'customername', label: 'Customer name', minWidth: 100 },
         {
-            id: 'permission',
-            label: 'Chức vụ',
+            id: 'signername',
+            label: 'Singer Name',
             minWidth: 170,
-            fontWeight: 600, fontSize: 20,
-            align: 'center',
-            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'created_date',
-            label: 'Ngày tạo',
+            id: 'signeddate',
+            label: 'Signed Date',
             minWidth: 170,
-            fontWeight: 600, fontSize: 20,
-            align: 'center',
-            format: (value) => value.toLocaleString('en-US'),
         },
         {
-            id: 'action',
-            label: 'Hành động',
+            id: 'detail',
+            label: 'Detail',
             minWidth: 170,
-            fontWeight: 600, fontSize: 20,
-            align: 'center',
-            format: (value) => value.toFixed(2),
         },
     ];
 
@@ -144,7 +136,7 @@ const AccountList = () => {
                 email: formEdit.email,
                 password: formEdit.passwordNew,
                 isActive: formEdit.activeAccount,
-                role: formEdit.role,
+                role: formEdit.role
             }
             await instance.post(`/update-user`, formDataEdit);
             console.log(formDataEdit)
@@ -190,8 +182,8 @@ const AccountList = () => {
                         'permission': item_data.role,
                         'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
                         'action': <div >
-                            <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Sửa</button>
-                            <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>
+                            <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
+                            <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
                         </div>
                     };
                     item.push(objectPush); // Push the object to the array
@@ -234,8 +226,8 @@ const AccountList = () => {
                             'permission': item_data.role,
                             'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
                             'action': <div >
-                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Sửa</button>
-                                <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>
+                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Edit</button>
+                                <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
                             </div>
                         };
                         item.push(objectPush); // Push the object to the array
@@ -263,7 +255,7 @@ const AccountList = () => {
 
 
     const editAccount = (data) => {
-        const formData = { ...formEdit, role: data.role, activeAccount: data.isActive, email: data.email, dob: data.dob };
+        const formData = { ...formEdit, role: data.role, activeAccount: data.isActive, email: data.email };
         setDataEditSelect(data)
         setIdEditAccount(data._id)
         setOpenEdit(true);
@@ -314,7 +306,7 @@ const AccountList = () => {
                         src={VuGia}
                         preview={false}
                     />
-                    <div style={{ marginLeft: '40px' }}>Danh sách tài khoản</div>
+                    <div style={{ marginLeft: '40px' }}>Contracts List</div>
                 </div>
 
                 <Modal
@@ -352,16 +344,20 @@ const AccountList = () => {
 
                 >
                     <ModalContent >
+                        <h2 id="parent-modal-title" className="modal-title">
+                            Edit Account
+                        </h2>
+
                         <div>
                             <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Họ và tên : </div>
+                                <div style={{ width: 200 }}>Full Name : </div>
                                 <TextField
-                                    size="small"
                                     style={{ width: 300 }}
                                     id="outlined-start-adornment"
                                     name="fullName"
+
                                     value={dateEditSelect?.fullName}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
                                     disabled
                                 />
 
@@ -370,78 +366,65 @@ const AccountList = () => {
                             <div className="item flex justify-center items-center">
                                 <div style={{ width: 200 }}>Email : </div>
                                 <TextField
-                                    size="small"
                                     style={{ width: 300 }}
                                     id="outlined-start-adornment"
                                     name="email"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.email}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
                                     disabled
                                 />
                             </div>
 
 
                             <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Số điện thoại : </div>
+                                <div style={{ width: 200 }}>Phone Number : </div>
                                 <TextField
-                                    size="small"
                                     style={{ width: 300 }}
                                     id="outlined-start-adornment"
                                     name="phoneNumber"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.phoneNumber}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
                                     disabled
                                 />
                             </div>
 
-                            <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Ngày sinh : </div>
-                                <TextField
-                                    size="small"
-                                    style={{ width: 300 }}
-                                    id="outlined-start-adornment"
-                                    name="phoneNumber"
-                                    onChange={onChangeInput}
-                                    value={(new Date(dateEditSelect?.dob)).toLocaleDateString('en-GB')}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
-                                    disabled
-                                />
-                            </div>
 
                             <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Mật khẩu : </div>
+                                <div style={{ width: 200 }}>Password : </div>
                                 <TextField
-                                    size="small"
                                     style={{ width: 300 }}
                                     id="outlined-start-adornment"
                                     name="passwordNew"
                                     onChange={(event) => onChangeEditForm(event, "passwordNew")}
                                     value={formEdit.passwordNew}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
                                 />
                             </div>
 
 
                             <div className="item flex justify-start items-center" style={{ height: '56px' }}>
-                                <div style={{ width: 200 }}>Trạng thái : </div>
+                                <div style={{ width: 200 }}>Active account : </div>
                                 <Switch
                                     style={{ marginLeft: '10px' }}
                                     checked={formEdit.activeAccount}
                                     onChange={(data) => onChangeEditForm(data, "activeAccount")}
+
                                 />
                             </div>
 
 
                             <div className="flex justify-center items-center">
-                                <div className="" style={{ width: 200 }}>Chức vụ :</div>
+                                <div className="" style={{ width: 200 }}>Permission :</div>
                                 <FormControl sx={{ m: 1, minWidth: 300 }} size="small">
+
                                     <Select
                                         style={{ width: 300 }}
                                         labelId="demo-select-small-label"
                                         id="demo-select-small"
                                         value={formEdit.role}
+                                        label="--Choose--"
                                         onChange={(data) => onChangeEditForm(data, "role")}
                                         name="role"
                                     >
@@ -457,8 +440,11 @@ const AccountList = () => {
                         </div>
 
                         <div className="flex justify-end">
-                            <button className="bg_edit_account mr-5" onClick={editAccountAsync}>Lưu</button>
+                            <button className="pr-5" onClick={handleCloseEdit}>Hủy</button>
+                            <button onClick={editAccountAsync}>Ok</button>
                         </div>
+
+
                     </ModalContent>
                 </Modal>
 
@@ -467,17 +453,20 @@ const AccountList = () => {
                         <div className="flex mt-5 items-center justify-center">
                             <div className="flex items-center justify-around">
                                 <div className="flex items-center justify-around">
-                                    <div className="text-2xl pr-5">Chức vụ</div>
+                                    <div className="text-2xl font-semibold pr-5">Permission</div>
                                     <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                                        <InputLabel id="demo-select-small-label">
+                                            --Choose--
+                                        </InputLabel>
                                         <Select
                                             labelId="demo-select-small-label"
                                             defaultValue="All"
                                             id="demo-select-small"
                                             value={formSearch.role}
+                                            label="--Choose--"
                                             onChange={onChangeInput}
                                             name="role"
                                         >
-                                            <MenuItem value={"All"}>--Chọn--</MenuItem>
                                             <MenuItem value={"DESIGNER"}>DESIGNER</MenuItem>
                                             <MenuItem value={"STAFF"}>STAFF</MenuItem>
                                             <MenuItem value={"CUSTOMER"}>CUSTOMER</MenuItem>
@@ -486,9 +475,9 @@ const AccountList = () => {
                                 </div>
 
                                 <div className="date_time_search flex items-center justify-center pl-10">
-                                    <div className="text-2xl pr-5">
+                                    <div className="text-2xl font-semibold pr-5">
                                         {" "}
-                                        Ngày tạo{" "}
+                                        Created Date{" "}
                                     </div>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer
@@ -512,31 +501,22 @@ const AccountList = () => {
                                         </DemoContainer>
                                     </LocalizationProvider>
                                 </div>
-                                <div className="pl-10">
-                                    <button
-                                        className="custombutton-register-designer"
-                                        style={{ width: "130px" }}
-                                        type="submit"
-                                        onClick={apiSearch}
-                                    >
-                                        Tìm kiếm
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         <div className="flex mt-5 items-center justify-around">
                             <div >
                                 <div className="flex mt-5 items-center justify-around">
                                     <div className="flex items-center justify-around ">
-                                        <div className="text-2xl pr-5">
-                                            Mã tài khoản{" "}
+                                        <div className="text-2xl font-semibold pr-5">
+                                            Account code{" "}
                                         </div>
-                                        <TextField size="small"
+                                        <TextField
+                                            label="Account code "
                                             id="outlined-start-adornment"
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "200px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", height: "50px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -546,10 +526,11 @@ const AccountList = () => {
                                     </div>
 
                                     <div className="flex items-center justify-center pl-10">
-                                        <div className="text-2xl pr-5">
-                                            Tên tài khoản{" "}
+                                        <div className="text-2xl font-semibold pr-5">
+                                            User name{" "}
                                         </div>
-                                        <TextField size="small"
+                                        <TextField
+                                            label="User name"
                                             id="outlined-start-adornment"
                                             name="fullName"
                                             onChange={onChangeInput}
@@ -566,18 +547,40 @@ const AccountList = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div>
+                        <div className="flex items-center justify-center pl-10 pt-2">
+                            <button
+                                className="custombutton-register-designer"
+                                style={{ width: "150px", marginTop: "5" }}
+                                type="submit"
+                                onClick={apiSearch}
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <div className="flex items-center justify-center pl-10 pt-2">
+                            <button
+                                className="custombutton-register-designer"
+                                style={{ width: "150px", marginTop: "5" }}
+                                type="submit"
+                            >
+                                Add new <AddIcon></AddIcon>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <Paper sx={{ width: '100%', overflow: 'hidden', height: '750px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
-                            <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                        <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                                 <TableRow>
                                     {columns.map((column) => (
                                         <TableCell
                                             key={column.id}
                                             align={column.align}
-                                            style={{ minWidth: column.minWidth, fontWeight: column.fontWeight, fontSize: column.fontSize }}
+                                            style={{ minWidth: column.minWidth }}
                                         >
                                             {column.label}
                                         </TableCell>
@@ -621,11 +624,11 @@ const AccountList = () => {
 
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
-        </div >
+        </div>
     );
 };
 
-export default AccountList;
+export default ContractList;
 
 const Backdrop = React.forwardRef((props, ref) => {
     const { open, ...other } = props;

@@ -5,14 +5,12 @@ import VuGia from "../images/Vu_gia.png";
 // import { Image } from "antd";
 import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import AddIcon from '@mui/icons-material/Add';
-import { FormControlLabel, IconButton, OutlinedInput, Radio, RadioGroup } from "@mui/material";
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import Paper from '@mui/material/Paper';
+import Select from "@mui/material/Select";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -22,64 +20,43 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { Image } from "antd";
+import { Image, Switch } from "antd";
 import dayjs from "dayjs";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 
-const StaffList = () => {
+const CustomerList = () => {
     const [formSearch, setFormSearch] = useState({
         userCode: "",
         fullName: "",
-        role: "STAFF",
+        role: "CUSTOMER",
         startDate: "",
         endDate: "",
         email: "",
         phoneNumber: ""
     });
 
-    const [formAdd, setFormAdd] = useState({
-        firstname: "",
-        lastname: "",
+    const [formEdit, setFormEdit] = useState({
         email: "",
-        dob: "",
-        gender: "",
-        password: "",
-        passwordConfirm: "",
-        phoneNumber: ""
-    });
+        passwordNew: "",
+        activeAccount: true,
+        permission: ""
+    })
 
-    const [formShow, setFormShow] = useState({
-        username: "",
-        accountcode: "",
-        email: "",
-        phoneNumber: ""
-    });
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-    const [openShow, setOpenShow] = useState(false);
-
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleClickShowPasswordConfirm = () => setShowPasswordConfirm((show) => !show);
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
-
-    const onChangeAddForm = (event, nameProps) => {
-        const formAddOld = { ...formAdd };
-        formAddOld[event.target.name] = event.target.value
-        setFormAdd(formAddOld);
+    const onChangeEditForm = (event, nameProps) => {
+        const formEditOld = { ...formEdit };
+        if (nameProps === "activeAccount") {
+            formEditOld.activeAccount = event.target.checked;
+        } else {
+            formEditOld[event.target.name] = event.target.value
+        }
+        setFormEdit(formEditOld);
     }
 
     const columns = [
-        { id: 'accountcode', label: 'Mã nhân viên', minWidth: 170, fontWeight: 600, fontSize: 20 },
-        { id: 'username', label: 'Tên nhân viên', minWidth: 100, fontWeight: 600, fontSize: 20 },
+        { id: 'accountcode', label: 'Mã khách hàng', minWidth: 170, fontWeight: 600, fontSize: 20 },
+        { id: 'username', label: 'Tên khách hàng', minWidth: 100, fontWeight: 600, fontSize: 20 },
         {
             id: 'email',
             label: 'Email',
@@ -88,25 +65,32 @@ const StaffList = () => {
         {
             id: 'phoneNumber',
             label: 'Số điện thoại',
-            align: 'center',
             minWidth: 170, fontWeight: 600, fontSize: 20,
         },
         {
             id: 'information',
             label: 'Thông tin',
-            align: 'center',
             minWidth: 170, fontWeight: 600, fontSize: 20,
         },
     ];
 
+    const [formShow, setFormShow] = useState({
+        username: "",
+        accountcode: "",
+        email: "",
+        phoneNumber: ""
+    });
+
+    const [openShow, setOpenShow] = useState(false);
+
     const [rowsData, setRowData] = useState([])
 
-    const [dateAddSelect, setDataAddSelect] = useState({});
+    const [dateEditSelect, setDataEditSelect] = useState()
 
     const [openDelete, setOpenDelete] = useState(false);
     const [idDeleteAccount, setIdDeleteAccount] = useState();
 
-    const [openAdd, setOpenAdd] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [idEditAccount, setIdEditAccount] = useState();
 
     const handleCloseDelete = () => {
@@ -118,8 +102,8 @@ const StaffList = () => {
         setIdDeleteAccount(id)
     }
 
-    const handleCloseAdd = () => {
-        setOpenAdd(false);
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
     };
 
     const handleCloseShow = () => {
@@ -127,6 +111,7 @@ const StaffList = () => {
     }
 
     const showInfo = (item_data) => {
+        console.log("item_data == ", item_data);
         setFormShow(item_data);
         setOpenShow(true);
     }
@@ -152,29 +137,24 @@ const StaffList = () => {
         }
     }
 
-    const addAccountAsync = async () => {
+    const editAccountAsync = async () => {
         try {
-            console.log("formAdd == ", formAdd);
-            if (formAdd.password.length < 1 || formAdd.passwordConfirm.length < 1) {
-                return toast.error("Vui lòng nhập password")
+
+            if (formEdit.passwordNew.length < 1) {
+                return toast.error("Vui lòng nhập password mới")
             }
 
-            if (formAdd.password != formAdd.passwordConfirm) {
-                return toast.error("Password không đúng")
+            const formDataEdit = {
+                email: formEdit.email,
+                password: formEdit.passwordNew,
+                isActive: formEdit.activeAccount,
+                role: formEdit.role
             }
-
-            const formDataAdd = {
-                fullName: formAdd.firstname + " " + formAdd.lastname,
-                email: formAdd.email,
-                password: formAdd.password,
-                role: "STAFF",
-                phoneNumber: formAdd.phoneNumber,
-                dob: formAdd.dob
-            }
-            await instance.post(`/register`, formDataAdd);
-            toast.success("Tạo Staff thành công");
+            await instance.post(`/update-user`, formDataEdit);
+            console.log(formDataEdit)
             setCallApiReset(prev => !prev);
-            setOpenAdd(false)
+            toast.success("Sửa  thành công");
+            setOpenEdit(false)
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -196,7 +176,7 @@ const StaffList = () => {
                 fullName: formSearch.fullName,
                 email: formSearch.email,
                 phoneNumber: formSearch.phoneNumber,
-                flagGetUser: "STAFF"
+                flagGetUser: "CUSTOMER"
             }
             const dataSearch = await instance.post("/list-user", dataSeachForm);
             const dataDB = dataSearch.data.data;
@@ -217,7 +197,7 @@ const StaffList = () => {
                             <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                         </div>
                     };
-                    item.push(objectPush); // Push the object to the array
+                    item.push(objectPush);
                 });
                 setRowData(item);
             } else {
@@ -242,7 +222,8 @@ const StaffList = () => {
         async function getAllUser() {
             try {
                 const dataRes = await instance.post(`/list-user`, {
-                    flagGetUser: 'STAFF'
+                    flagGetUser: 'CUSTOMER',
+                    role: "CUSTOMER"
                 });
                 const dataDB = dataRes.data.data;
                 const item = [];
@@ -286,19 +267,6 @@ const StaffList = () => {
         getAllUser()
     }, [callApiReset])
 
-
-    const editAccount = (data) => {
-        const formData = { ...formAdd, role: data.role, activeAccount: data.isActive, email: data.email };
-        setDataAddSelect(data)
-        setIdEditAccount(data._id)
-        setOpenAdd(true);
-        setFormAdd(formData)
-    }
-
-    const addStaff = () => {
-        setOpenAdd(true);
-    }
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -321,16 +289,6 @@ const StaffList = () => {
         setFormSearch(data);
     };
 
-    const handleDateRangeChange = (newDateRange) => {
-        const data = {
-            ...formSearch,
-            startDate: newDateRange[0],
-            endDate: newDateRange[1],
-        };
-        setFormSearch(data);
-    };
-
-
     return (
         <div className="h-screen">
             <HeaderComponent />
@@ -342,7 +300,7 @@ const StaffList = () => {
                         src={VuGia}
                         preview={false}
                     />
-                    <div style={{ marginLeft: '40px' }}>Danh sách nhân viên</div>
+                    <div style={{ marginLeft: '40px' }}>Danh sách khách hàng</div>
                 </div>
 
                 <Modal
@@ -355,10 +313,10 @@ const StaffList = () => {
                 >
                     <ModalContent >
                         <h2 id="parent-modal-title" className="modal-title">
-                            Xóa nhân viên
+                            Delete Account
                         </h2>
                         <p id="parent-modal-description" className="modal-description">
-                            Bạn chắc chắn muốn xóa nhân viên này chứ
+                            Bạn chắc chắn muốn xóa account này chứ
                         </p>
 
                         <div className="flex justify-end">
@@ -371,146 +329,116 @@ const StaffList = () => {
                 </Modal>
 
                 <Modal
-                    open={openAdd}
-                    onClose={handleCloseAdd}
+                    open={openEdit}
+                    onClose={handleCloseEdit}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                     closeAfterTransition
                     slots={{ backdrop: StyledBackdrop }}
+
                 >
-                    <ModalContent>
+                    <ModalContent >
+                        <h2 id="parent-modal-title" className="modal-title">
+                            Edit Account
+                        </h2>
+
                         <div>
                             <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Full Name : </div>
                                 <TextField
-                                    size="small"
-                                    label="Họ"
-                                    style={{ width: 222.45 }}
+                                    style={{ width: 300 }}
                                     id="outlined-start-adornment"
-                                    name="firstname"
-                                    value={formAdd.firstname}
-                                    onChange={(e) => setFormAdd({ ...formAdd, firstname: e.target.value })}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    name="fullName"
+
+                                    value={dateEditSelect?.fullName}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                    disabled
                                 />
-                                <TextField
-                                    size="small"
-                                    label="Tên"
-                                    style={{ width: 222.45 }}
-                                    id="outlined-start-adornment"
-                                    name="lastname"
-                                    value={formAdd.lastname}
-                                    onChange={(e) => setFormAdd({ ...formAdd, lastname: e.target.value })}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
-                                />
+
                             </div>
 
                             <div className="item flex justify-center items-center">
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer
-                                        components={[
-                                            "DatePicker",
-                                            "TimePicker",
-                                            "DateTimePicker",
-                                            "DateRangePicker",
-                                        ]}
+                                <div style={{ width: 200 }}>Email : </div>
+                                <TextField
+                                    style={{ width: 300 }}
+                                    id="outlined-start-adornment"
+                                    name="email"
+                                    onChange={onChangeInput}
+                                    value={dateEditSelect?.email}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                    disabled
+                                />
+                            </div>
+
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Phone Number : </div>
+                                <TextField
+                                    style={{ width: 300 }}
+                                    id="outlined-start-adornment"
+                                    name="phoneNumber"
+                                    onChange={onChangeInput}
+                                    value={dateEditSelect?.phoneNumber}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                    disabled
+                                />
+                            </div>
+
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Password : </div>
+                                <TextField
+                                    style={{ width: 300 }}
+                                    id="outlined-start-adornment"
+                                    name="passwordNew"
+                                    onChange={(event) => onChangeEditForm(event, "passwordNew")}
+                                    value={formEdit.passwordNew}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                />
+                            </div>
+
+
+                            <div className="item flex justify-start items-center" style={{ height: '56px' }}>
+                                <div style={{ width: 200 }}>Active account : </div>
+                                <Switch
+                                    style={{ marginLeft: '10px' }}
+                                    checked={formEdit.activeAccount}
+                                    onChange={(data) => onChangeEditForm(data, "activeAccount")}
+
+                                />
+                            </div>
+
+
+                            <div className="flex justify-center items-center">
+                                <div className="" style={{ width: 200 }}>Permission :</div>
+                                <FormControl sx={{ m: 1, minWidth: 300 }} size="small">
+
+                                    <Select
+                                        style={{ width: 300 }}
+                                        labelId="demo-select-small-label"
+                                        id="demo-select-small"
+                                        value={formEdit.role}
+                                        label="--Choose--"
+                                        onChange={(data) => onChangeEditForm(data, "role")}
+                                        name="role"
                                     >
-                                        <DemoItem component="DateRangePicker">
-                                            <DatePicker
-                                                value={formAdd.dob}
-                                                onChange={(date) => setFormAdd({ ...formAdd, dob: date })}
-                                                renderInput={(params) => <TextField {...params} />}
-                                            />
-                                        </DemoItem>
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                                <div className="flex items-center" style={{ marginLeft: '30px' }}>
-                                    <div style={{ marginRight: '5px' }}>Giới tính</div>
-                                    <FormControl>
-                                        <RadioGroup
-                                            aria-labelledby="demo-radio-buttons-group-label"
-                                            value={formAdd.gender ? "Male" : "Female"}
-                                            onChange={(e) => setFormAdd({ ...formAdd, gender: e.target.value })}
-                                            name="gender"
-                                        >
-                                            <FormControlLabel value="Male" control={<Radio />} label="Nam" />
-                                            <FormControlLabel value="Female" control={<Radio />} label="Nữ" />
-                                        </RadioGroup>
-                                    </FormControl>
-                                </div>
-                            </div>
-
-                            <TextField
-                                size="small"
-                                label="Email"
-                                style={{ width: 222.45 }}
-                                id="outlined-start-adornment"
-                                name="email"
-                                value={formAdd.email}
-                                onChange={(e) => setFormAdd({ ...formAdd, email: e.target.value })}
-                                sx={{ m: 1, width: "222.45px", height: "40px" }}
-                            />
-
-                            <TextField
-                                size="small"
-                                label="Số điện thoại"
-                                style={{ width: 222.45 }}
-                                id="outlined-start-adornment"
-                                name="phoneNumber"
-                                value={formAdd.phoneNumber}
-                                onChange={(e) => setFormAdd({ ...formAdd, phoneNumber: e.target.value })}
-                                sx={{ m: 1, width: "222.45px", height: "40px" }}
-                            />
-
-                            <div className="item flex justify-center items-center">
-                                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                        value={formAdd.password}
-                                        onChange={(e) => setFormAdd({ ...formAdd, password: e.target.value })}
-                                    />
-                                </FormControl>
-                                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password-confirm">Xác nhận mật khẩu</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password-confirm"
-                                        type={showPasswordConfirm ? 'text' : 'password'}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPasswordConfirm}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPasswordConfirm ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                        value={formAdd.passwordConfirm}
-                                        onChange={(e) => setFormAdd({ ...formAdd, passwordConfirm: e.target.value })}
-                                    />
+                                        <MenuItem value={"DESIGNER"}>DESIGNER</MenuItem>
+                                        <MenuItem value={"STAFF"}>STAFF</MenuItem>
+                                        <MenuItem value={"CUSTOMER"}>CUSTOMER</MenuItem>
+                                    </Select>
                                 </FormControl>
                             </div>
+
+
+
                         </div>
 
                         <div className="flex justify-end">
-                            <button className="bg_edit_account mr-5" onClick={addAccountAsync}>Tạo</button>
+                            <button className="pr-5" onClick={handleCloseEdit}>Hủy</button>
+                            <button onClick={editAccountAsync}>Ok</button>
                         </div>
+
+
                     </ModalContent>
                 </Modal>
 
@@ -531,7 +459,7 @@ const StaffList = () => {
                                     size="small"
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
-                                    name="accountcode"
+                                    name="userCode"
                                     value={formShow?.userCode}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                     disabled
@@ -543,7 +471,7 @@ const StaffList = () => {
                                     size="small"
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
-                                    name="username"
+                                    name="fullName"
                                     value={formShow?.fullName}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                     disabled
@@ -585,7 +513,7 @@ const StaffList = () => {
                                 <div className="flex mt-5 items-center justify-center">
                                     <div className="flex items-center justify-center ">
                                         <div className="text-2xl pr-5">
-                                            Mã nhân viên{" "}
+                                            Mã khách hàng{" "}
                                         </div>
                                         <TextField
                                             size="small"
@@ -593,7 +521,7 @@ const StaffList = () => {
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", height: "50px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -639,7 +567,7 @@ const StaffList = () => {
                                 <div className="flex mt-5 items-center justify-center">
                                     <div className="flex items-center justify-center ">
                                         <div className="text-2xl pr-5">
-                                            Tên nhân viên{" "}
+                                            Tên khách hàng{" "}
                                         </div>
                                         <TextField
                                             size="small"
@@ -647,7 +575,7 @@ const StaffList = () => {
                                             name="fullName"
                                             onChange={onChangeInput}
                                             value={formSearch.fullName}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", height: "50px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -673,16 +601,6 @@ const StaffList = () => {
                                                 ),
                                             }}
                                         />
-                                    </div>
-                                    <div className="pl-10">
-                                        <button
-                                            className="button-add"
-                                            style={{ width: "150px", marginTop: "5" }}
-                                            type="submit"
-                                            onClick={addStaff}
-                                        >
-                                            Thêm mới <AddIcon></AddIcon>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -743,11 +661,11 @@ const StaffList = () => {
 
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
-        </div >
+        </div>
     );
 };
 
-export default StaffList;
+export default CustomerList;
 
 const Backdrop = React.forwardRef((props, ref) => {
     const { open, ...other } = props;

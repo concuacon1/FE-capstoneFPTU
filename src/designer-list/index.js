@@ -29,7 +29,7 @@ const DesignerList = () => {
     const [formSearch, setFormSearch] = useState({
         userCode: "",
         fullName: "",
-        role: "All",
+        role: "DESIGNER",
         startDate: "",
         endDate: "",
     });
@@ -172,11 +172,9 @@ const DesignerList = () => {
             const dataSeachForm = {
                 userCode: formSearch.userCode,
                 fullName: formSearch.fullName,
-                role: formSearch.role === "All" ? "" : formSearch.role,
-                startDate: formSearch.startDate,
-                endDate: formSearch.endDate
+                flagGetUser: "DESIGNER"
             }
-            const dataSearch = await instance.post("/search_user_role_admin", dataSeachForm);
+            const dataSearch = await instance.post("/list-user", dataSeachForm);
             const dataDB = dataSearch.data.data;
             const item = [];
             if (dataDB.length > 0) {
@@ -221,7 +219,9 @@ const DesignerList = () => {
     useEffect(() => {
         async function getAllUser() {
             try {
-                const dataRes = await instance.get(`/list_user_role_admin`);
+                const dataRes = await instance.post(`/list-user`, {
+                    flagGetUser: 'DESIGNER'
+                });
                 const dataDB = dataRes.data.data;
                 const item = [];
                 if (dataDB.length > 0) {
@@ -617,7 +617,7 @@ const DesignerList = () => {
                 <Paper sx={{ width: '100%', overflow: 'hidden', height: '750px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
-                        <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                            <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                                 <TableRow>
                                     {columns.map((column) => (
                                         <TableCell

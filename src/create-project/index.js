@@ -1,22 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Button, message, Steps, theme } from "antd";
-import { AutoComplete } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { Modal, Upload } from "antd";
-import { Select, Space } from "antd";
-import { Checkbox } from "antd";
-import { DatePicker } from "antd";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import instance from "../configApi/axiosConfig"
-import { toast, ToastContainer } from 'react-toastify'
-import dayjs, { Dayjs } from "dayjs";
+import { AutoComplete, Button, Checkbox, DatePicker, Select, Steps, theme } from "antd";
+import dayjs from "dayjs";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import instance from "../configApi/axiosConfig";
 
 
 const CreateProject = () => {
+    const navigate = useNavigate();
     const [formCreateProject, setFormCretaeProject] = useState({
         name: "",
         projectIdType: "",
@@ -27,12 +22,11 @@ const CreateProject = () => {
         userCode: "",
         designerName: "",
         catalog: "",
-        categoriesAdd: ""
+        categoriesAdd: "",
+        description: "",
+        projectTypeNew: ""
     });
-    // {
-    //     categoriesName: "",
-    //     images: "",
-    // }]
+
     const [listCategory, setListCategory] = useState([]);
 
     const [titleStep, setTitleStep] = useState("Create new Project")
@@ -41,14 +35,24 @@ const CreateProject = () => {
     const [checkNewProject, setCheckNewProject] = useState(false);
 
     const onChangeCheckBox = (e) => {
+        const dataOld = { ...formCreateProject }
+        if (e.target.checked) {
+            dataOld.projectIdType = "";
+        } else {
+            dataOld.projectTypeNew = "";
+        }
+        setFormCretaeProject(dataOld);
         setCheckNewProject(e.target.checked);
     };
+
+    console.log(formCreateProject)
 
     const onChangeSelect = (data, name) => {
         const dataNew = {
             ...formCreateProject,
             [name]: data,
         };
+        console.log("dataNew == ", dataNew);
         setFormCretaeProject(dataNew);
     };
 
@@ -60,7 +64,6 @@ const CreateProject = () => {
         };
         setFormCretaeProject(dataOle)
     };
-    console.log(formCreateProject)
 
     const onChangeDate = (value, name) => {
         const dataOle = {
@@ -115,7 +118,10 @@ const CreateProject = () => {
                     return toast.error(error.response.data.errors[0].msg)
                 } else if (error.response.status === 400) {
                     return toast.error(error.response.data.message)
-                } else if (error.response.status === 403) {
+                } else if (error.response.status === 401) {
+                    return toast.error(error.response.data.message)
+                }
+                else if (error.response.status === 403) {
                     return toast.error(error.response.data.message)
                 } else {
                     return toast.error("Server error")
@@ -148,6 +154,7 @@ const CreateProject = () => {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
+        fileInputRef.current.value = "";
 
         if (file) {
             const dataOle = {
@@ -195,55 +202,76 @@ const CreateProject = () => {
 
     const uploadDataCreateProject = async () => {
         // upload images
-        let listCategoriesCustom = [];
-        for (let i = 0; i < listCategory.length; i++) {
-            let imagesList = listCategory[i].images;
-            let formDataFile = new FormData();
-            let dataImage = []
-            for (let y = 0; y < imagesList?.length; y++) {
-                formDataFile.append('files', imagesList[i]);
+        let dataResIdType = ""
+        try {
+            if (formCreateProject.projectTypeNew.length > 0) {
+                const data = {
+                    nameProjectType: formCreateProject.projectTypeNew
+                }
+                dataResIdType = await instance.post("/post_project_type", data);
+            }
+            let listCategoriesCustom = [];
+            for (let i = 0; i < listCategory.length; i++) {
+                console.log(3333333, listCategory[i].images)
+                let imagesList = listCategory[i].images;
+                let formDataFile = new FormData();
+                let dataImage = []
+                for (let y = 0; y < imagesList?.length; y++) {
+                    formDataFile.append('files', imagesList[y]);
+                }
+
+                const res = await instance.post("/upload--multi-file", formDataFile, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                let imagesRes = res.data.fileNames;
+                for (let k = 0; k < imagesRes?.length; k++) {
+                    dataImage.push(imagesRes[k]?.filename)
+                }
+
+
+                console.log(dataImage)
+
+                listCategoriesCustom.push({
+                    categoriesName: listCategory[i].categoriesName,
+                    images: dataImage
+                })
             }
 
-            const res = await instance.post("/upload--multi-file", formDataFile, {
+
+            let formDataFileOne = new FormData();
+            formDataFileOne.append('file', formCreateProject.projectImage);
+            const resOneFile = await instance.post("/upload-file", formDataFileOne, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            let imagesRes = res.data.fileNames;
-            for (let k = 0; k < imagesRes?.length; k++) {
-                dataImage.push(imagesRes[i]?.filename)
+
+            let listData = {}
+            if (formCreateProject.projectTypeNew.length > 0) {
+                listData = {
+                    ...formCreateProject,
+                    listCategory: listCategoriesCustom,
+                    projectImage: resOneFile.data.filename,
+                    projectIdType: dataResIdType.data.data.id
+                }
+            } else {
+                listData = {
+                    ...formCreateProject,
+                    listCategory: listCategoriesCustom,
+                    projectImage: resOneFile.data.filename,
+                }
             }
 
-            listCategoriesCustom.push({
-                categoriesName: listCategory[i].categoriesName,
-                images: dataImage
-            })
-            console.log(4444444444 , listCategoriesCustom)
-        }
-        
-    
-        let formDataFileOne = new FormData();
-        formDataFileOne.append('file', formCreateProject.projectImage);
-        const resOneFile = await instance.post("/upload-file", formDataFileOne, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-
-
-        const listData = {
-            ...formCreateProject,
-            listCategory : listCategoriesCustom,
-            projectImage : resOneFile.data.filename
-        }
-
-        try {
-            await instance.post("/create_project",listData);
-            return toast.success("Tao thanh cong")
+            await instance.post("/create_project", listData);
+            toast.success("Tao thanh cong")
+            // return navigate('/project-list')
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
             } else if (error.response.status === 400) {
+                console.log(error.response)
                 return toast.error(error.response.data.message)
             } else if (error.response.status === 403) {
                 return toast.error(error.response.data.message)
@@ -267,13 +295,22 @@ const CreateProject = () => {
                             <AutoComplete
                                 style={{ width: 250, height: 35, marginRight: 100 }}
                                 onChange={(data) => onChangeValueInput(data, "name")}
-                                value={formCreateProject.projectName}
+                                value={formCreateProject.name}
                                 placeholder="Project Name"
                                 name="name"
                             />
 
                             <div className="flex">
-                                <input type="file" id="myfile" name="myfile" onChange={handleFileChange} multiple />
+                                <button className="button-upload-images"
+                                    onClick={handleButtonClick}>Chọn file</button>
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg"
+                                    ref={fileInputRef}
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileChange}
+                                />
+                                {formCreateProject.projectImage && <p className="flex justify-center items-center pl-5">{formCreateProject.projectImage.name}</p>}
                             </div>
                         </div>
 
@@ -296,7 +333,7 @@ const CreateProject = () => {
 
                                 <AutoComplete
                                     style={{ width: 300, height: 35, paddingRight: 50 }}
-                                    onChange={onChangeValueInput}
+                                    onChange={(data) => onChangeValueInput(data, "projectTypeNew")}
                                     name="projectTypeNew"
                                     value={formCreateProject.projectTypeNew}
                                     placeholder="Project Type New"
@@ -398,7 +435,7 @@ const CreateProject = () => {
                                 <div className="pb-10">
                                     {
                                         listCategory.length > 0 && <button
-                                            className="button-upload-images"
+                                            className="button-upload-images add-images"
                                             onClick={handleButtonClick}
                                         >
                                             Add Images
@@ -407,7 +444,7 @@ const CreateProject = () => {
 
                                     <input
                                         type="file"
-                                        accept="image/png"
+                                        accept="image/png, image/jpeg, image/jpg"
                                         ref={fileInputRef}
                                         style={{ display: 'none' }}
                                         onChange={handleCVChange}
@@ -444,21 +481,40 @@ const CreateProject = () => {
             title: "",
             content: (
                 <div className="flex justify-center p-10">
-                    <div className="flex justify-center items-center">
-                        <div className="pr-5">
-                            Add Catalogue (Link)
-                        </div>
-                        <div>
-                            <AutoComplete
-                                style={{ width: 300, height: 35, paddingRight: 50 }}
-                                onChange={(value) => onChangeValueInput(value, "catalog")}
-                                name="catalog"
-                                value={formCreateProject.catalog}
-                                placeholder="Thêm Link Categories​"
-                            />
+                    <div>
+                        <div className="flex justify-center items-center">
+                            <div className="pr-5">
+                                Add Catalogue (Link)
+                            </div>
+                            <div>
+                                <AutoComplete
+                                    style={{ width: 300, height: 35, paddingRight: 50 }}
+                                    onChange={(value) => onChangeValueInput(value, "catalog")}
+                                    name="catalog"
+                                    value={formCreateProject.catalog}
+                                    placeholder="Thêm Link Categories​"
+                                />
+                            </div>
+
                         </div>
 
+                        <div className="flex justify-center items-center mt-10 pl-15">
+                            <div className="pr-5">
+                                Phản hồi
+                            </div>
+                            <div>
+                                <AutoComplete
+                                    style={{ width: 300, height: 35, paddingRight: 50 }}
+                                    onChange={(value) => onChangeValueInput(value, "description")}
+                                    name="description"
+                                    value={formCreateProject.description}
+                                    placeholder="Phản hồi"
+                                />
+                            </div>
+
+                        </div>
                     </div>
+
                 </div>
             ),
         },
@@ -469,7 +525,7 @@ const CreateProject = () => {
                     <div className="m-auto">
                         <div>
                             <p style={{ height: 50 }}
-                                className="text-4xl  mb-10 mt-7 text-black font-bold">Căn hộ NSUT Xuân Bắc</p>
+                                className="text-4xl  mb-10 mt-7 text-black font-bold">{formCreateProject.name}</p>
                             <div className="flex">
                                 <div className="block_left_category">
 
@@ -511,7 +567,7 @@ const CreateProject = () => {
 
                                         <input
                                             type="file"
-                                            accept="image/png"
+                                            accept="image/png, image/jpeg, image/jpg"
                                             ref={fileInputRef}
                                             style={{ display: 'none' }}
                                             onChange={handleCVChange}
@@ -574,6 +630,20 @@ const CreateProject = () => {
             if (dataFind?.fullName < 1) {
                 return toast.error("Khong ton tai design")
             }
+
+            if (formCreateProject.projectIdType.length < 1) {
+                if (formCreateProject.projectTypeNew.length < 1) {
+                    return toast.error("Project Type chưa có")
+                }
+            }
+
+            if (formCreateProject.projectTypeNew.length < 1) {
+                if (formCreateProject.projectIdType.length < 1) {
+                    return toast.error("Project Type chưa có")
+                }
+            }
+
+
         } else if (check === 2) {
             setTitleStep("Add catalogue")
         } else if (check === 3) {
