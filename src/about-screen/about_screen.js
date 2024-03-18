@@ -1,15 +1,21 @@
-import { Image } from 'antd'
-import React from 'react'
-import Video from '../../src/images/duck-crap-crap.mp4'
-import PeopleImageScreen from '../images/image-about-screen.png'
-import './about_screen.css'
+import { Image } from 'antd';
+import React from 'react';
+import Video from '../../src/images/noithatvugia.mp4';
+import HeaderComponent from "../header/index";
+import PeopleImageScreen from '../images/image-about-screen.png';
+import './about_screen.css';
+
+
 const AboutScreen = () => {
    const ImageContentStyle = {
       width: "420px",
       height: "auto"
    }
    return (
+
+      
       <div className='about-screen'>
+       <HeaderComponent />
          <div className='about-screen title'>
             ABOUT US
          </div>

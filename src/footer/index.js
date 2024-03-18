@@ -1,22 +1,7 @@
 
-import HomeIcon from '@mui/icons-material/Home';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
-import { useState } from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Avatar from '@mui/material/Avatar';
-import { Image } from 'antd';
-import HomeOne from '../images/home_image_one.png'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
-
+import Cookies from 'js-cookie';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -33,7 +18,7 @@ const FooterComponent = () => {
         <div className='cunstom-footer'>
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>VU GIA furniture</h2>
-                <p>Worldwide furniture store since 2020. We sell over 1000+ branded products on our website</p>
+                <p>Cửa hàng nội thất ở Việt Nam kể từ năm 2020. Chúng tôi bán hơn 1000 sản phẩm có thương hiệu trên trang web của mình</p>
                 <p className='flex'>
 
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,16 +46,22 @@ const FooterComponent = () => {
                     </svg>
 
                     <span className='ml-3'> HaNoi, VietNam </span></p>
-                <div>www.noithatvugia.com</div>
+                    <div>
+      <Link to="/home-page">www.noithatvugia.com</Link>
+    </div>
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Menu</h2>
-                <p>Projects</p>
-                <p>Rooms</p>
-                <p>Inspirations</p>
-                <div>About Us</div>
-                <div>Terms & Policy</div>
+                <h2 className='tittle_footer'>Danh sách</h2>
+                <div>
+      <Link to="/project-list">Dự án</Link>
+    </div>
+                <p>Các phòng</p>
+                <div>
+      <Link to="/about-screen">Nguồn cảm hứng</Link>
+    </div>
+                <div>Doanh nghiệp</div>
+                <div>Điều khoản và chính sách</div>
             </div>
 
             <div className='block_footer_one'>
@@ -82,10 +73,12 @@ const FooterComponent = () => {
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Account</h2>
-                <p>My Profile</p>
-                <p>My catalog</p>
-                <p onClick={logout} className="cursor-pointer">Log out</p>
+                <h2 className='tittle_footer'>Tài khoản</h2>
+                <p>Hồ sơ của tôi</p>
+                <p>Danh mục của tôi</p>
+                <div>
+      <p onClick={logout} className="cursor-pointer">Đăng xuất</p>
+    </div>
             </div>
 
         </div>

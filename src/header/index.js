@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -110,7 +110,9 @@ const HeaderComponent = () => {
         <div className="header_all flex">
             <div className='bg_header_custom '>
                 <div className='flex header-custom'>
-                    <HomeIcon className='icon_home_header' />
+                    <Link to="/home-page" className="icon_home_header">
+                        <HomeIcon />
+                    </Link>
                     {(checkRole == "ADMIN") && <div className='cursor-pointer'>
                         <a href='/list-user-admin'>Tài khoản</a>
                     </div>}
@@ -129,11 +131,21 @@ const HeaderComponent = () => {
                         >
                             Dự án
                         </Button></div>}
-                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>Nhân viên</div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Kiến trúc sư</div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF") && <div className='cursor-pointer'>Khách hàng</div>}
+                    {(checkRole == "ADMIN") && <div>
+                        <Link to="/list-user-staff" className="cursor-pointer">Nhân viên</Link>
+                    </div>}
+                    {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div>
+                        <Link to="/list-user-designer" className="cursor-pointer">Kiến trúc sư</Link>
+                    </div>}
+                    {(checkRole == "ADMIN" || checkRole == "STAFF") && <div>
+                        <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
+                    </div>}
                     {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Blogs</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Doanh nghiêp</div>}
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div>
+                        <Link to="/about-screen" className='cursor-pointer'>
+                            Doanh nghiệp
+                        </Link>
+                    </div>}
                 </div>
             </div>
 
@@ -198,18 +210,20 @@ const HeaderComponent = () => {
                 open={openListAvatarBool}
                 onClose={handleCloseListInAvatar}
             >
-                <MenuItem onClick={logout} disableRipple>
+                <MenuItem onClick={handleCloseListInAvatar} disableRipple>
 
-                    Đăng Xuất
+                    Hồ sơ
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
+
                 <MenuItem onClick={createProject} disableRipple>
                     Tạo dự án
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleCloseListInAvatar} disableRipple>
+               
+                <MenuItem onClick={logout} disableRipple>
 
-                    Hồ sơ
+                    Đăng Xuất
                 </MenuItem>
 
             </StyledMenu>
