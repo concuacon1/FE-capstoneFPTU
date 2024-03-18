@@ -1,35 +1,26 @@
-import { useEffect, useState } from "react";
-import { Image } from "antd";
-import RegisterCunstomerImage from "../images/register-customer.png";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import * as yup from "yup";
-import Checkbox from "@mui/material/Checkbox";
-import { useFormik } from "formik";
-import instance from "../configApi/axiosConfig";
-import { toast, ToastContainer } from "react-toastify";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import BannerLogin from "../images/banner_login.png";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { Image } from "antd";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import instance from "../configApi/axiosConfig";
+import BannerLogin from "../images/banner_login.png";
+
+
 
 function a11yProps(index) {
     return {
@@ -167,7 +158,7 @@ const Login = () => {
     }
 
     return (
-        <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom">
+       <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom">
             <div className="bg-white" style={{ height: "679px" }}>
                 <div className="max-w-custom-width-register-designer">
                     <Image
@@ -337,6 +328,7 @@ const Login = () => {
             </div>
             <ToastContainer />
         </div>
+       
     );
 };
 
