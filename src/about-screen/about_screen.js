@@ -1,8 +1,8 @@
-import React from 'react'
 import { Image } from 'antd'
+import React from 'react'
+import Video from '../../src/images/duck-crap-crap.mp4'
 import PeopleImageScreen from '../images/image-about-screen.png'
 import './about_screen.css'
-import Video from '../../src/images/con-mon-leo.mp4'
 const AboutScreen = () => {
    const ImageContentStyle = {
       width: "420px",

@@ -35,9 +35,11 @@ const StaffList = () => {
     const [formSearch, setFormSearch] = useState({
         userCode: "",
         fullName: "",
-        role: "All",
+        role: "STAFF",
         startDate: "",
         endDate: "",
+        email: "",
+        phoneNumber: ""
     });
 
     const [formAdd, setFormAdd] = useState({
@@ -45,9 +47,9 @@ const StaffList = () => {
         lastname: "",
         email: "",
         dob: "",
-        gender: true,
+        gender: "",
         password: "",
-        passwordConnfirm: "",
+        passwordConfirm: "",
         phoneNumber: ""
     });
 
@@ -99,7 +101,7 @@ const StaffList = () => {
 
     const [rowsData, setRowData] = useState([])
 
-    const [dateAddSelect, setDataAddSelect] = useState()
+    const [dateAddSelect, setDataAddSelect] = useState({});
 
     const [openDelete, setOpenDelete] = useState(false);
     const [idDeleteAccount, setIdDeleteAccount] = useState();
@@ -124,8 +126,8 @@ const StaffList = () => {
         setOpenShow(false);
     }
 
-    const showInfo = (data) => {
-        setFormShow(data);
+    const showInfo = (item_data) => {
+        setFormShow(item_data);
         setOpenShow(true);
     }
 
@@ -150,23 +152,28 @@ const StaffList = () => {
         }
     }
 
-    const editAccountAsync = async () => {
+    const addAccountAsync = async () => {
         try {
-
-            if (formAdd.password.length < 1) {
-                return toast.error("Vui lòng nhập password mới")
+            console.log("formAdd == ", formAdd);
+            if (formAdd.password.length < 1 || formAdd.passwordConfirm.length < 1) {
+                return toast.error("Vui lòng nhập password")
             }
 
-            const formDataEdit = {
+            if (formAdd.password != formAdd.passwordConfirm) {
+                return toast.error("Password không đúng")
+            }
+
+            const formDataAdd = {
+                fullName: formAdd.firstname + " " + formAdd.lastname,
                 email: formAdd.email,
                 password: formAdd.password,
-                isActive: formAdd.activeAccount,
-                role: formAdd.role
+                role: "STAFF",
+                phoneNumber: formAdd.phoneNumber,
+                dob: formAdd.dob
             }
-            await instance.post(`/update-user`, formDataEdit);
-            console.log(formDataEdit)
+            await instance.post(`/register`, formDataAdd);
+            toast.success("Tạo Staff thành công");
             setCallApiReset(prev => !prev);
-            toast.success("Sửa  thành công");
             setOpenAdd(false)
         } catch (error) {
             if (error.response.status === 402) {
@@ -187,11 +194,11 @@ const StaffList = () => {
             const dataSeachForm = {
                 userCode: formSearch.userCode,
                 fullName: formSearch.fullName,
-                role: formSearch.role === "All" ? "" : formSearch.role,
-                startDate: formSearch.startDate,
-                endDate: formSearch.endDate
+                email: formSearch.email,
+                phoneNumber: formSearch.phoneNumber,
+                flagGetUser: "STAFF"
             }
-            const dataSearch = await instance.post("/search_user_role_admin", dataSeachForm);
+            const dataSearch = await instance.post("/list-user", dataSeachForm);
             const dataDB = dataSearch.data.data;
             const item = [];
             if (dataDB.length > 0) {
@@ -206,9 +213,8 @@ const StaffList = () => {
                         'username': item_data.fullName,
                         'permission': item_data.role,
                         'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
-                        'action': <div >
-                            <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
-                            <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
+                        'information': <div >
+                            <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                         </div>
                     };
                     item.push(objectPush); // Push the object to the array
@@ -235,7 +241,9 @@ const StaffList = () => {
     useEffect(() => {
         async function getAllUser() {
             try {
-                const dataRes = await instance.get(`/list_user_role_admin`);
+                const dataRes = await instance.post(`/list-user`, {
+                    flagGetUser: 'STAFF'
+                });
                 const dataDB = dataRes.data.data;
                 const item = [];
                 if (dataDB.length > 0) {
@@ -369,9 +377,8 @@ const StaffList = () => {
                     aria-describedby="parent-modal-description"
                     closeAfterTransition
                     slots={{ backdrop: StyledBackdrop }}
-
                 >
-                    <ModalContent >
+                    <ModalContent>
                         <div>
                             <div className="item flex justify-center items-center">
                                 <TextField
@@ -380,20 +387,20 @@ const StaffList = () => {
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
                                     name="firstname"
-                                    value={dateAddSelect?.firstname}
+                                    value={formAdd.firstname}
+                                    onChange={(e) => setFormAdd({ ...formAdd, firstname: e.target.value })}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                 />
-
                                 <TextField
                                     size="small"
                                     label="Tên"
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
                                     name="lastname"
-                                    value={dateAddSelect?.lastname}
+                                    value={formAdd.lastname}
+                                    onChange={(e) => setFormAdd({ ...formAdd, lastname: e.target.value })}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                 />
-
                             </div>
 
                             <div className="item flex justify-center items-center">
@@ -407,7 +414,11 @@ const StaffList = () => {
                                         ]}
                                     >
                                         <DemoItem component="DateRangePicker">
-                                            <DatePicker />
+                                            <DatePicker
+                                                value={formAdd.dob}
+                                                onChange={(date) => setFormAdd({ ...formAdd, dob: date })}
+                                                renderInput={(params) => <TextField {...params} />}
+                                            />
                                         </DemoItem>
                                     </DemoContainer>
                                 </LocalizationProvider>
@@ -416,11 +427,12 @@ const StaffList = () => {
                                     <FormControl>
                                         <RadioGroup
                                             aria-labelledby="demo-radio-buttons-group-label"
-                                            defaultValue="male"
-                                            name="radio-buttons-group"
+                                            value={formAdd.gender ? "Male" : "Female"}
+                                            onChange={(e) => setFormAdd({ ...formAdd, gender: e.target.value })}
+                                            name="gender"
                                         >
-                                            <FormControlLabel value="male" control={<Radio />} label="Nam" />
-                                            <FormControlLabel value="female" control={<Radio />} label="Nữ" />
+                                            <FormControlLabel value="Male" control={<Radio />} label="Nam" />
+                                            <FormControlLabel value="Female" control={<Radio />} label="Nữ" />
                                         </RadioGroup>
                                     </FormControl>
                                 </div>
@@ -432,7 +444,8 @@ const StaffList = () => {
                                 style={{ width: 222.45 }}
                                 id="outlined-start-adornment"
                                 name="email"
-                                value={dateAddSelect?.email}
+                                value={formAdd.email}
+                                onChange={(e) => setFormAdd({ ...formAdd, email: e.target.value })}
                                 sx={{ m: 1, width: "222.45px", height: "40px" }}
                             />
 
@@ -441,8 +454,9 @@ const StaffList = () => {
                                 label="Số điện thoại"
                                 style={{ width: 222.45 }}
                                 id="outlined-start-adornment"
-                                name="phonenumber"
-                                value={dateAddSelect?.phoneNumber}
+                                name="phoneNumber"
+                                value={formAdd.phoneNumber}
+                                onChange={(e) => setFormAdd({ ...formAdd, phoneNumber: e.target.value })}
                                 sx={{ m: 1, width: "222.45px", height: "40px" }}
                             />
 
@@ -465,6 +479,8 @@ const StaffList = () => {
                                             </InputAdornment>
                                         }
                                         label="Password"
+                                        value={formAdd.password}
+                                        onChange={(e) => setFormAdd({ ...formAdd, password: e.target.value })}
                                     />
                                 </FormControl>
                                 <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -485,16 +501,16 @@ const StaffList = () => {
                                             </InputAdornment>
                                         }
                                         label="Password"
+                                        value={formAdd.passwordConfirm}
+                                        onChange={(e) => setFormAdd({ ...formAdd, passwordConfirm: e.target.value })}
                                     />
                                 </FormControl>
                             </div>
                         </div>
 
                         <div className="flex justify-end">
-                            <button className="bg_edit_account mr-5" onClick={editAccountAsync}>Tạo</button>
+                            <button className="bg_edit_account mr-5" onClick={addAccountAsync}>Tạo</button>
                         </div>
-
-
                     </ModalContent>
                 </Modal>
 
@@ -516,7 +532,7 @@ const StaffList = () => {
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
                                     name="accountcode"
-                                    value={formShow?.accountcode}
+                                    value={formShow?.userCode}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                     disabled
                                 />
@@ -528,7 +544,7 @@ const StaffList = () => {
                                     style={{ width: 222.45 }}
                                     id="outlined-start-adornment"
                                     name="username"
-                                    value={formShow?.username}
+                                    value={formShow?.fullName}
                                     sx={{ m: 1, width: "222.45px", height: "40px" }}
                                     disabled
                                 />
@@ -593,9 +609,9 @@ const StaffList = () => {
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="fullName"
+                                            name="email"
                                             onChange={onChangeInput}
-                                            value={formSearch.fullName}
+                                            value={formSearch.email}
                                             sx={{ m: 1, width: "280px" }}
                                             InputProps={{
                                                 startAdornment: (
@@ -628,9 +644,9 @@ const StaffList = () => {
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="userCode"
+                                            name="fullName"
                                             onChange={onChangeInput}
-                                            value={formSearch.userCode}
+                                            value={formSearch.fullName}
                                             sx={{ m: 1, width: "280px", height: "40px" }}
                                             InputProps={{
                                                 startAdornment: (
@@ -647,9 +663,9 @@ const StaffList = () => {
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="fullName"
+                                            name="phoneNumber"
                                             onChange={onChangeInput}
-                                            value={formSearch.fullName}
+                                            value={formSearch.phoneNumber}
                                             sx={{ m: 1, width: "280px" }}
                                             InputProps={{
                                                 startAdornment: (
@@ -727,7 +743,7 @@ const StaffList = () => {
 
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
-        </div>
+        </div >
     );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
 import CreateProject from "./create-project/index";
@@ -17,6 +18,7 @@ import RegisterDesigner from './register-designer/index';
 import Register from "./register/index";
 import StaffList from './staff-list';
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -30,13 +32,12 @@ function App() {
         <Route path="/list-user-admin" element={<AccountList />} />
         <Route path="/list-user-staff" element={<StaffList />} />
         <Route path="/list-user-designer" element={<DesignerList />} />
-        <Route path="/list-user-staff" element={<StaffList />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
         <Route path="/project-list" element={<ListProject />} />
         <Route path="/project/:project_id" element={<ProjectValue />} />
         <Route path="/service" element={<ProjectServices />} />
-
+        <Route path="/about-screen" element={<AboutScreen />} />
       </Routes>
     </BrowserRouter>
   );
