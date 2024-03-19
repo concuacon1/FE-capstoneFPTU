@@ -22,7 +22,7 @@ import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { Image, Switch } from "antd";
 import dayjs from "dayjs";
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 
 const CustomerList = () => {
@@ -461,7 +461,7 @@ const CustomerList = () => {
                                     id="outlined-start-adornment"
                                     name="userCode"
                                     value={formShow?.userCode}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -473,7 +473,7 @@ const CustomerList = () => {
                                     id="outlined-start-adornment"
                                     name="fullName"
                                     value={formShow?.fullName}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -485,7 +485,7 @@ const CustomerList = () => {
                                     id="outlined-start-adornment"
                                     name="email"
                                     value={formShow?.email}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -497,7 +497,7 @@ const CustomerList = () => {
                                     id="outlined-start-adornment"
                                     name="phonenumber"
                                     value={formShow?.phoneNumber}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>

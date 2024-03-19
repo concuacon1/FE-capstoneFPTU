@@ -50,6 +50,16 @@
     width: 55px;
     height: 30px;
     border-radius: 10px;
+    color: #fff;
+  }
+
+  .bg_book_schedule {
+    background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
+    width: 85px;
+    height: 35px;
+    border-radius: 10px;
+    color: #fff;
+    padding: 5px;
   }
 
   .bg_delete_account {
@@ -222,7 +232,6 @@
   }
 
   .change-password-custom {
-    width: 1300px;
     background-color: white;
   }
   .with-banner-change-pass {
@@ -311,13 +320,27 @@
   overflow: hidden;
 }
 
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.Mui-error.MuiInputBase-fullWidth.MuiInputBase-formControl,
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root,
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root, .css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root {
+  height: 56px !important;
+}
+
+.css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 16.5px 14px !important;
+}
+
+label[data-shrink=false]+.MuiInputBase-formControl .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input{
   height: 40px !important;
+}
+
+.css-1pysi21-MuiFormLabel-root-MuiInputLabel-root {
+  top: 8px !important;
 }
 
 .css-y8ay40-MuiTableCell-root, .css-dwuj3p-MuiTableCell-root {
   background-color: transparent !important;
   color: #fff !important;
+}
+
+.css-10hburv-MuiTypography-root {
+  font-size: 0.8rem;
 }
