@@ -5,6 +5,8 @@ import VuGia from "../images/Vu_gia.png";
 // import { Image } from "antd";
 import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
+import DoneIcon from '@mui/icons-material/Done';
+import { Divider, ImageList, ImageListItem, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -89,14 +91,15 @@ const DesignerList = () => {
     const [openEdit, setOpenEdit] = useState(false);
     const [idEditAccount, setIdEditAccount] = useState();
     const [openShow, setOpenShow] = useState(false);
+    const [openShowInfo, setOpenShowInfo] = useState(false);
 
     const handleCloseShow = () => {
-        setOpenShow(false);
+        setOpenShowInfo(false);
     }
 
     const showInfo = (data) => {
         setFormShow(data);
-        setOpenShow(true);
+        setOpenShowInfo(true);
     }
 
     const handleCloseDelete = () => {
@@ -363,7 +366,7 @@ const DesignerList = () => {
                                     id="outlined-start-adornment"
                                     name="fullName"
                                     value={dateEditSelect?.fullName}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", }}
                                     disabled
                                 />
 
@@ -377,7 +380,7 @@ const DesignerList = () => {
                                     name="email"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.email}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", }}
                                     disabled
                                 />
                             </div>
@@ -391,7 +394,7 @@ const DesignerList = () => {
                                     name="phoneNumber"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.phoneNumber}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", }}
                                     disabled
                                 />
                             </div>
@@ -405,7 +408,7 @@ const DesignerList = () => {
                                     name="passwordNew"
                                     onChange={(event) => onChangeEditForm(event, "passwordNew")}
                                     value={formEdit.passwordNew}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px", }}
                                 />
                             </div>
 
@@ -467,7 +470,7 @@ const DesignerList = () => {
                                     id="outlined-start-adornment"
                                     name="accountcode"
                                     value={formShow?.accountcode}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -479,7 +482,7 @@ const DesignerList = () => {
                                     id="outlined-start-adornment"
                                     name="username"
                                     value={formShow?.username}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -491,7 +494,7 @@ const DesignerList = () => {
                                     id="outlined-start-adornment"
                                     name="email"
                                     value={formShow?.email}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -503,7 +506,7 @@ const DesignerList = () => {
                                     id="outlined-start-adornment"
                                     name="phonenumber"
                                     value={formShow?.phoneNumber}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px", }}
                                     disabled
                                 />
                             </div>
@@ -511,6 +514,161 @@ const DesignerList = () => {
 
                     </ModalContent>
                 </Modal>
+
+                <Modal
+                    open={true}
+                    onClose={handleCloseShow}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: StyledBackdrop }}
+                    style={{
+                        position: 'absolute',
+                        top: '10%',
+                        left: '10%',
+                        right: '10%',
+                        overflow: 'scroll',
+                        height: '100%',
+                        display: 'block',
+                        maxHeight: '800px',
+                        overflowY: 'auto'
+                    }}
+                >
+                    <ModalContent style={{
+                        padding: '50px'
+                    }}>
+                        <div>
+                            <h1 className="text-center">Thông tin kiến trúc sư</h1>
+                            <div className="flex">
+                                <div style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    gap: "15px"
+                                }}>
+                                    <Image
+                                        style={{ borderRadius: '50%' }}
+                                        height={250}
+                                        width={250}
+                                        src={VuGia}
+                                    />
+                                    <div>Đào Minh Đức</div>
+                                </div>
+                                <div style={{ margin: '20px' }}>
+                                    <div className="text-center" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Các dự án tiêu biểu</div>
+                                    <ImageList sx={{ width: 770, height: 250, display: 'flex' }} cols={2} rowHeight={164}>
+                                        <div style={{
+                                            overflowX: 'auto',
+                                            overflowY: 'hidden',
+                                            display: 'flex'
+                                        }}>
+                                            <ImageListItem>
+                                                <img
+                                                    src={VuGia}
+                                                    style={{ width: 265, height: 'auto', padding: 5 }}
+                                                    loading="lazy"
+                                                    alt={`Image`}
+                                                />
+                                            </ImageListItem>
+                                            <ImageListItem>
+                                                <img
+                                                    src={VuGia}
+                                                    style={{ width: 265, height: 'auto', padding: 5 }}
+                                                    loading="lazy"
+                                                    alt={`Image`}
+                                                />
+                                            </ImageListItem>
+                                            <ImageListItem>
+                                                <img
+                                                    src={VuGia}
+                                                    style={{ width: 265, height: 'auto', padding: 5 }}
+                                                    loading="lazy"
+                                                    alt={`Image`}
+                                                />
+                                            </ImageListItem>
+                                            <ImageListItem>
+                                                <img
+                                                    src={VuGia}
+                                                    style={{ width: 265, height: 'auto', padding: 5 }}
+                                                    loading="lazy"
+                                                    alt={`Image`}
+                                                />
+                                            </ImageListItem>
+                                        </div>
+                                    </ImageList>
+                                </div>
+                            </div>
+                            <div className="flex" style={{ width: '100%' }}>
+                                <div style={{ width: '70%' }}>
+                                    <div className="font-bold mb-3 flex">
+                                        Mã nhà thiết kế
+                                        <span style={{ marginLeft: '100px', fontSize: '20px' }}>FSFGSG53F</span>
+                                    </div>
+                                    <div className="font-bold">Giới thiệu bản thân</div>
+                                    <nav aria-label="secondary mailbox folders" style={{ width: '472px' }}>
+                                        <List>
+                                            <ListItem disablePadding>
+                                                <ListItemButton>
+                                                    <ListItemText primary="Việc đi vòng quanh thế giới đã mở rộng tầm nhìn của tôi về nghệ thuật và văn hóa từ mọi nơi trên thế giới. Những trải nghiệm đó đã truyền cảm hứng cho tôi trong việc thiết kế nội thất, từ việc chọn lựa các vật liệu và phong cách thiết kế cho đến cách bố trí không gian. Tôi có thể thấy sự đa dạng và sự độc đáo của các nền văn hóa trên toàn thế giới, và điều đó đã thúc đẩy tôi phát triển những ý tưởng mới và sáng tạo trong các dự án thiết kế của mình." />
+                                                </ListItemButton>
+                                            </ListItem>
+                                            <ListItem disablePadding>
+                                                <ListItemButton>
+                                                    <ListItemText primary="Tôi có thể lấy cảm hứng từ kiến trúc truyền thống của Nhật Bản để tạo ra một không gian nội thất yên bình và tối giản, hoặc từ các màu sắc tươi sáng của các thị trấn ven biển ở Ý để tạo ra một không gian sống sôi động và năng động. Quan trọng nhất là, những trải nghiệm du lịch đã giúp tôi hiểu rõ hơn về sự quan trọng của việc tạo ra một không gian sống phản ánh cá nhân và đáp ứng được nhu cầu và phong cách sống của từng khách hàng." />
+                                                </ListItemButton>
+                                            </ListItem>
+                                        </List>
+                                    </nav>
+                                </div>
+                                <Divider type="vertical" style={{ height: "auto", backgroundColor: 'black', width: '1px' }} />
+                                <div style={{ width: '700px' }}>
+                                    <div className="font-bold text-center" style={{ marginBottom: '20px' }}>Kỹ năng</div>
+                                    <div className="flex" style={{ flexWrap: 'wrap', gap: '12px', padding: '0 30px' }}>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                    </div>
+                                    <div className="font-bold text-center" style={{ margin: '20px 0' }}>Kinh nghiệm</div>
+                                    <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                        <div className="flex">
+                                            <DoneIcon />
+                                            Sự hiểu biết về thiết kế và màu sắc
+                                        </div>
+                                    </div>
+                                    <div className="flex mt-3" style={{ float: 'right' }}>
+                                        <button className="bg_book_schedule mr-5">Đặt lịch</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ModalContent>
+                </Modal >
 
                 <div className="flex justify-center">
                     <div>
@@ -527,7 +685,7 @@ const DesignerList = () => {
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -546,7 +704,7 @@ const DesignerList = () => {
                                             name="fullName"
                                             onChange={onChangeInput}
                                             value={formSearch.fullName}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -581,7 +739,7 @@ const DesignerList = () => {
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -600,7 +758,7 @@ const DesignerList = () => {
                                             name="fullName"
                                             onChange={onChangeInput}
                                             value={formSearch.fullName}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -663,11 +821,11 @@ const DesignerList = () => {
                     />
                 </Paper>
 
-            </div>
+            </div >
 
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
-        </div>
+        </div >
     );
 };
 
@@ -722,14 +880,6 @@ const StyledBackdrop = styled(Backdrop)`
     background-color: rgb(0 0 0 / 0.5);
     -webkit-tap-highlight-color: transparent;
   `;
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-};
 
 const ModalContent = styled('div')(
     ({ theme }) => css`

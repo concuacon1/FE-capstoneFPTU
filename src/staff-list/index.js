@@ -192,10 +192,10 @@ const StaffList = () => {
     const apiSearch = async () => {
         try {
             const dataSeachForm = {
-                userCode: formSearch.userCode,
-                fullName: formSearch.fullName,
-                email: formSearch.email,
-                phoneNumber: formSearch.phoneNumber,
+                userCode: formSearch.userCode.trim(),
+                fullName: formSearch.fullName.trim(),
+                email: formSearch.email.trim(),
+                phoneNumber: formSearch.phoneNumber.trim(),
                 flagGetUser: "STAFF"
             }
             const dataSearch = await instance.post("/list-user", dataSeachForm);
@@ -389,7 +389,7 @@ const StaffList = () => {
                                     name="firstname"
                                     value={formAdd.firstname}
                                     onChange={(e) => setFormAdd({ ...formAdd, firstname: e.target.value })}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                 />
                                 <TextField
                                     size="small"
@@ -399,11 +399,10 @@ const StaffList = () => {
                                     name="lastname"
                                     value={formAdd.lastname}
                                     onChange={(e) => setFormAdd({ ...formAdd, lastname: e.target.value })}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                 />
                             </div>
-
-                            <div className="item flex justify-center items-center">
+                            <div style={{ width: '50%', marginLeft: '8px' }}>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer
                                         components={[
@@ -422,20 +421,21 @@ const StaffList = () => {
                                         </DemoItem>
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                <div className="flex items-center" style={{ marginLeft: '30px' }}>
-                                    <div style={{ marginRight: '5px' }}>Giới tính</div>
-                                    <FormControl>
-                                        <RadioGroup
-                                            aria-labelledby="demo-radio-buttons-group-label"
-                                            value={formAdd.gender ? "Male" : "Female"}
-                                            onChange={(e) => setFormAdd({ ...formAdd, gender: e.target.value })}
-                                            name="gender"
-                                        >
-                                            <FormControlLabel value="Male" control={<Radio />} label="Nam" />
-                                            <FormControlLabel value="Female" control={<Radio />} label="Nữ" />
-                                        </RadioGroup>
-                                    </FormControl>
-                                </div>
+                            </div>
+
+                            <div className="flex items-center" style={{ marginLeft: '10px' }}>
+                                <div style={{ marginRight: '20px' }}>Giới tính</div>
+                                <FormControl>
+                                    <RadioGroup
+                                        aria-labelledby="demo-radio-buttons-group-label"
+                                        value={formAdd.gender ? "Male" : "Female"}
+                                        onChange={(e) => setFormAdd({ ...formAdd, gender: e.target.value })}
+                                        name="gender"
+                                    >
+                                        <FormControlLabel value="Male" control={<Radio />} label="Nam" />
+                                        <FormControlLabel value="Female" control={<Radio />} label="Nữ" />
+                                    </RadioGroup>
+                                </FormControl>
                             </div>
 
                             <TextField
@@ -446,7 +446,7 @@ const StaffList = () => {
                                 name="email"
                                 value={formAdd.email}
                                 onChange={(e) => setFormAdd({ ...formAdd, email: e.target.value })}
-                                sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                sx={{ m: 1, width: "222.45px" }}
                             />
 
                             <TextField
@@ -457,7 +457,7 @@ const StaffList = () => {
                                 name="phoneNumber"
                                 value={formAdd.phoneNumber}
                                 onChange={(e) => setFormAdd({ ...formAdd, phoneNumber: e.target.value })}
-                                sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                sx={{ m: 1, width: "222.45px" }}
                             />
 
                             <div className="item flex justify-center items-center">
@@ -533,7 +533,7 @@ const StaffList = () => {
                                     id="outlined-start-adornment"
                                     name="accountcode"
                                     value={formShow?.userCode}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                     disabled
                                 />
                             </div>
@@ -545,7 +545,7 @@ const StaffList = () => {
                                     id="outlined-start-adornment"
                                     name="username"
                                     value={formShow?.fullName}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                     disabled
                                 />
                             </div>
@@ -557,7 +557,7 @@ const StaffList = () => {
                                     id="outlined-start-adornment"
                                     name="email"
                                     value={formShow?.email}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                     disabled
                                 />
                             </div>
@@ -569,7 +569,7 @@ const StaffList = () => {
                                     id="outlined-start-adornment"
                                     name="phonenumber"
                                     value={formShow?.phoneNumber}
-                                    sx={{ m: 1, width: "222.45px", height: "40px" }}
+                                    sx={{ m: 1, width: "222.45px" }}
                                     disabled
                                 />
                             </div>
@@ -593,7 +593,7 @@ const StaffList = () => {
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
@@ -647,7 +647,7 @@ const StaffList = () => {
                                             name="fullName"
                                             onChange={onChangeInput}
                                             value={formSearch.fullName}
-                                            sx={{ m: 1, width: "280px", height: "40px" }}
+                                            sx={{ m: 1, width: "280px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>

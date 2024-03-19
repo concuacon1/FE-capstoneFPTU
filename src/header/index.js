@@ -98,6 +98,10 @@ const HeaderComponent = () => {
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
+    console.log('====================================');
+    console.log("checkRole == ", checkRole);
+    console.log('====================================');
+
     const logout = () => {
         localStorage.removeItem('datawebfpt')
         setOpenListInAvatar(null);
@@ -211,7 +215,6 @@ const HeaderComponent = () => {
                 onClose={handleCloseListInAvatar}
             >
                 <MenuItem onClick={handleCloseListInAvatar} disableRipple>
-
                     Hồ sơ
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
@@ -222,7 +225,6 @@ const HeaderComponent = () => {
                 <Divider sx={{ my: 0.5 }} />
                
                 <MenuItem onClick={logout} disableRipple>
-
                     Đăng Xuất
                 </MenuItem>
 

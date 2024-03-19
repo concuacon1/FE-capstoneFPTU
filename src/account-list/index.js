@@ -361,7 +361,7 @@ const AccountList = () => {
                                     id="outlined-start-adornment"
                                     name="fullName"
                                     value={dateEditSelect?.fullName}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px" }}
                                     disabled
                                 />
 
@@ -376,7 +376,7 @@ const AccountList = () => {
                                     name="email"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.email}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px" }}
                                     disabled
                                 />
                             </div>
@@ -391,7 +391,7 @@ const AccountList = () => {
                                     name="phoneNumber"
                                     onChange={onChangeInput}
                                     value={dateEditSelect?.phoneNumber}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px" }}
                                     disabled
                                 />
                             </div>
@@ -405,7 +405,7 @@ const AccountList = () => {
                                     name="phoneNumber"
                                     onChange={onChangeInput}
                                     value={(new Date(dateEditSelect?.dob)).toLocaleDateString('en-GB')}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px" }}
                                     disabled
                                 />
                             </div>
@@ -419,7 +419,7 @@ const AccountList = () => {
                                     name="passwordNew"
                                     onChange={(event) => onChangeEditForm(event, "passwordNew")}
                                     value={formEdit.passwordNew}
-                                    sx={{ m: 1, width: "280px", height: "40px" }}
+                                    sx={{ m: 1, width: "280px" }}
                                 />
                             </div>
 
@@ -536,7 +536,7 @@ const AccountList = () => {
                                             name="userCode"
                                             onChange={onChangeInput}
                                             value={formSearch.userCode}
-                                            sx={{ m: 1, width: "200px", height: "40px" }}
+                                            sx={{ m: 1, width: "200px" }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
