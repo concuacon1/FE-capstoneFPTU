@@ -20,7 +20,9 @@ import Register from "./register/index";
 import ScheduleList from './schedule-list';
 import ProjectServices from './service-list/project-services';
 import StaffList from './staff-list';
-
+import Service1 from './service-list/service-01'
+import Service2 from './service-list/service-02'
+import Service3 from './service-list/service-03'
 
 function App() {
   return (
@@ -45,6 +47,9 @@ function App() {
         {/* <Route path="/project-list/:project_type" element={<ListProject />} /> */}
         <Route path="/project/:project_id" element={<ProjectValue />} />
         <Route path="service" element={<ProjectServices />} />
+        <Route path="service/01" element={<Service1 />} />
+        <Route path="service/02" element={<Service2 />} />
+        <Route path="service/03" element={<Service3 />} />
       </Routes>
     </BrowserRouter>
   );
