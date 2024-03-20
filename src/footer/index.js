@@ -29,11 +29,11 @@ const FooterComponent = () => {
 
                     <svg width="26" height="29" viewBox="0 0 26 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_681_849)">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9721 20.463C16.2437 18.9283 21.7083 14.7081 21.7083 9.62508C21.7083 4.8156 17.8094 0.916748 13 0.916748C8.19048 0.916748 4.29163 4.8156 4.29163 9.62508C4.29163 14.7081 9.75623 18.9283 12.0278 20.463C12.6213 20.8639 13.3786 20.8639 13.9721 20.463ZM13 12.3751C14.5187 12.3751 15.75 11.1439 15.75 9.62508C15.75 8.1063 14.5187 6.87508 13 6.87508C11.4812 6.87508 10.25 8.1063 10.25 9.62508C10.25 11.1439 11.4812 12.3751 13 12.3751Z" fill="#898989" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M13.9721 20.463C16.2437 18.9283 21.7083 14.7081 21.7083 9.62508C21.7083 4.8156 17.8094 0.916748 13 0.916748C8.19048 0.916748 4.29163 4.8156 4.29163 9.62508C4.29163 14.7081 9.75623 18.9283 12.0278 20.463C12.6213 20.8639 13.3786 20.8639 13.9721 20.463ZM13 12.3751C14.5187 12.3751 15.75 11.1439 15.75 9.62508C15.75 8.1063 14.5187 6.87508 13 6.87508C11.4812 6.87508 10.25 8.1063 10.25 9.62508C10.25 11.1439 11.4812 12.3751 13 12.3751Z" fill="#898989" />
                         </g>
                         <defs>
-                            <filter id="filter0_d_681_849" x="-2" y="0" width="30" height="30" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <filter id="filter0_d_681_849" x="-2" y="0" width="30" height="30" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                 <feOffset dy="4" />
                                 <feGaussianBlur stdDeviation="2" />

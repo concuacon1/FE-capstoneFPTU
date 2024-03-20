@@ -102,7 +102,7 @@ const DesignerSchedule = () => {
     };
 
     const CustomCalendar = ({ currentDateArray, busyDate }) => {
-        return <Calendar dateCellRender={(date) => customDateCellRender(date, currentDateArray, busyDate)} onSelect={handleDateSelect} />;
+        return <Calendar cellRender={(date) => customDateCellRender(date, currentDateArray, busyDate)} onSelect={handleDateSelect} />;
     };
 
     return (
@@ -114,14 +114,14 @@ const DesignerSchedule = () => {
             <CustomCalendar currentDateArray={currentDateArray} busyDate={busyDate} />
             <Modal
                 title="Select Dates"
-                visible={modalVisible}
+                open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
                 <p>Select dates to mark as busy:</p>
                 <Calendar
                     onSelect={(date) => handleDateSelect(date.format('YYYY-MM-DD'))}
-                    dateCellRender={(date) => {
+                    cellRender={(date) => {
                         const formattedDate = date.format('YYYY-MM-DD');
                         return (
                             <div
@@ -143,7 +143,7 @@ const DesignerSchedule = () => {
             </Modal>
             <Modal
                 title="Set Schedule"
-                visible={selectedDateModalVisible}
+                open={selectedDateModalVisible}
                 onOk={handleDateModalOk}
                 onCancel={handleDateModalCancel}
             >

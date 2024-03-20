@@ -1,6 +1,6 @@
 import { Carousel, Col, Divider, Image, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import '../App.css';
 import instance from "../configApi/axiosConfig";
@@ -32,30 +32,35 @@ const ListProject = () => {
         textAlign: 'center',
     }
 
+    const [listAll, setListAll] = useState([])
     const [listProjectA, setListProjectA] = useState([])
     const [listProjectB, setListProjectB] = useState([])
     const [listProjectC, setListProjectC] = useState([])
     useEffect(() => {
         async function getAllProject() {
             try {
-                const resData = await instance.get("/get_project");
+                const resData = await instance.post("/get_project-for-type", {
+                    id_type: project_type
+                });
+                setListAll(resData.data.data.nameType);
                 const dataRes = resData.data.data.listProject;
-                if (dataRes.length < 8) {
-                    setListProjectA(dataRes)
-                } else if (dataRes.length >= 8 && dataRes.length < 15) {
+                if (dataRes.length <= 8) {
+                    setListProjectA(dataRes);
+                } else if (dataRes.length <= 16) {
                     const dataSliceA = dataRes.slice(0, 8);
                     const dataSliceB = dataRes.slice(8, dataRes.length);
-                    setListProjectB(dataSliceB)
-                    setListProjectA(dataSliceA)
-                } else if (dataRes.length >= 15 && dataRes.length < 24) {
+                    setListProjectA(dataSliceA);
+                    setListProjectB(dataSliceB);
+                } else if (dataRes.length <= 24) {
                     const dataSliceA = dataRes.slice(0, 8);
-                    const dataSliceB = dataRes.slice(8, dataRes.length);
-                    setListProjectB(dataSliceB)
-                    setListProjectA(dataSliceA)
-                    const dataSliceC = dataRes.slice(15, dataRes.length);
-                    setListProjectC(dataSliceC)
-                }
+                    const dataSliceB = dataRes.slice(8, 16);
+                    const dataSliceC = dataRes.slice(16, dataRes.length);
+                    setListProjectA(dataSliceA);
+                    setListProjectB(dataSliceB);
+                    setListProjectC(dataSliceC);
+                } else {
 
+                }
             } catch (error) {
                 if (error.response.status === 402) {
                     return toast.error(error.response.data.errors[0].msg)
@@ -70,9 +75,8 @@ const ListProject = () => {
 
         }
         getAllProject()
-    }, [])
+    }, [project_type])
 
-    console.log("listProjectA == ", listProjectA, "listProjectB == ", listProjectB, "listProjectC == ", listProjectC)
     return (
         <div>
             <HeaderComponent />
@@ -86,7 +90,7 @@ const ListProject = () => {
                         preview={false}
                     />
                 </div>
-                <Divider orientation="center" style={dividerStyle}>Nội thất nhà phố</Divider>
+                <Divider orientation="center" style={dividerStyle}>{listAll.nameProjectType}</Divider>
                 <hr style={{
                     border: 'none',
                     borderTop: '2px solid #B91616',
@@ -102,7 +106,7 @@ const ListProject = () => {
                                         listProjectA.length > 0 && listProjectA.map((item, index) => {
                                             return (
                                                 <Col className="gutter-row" span={6} style={colStyle} key={index}>
-                                                    <a href={`project/${item._id}`}>
+                                                    <Link to={`/project/${item._id}`}>
                                                         <Image
                                                             style={projectImageStyle}
                                                             src={`http://localhost:8000/img/${item.projectImage}`}
@@ -110,7 +114,7 @@ const ListProject = () => {
                                                             preview={false}
                                                         />
                                                         <label className='project-name' style={projectNameStyle}>{item.name}</label>
-                                                    </a>
+                                                    </Link>
                                                 </Col>
                                             )
                                         })

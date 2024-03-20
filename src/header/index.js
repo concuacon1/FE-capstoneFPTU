@@ -12,16 +12,16 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-
+import instance from '../configApi/axiosConfig';
 
 const HeaderComponent = () => {
-
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openNotipush, setOpenNotipush] = useState(null);
     const [openListInAvatar, setOpenListInAvatar] = useState(null);
+    const [listType, setListType] = useState([]);
     const open = Boolean(anchorEl);
     const openNotipushBool = Boolean(openNotipush);
     const openListAvatarBool = Boolean(openListInAvatar);
@@ -95,12 +95,21 @@ const HeaderComponent = () => {
         },
     }));
 
+    useEffect(() => {
+        async function getListProjectType() {
+            try {
+                const resData = await instance.get("/get_project_type");
+                const dataRes = resData.data.data.listProjectType;
+                setListType(dataRes)
+            } catch (error) {
+
+            }
+        }
+        getListProjectType();
+    }, []);
+
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
-
-    console.log('====================================');
-    console.log("checkRole == ", checkRole);
-    console.log('====================================');
 
     const logout = () => {
         localStorage.removeItem('datawebfpt')
@@ -109,6 +118,10 @@ const HeaderComponent = () => {
         pushLink("/login")
     }
 
+    const renderProject = (id) => {
+        handleClose()
+        return navigate(`/project-list/${id}`)
+    }
 
     return (
         <div className="header_all flex">
@@ -192,15 +205,16 @@ const HeaderComponent = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
-                    Sửa
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple>
-
-                    Duplicate
-                </MenuItem>
-
+                {
+                    listType.length > 0 && listType.map((type, index) => (
+                        <>
+                            <MenuItem key={index} disableRipple onClick={() => renderProject(type._id)}>
+                                {type.nameProjectType}
+                            </MenuItem>
+                            <Divider />
+                        </>
+                    ))
+                }
             </StyledMenu>
 
 
