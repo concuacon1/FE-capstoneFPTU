@@ -57,12 +57,12 @@ const RegisterCustomer = () => {
         firstName: yup
             .string()
             .required('FirstName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+           
             .max(100, "Tối đa 100 kí tự"),
         lastName: yup
             .string()
             .required('LastName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+           
             .max(100, "Tối đa 100 kí tự"),
         dob: yup
             .date()
