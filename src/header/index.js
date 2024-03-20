@@ -121,7 +121,7 @@ const HeaderComponent = () => {
                         <a href='/list-user-admin'>Tài khoản</a>
                     </div>}
                     {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Lịch hẹn</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER") &&
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "") &&
                         <div className='cursor-pointer' ><Button
                             id="demo-customized-button"
                             aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -144,8 +144,8 @@ const HeaderComponent = () => {
                     {(checkRole == "ADMIN" || checkRole == "STAFF") && <div>
                         <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
                     </div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Blogs</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div>
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER" || checkRole == "") && <div className='cursor-pointer'>Blogs</div>}
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER" || checkRole == "") && <div>
                         <Link to="/about-screen" className='cursor-pointer'>
                             Doanh nghiệp
                         </Link>
@@ -193,7 +193,6 @@ const HeaderComponent = () => {
                 onClose={handleClose}
             >
                 <MenuItem onClick={handleClose} disableRipple>
-
                     Sửa
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
@@ -214,20 +213,95 @@ const HeaderComponent = () => {
                 open={openListAvatarBool}
                 onClose={handleCloseListInAvatar}
             >
-                <MenuItem onClick={handleCloseListInAvatar} disableRipple>
-                    Hồ sơ
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
+                {checkRole == "" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng Nhập
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng Ký
+                        </MenuItem>
+                    </>
 
-                <MenuItem onClick={createProject} disableRipple>
-                    Tạo dự án
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-               
-                <MenuItem onClick={logout} disableRipple>
-                    Đăng Xuất
-                </MenuItem>
-
+                )}
+                {checkRole == "ADMIN" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Hợp đồng
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={createProject} disableRipple>
+                            Tạo dự án mới
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đổi mật khẩu
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Điều khoản dịch vụ
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng xuất
+                        </MenuItem>
+                    </>
+                )}
+                {checkRole == "STAFF" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Thông tin cá nhân
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Hợp đồng
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={createProject} disableRipple>
+                            Tạo dự án mới
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đổi mật khẩu
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Điều khoản dịch vụ
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng xuất
+                        </MenuItem>
+                    </>
+                )}
+                {checkRole == "DESIGNER" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Thông tin cá nhân
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Hò sơ & Công việc
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Hợp đồng
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đổi mật khẩu
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Điều khoản dịch vụ
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng xuất
+                        </MenuItem>
+                    </>
+                )}
             </StyledMenu>
 
             <StyledMenu

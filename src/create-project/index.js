@@ -266,7 +266,7 @@ const CreateProject = () => {
 
             await instance.post("/create_project", listData);
             toast.success("Tao thanh cong")
-            // return navigate('/project-list')
+            return navigate('/project-list')
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)

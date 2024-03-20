@@ -55,11 +55,9 @@
 
   .bg_book_schedule {
     background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
-    width: 85px;
-    height: 35px;
     border-radius: 10px;
     color: #fff;
-    padding: 5px;
+    padding: 10px;
   }
 
   .bg_delete_account {

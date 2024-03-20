@@ -32,7 +32,6 @@ const ListProject = () => {
         textAlign: 'center',
     }
 
-    const [listProject, setListProject] = useState([])
     const [listProjectA, setListProjectA] = useState([])
     const [listProjectB, setListProjectB] = useState([])
     const [listProjectC, setListProjectC] = useState([])
@@ -56,7 +55,6 @@ const ListProject = () => {
                     const dataSliceC = dataRes.slice(15, dataRes.length);
                     setListProjectC(dataSliceC)
                 }
-                setListProject(resData.data.data.listProject);
 
             } catch (error) {
                 if (error.response.status === 402) {
@@ -74,7 +72,7 @@ const ListProject = () => {
         getAllProject()
     }, [])
 
-    console.log(listProjectA, listProjectB, listProjectC)
+    console.log("listProjectA == ", listProjectA, "listProjectB == ", listProjectB, "listProjectC == ", listProjectC)
     return (
         <div>
             <HeaderComponent />
@@ -101,7 +99,7 @@ const ListProject = () => {
                             <div className='list-project-screen__projects' style={{ margin: '2% 5%' }} >
                                 <Row gutter={[40, 24]}>
                                     {
-                                        listProjectA.length > 0 && listProject.map((item, index) => {
+                                        listProjectA.length > 0 && listProjectA.map((item, index) => {
                                             return (
                                                 <Col className="gutter-row" span={6} style={colStyle} key={index}>
                                                     <a href={`project/${item._id}`}>

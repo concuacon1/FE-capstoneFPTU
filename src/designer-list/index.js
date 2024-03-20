@@ -531,15 +531,16 @@ const DesignerList = () => {
                         height: '100%',
                         display: 'block',
                         maxHeight: '800px',
-                        overflowY: 'auto'
+                        overflowY: 'auto',
+                        zIndex: 100
                     }}
                 >
                     <ModalContent style={{
                         padding: '50px'
                     }}>
                         <div>
-                            <h1 className="text-center">Thông tin kiến trúc sư</h1>
-                            <div className="flex">
+                            <h1 className="text-center" style={{ fontWeight: 'bold' }}>Thông tin kiến trúc sư</h1>
+                            <div className="flex justify-evenly">
                                 <div style={{
                                     display: "flex",
                                     flexDirection: "column",
@@ -551,11 +552,12 @@ const DesignerList = () => {
                                         height={250}
                                         width={250}
                                         src={VuGia}
+                                        preview={true}
                                     />
                                     <div>Đào Minh Đức</div>
                                 </div>
                                 <div style={{ margin: '20px' }}>
-                                    <div className="text-center" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>Các dự án tiêu biểu</div>
+                                    <div className="text-center mb-3" style={{ textDecoration: 'underline', fontWeight: 'bold', fontSize: '20px' }}>Các dự án tiêu biểu</div>
                                     <ImageList sx={{ width: 770, height: 250, display: 'flex' }} cols={2} rowHeight={164}>
                                         <div style={{
                                             overflowX: 'auto',
@@ -563,35 +565,31 @@ const DesignerList = () => {
                                             display: 'flex'
                                         }}>
                                             <ImageListItem>
-                                                <img
+                                                <Image
+                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
                                                     src={VuGia}
-                                                    style={{ width: 265, height: 'auto', padding: 5 }}
-                                                    loading="lazy"
-                                                    alt={`Image`}
+                                                    preview={true}
                                                 />
                                             </ImageListItem>
                                             <ImageListItem>
-                                                <img
+                                                <Image
+                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
                                                     src={VuGia}
-                                                    style={{ width: 265, height: 'auto', padding: 5 }}
-                                                    loading="lazy"
-                                                    alt={`Image`}
+                                                    preview={true}
                                                 />
                                             </ImageListItem>
                                             <ImageListItem>
-                                                <img
+                                                <Image
+                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
                                                     src={VuGia}
-                                                    style={{ width: 265, height: 'auto', padding: 5 }}
-                                                    loading="lazy"
-                                                    alt={`Image`}
+                                                    preview={true}
                                                 />
                                             </ImageListItem>
                                             <ImageListItem>
-                                                <img
+                                                <Image
+                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
                                                     src={VuGia}
-                                                    style={{ width: 265, height: 'auto', padding: 5 }}
-                                                    loading="lazy"
-                                                    alt={`Image`}
+                                                    preview={true}
                                                 />
                                             </ImageListItem>
                                         </div>
@@ -599,13 +597,13 @@ const DesignerList = () => {
                                 </div>
                             </div>
                             <div className="flex" style={{ width: '100%' }}>
-                                <div style={{ width: '70%' }}>
-                                    <div className="font-bold mb-3 flex">
+                                <div style={{ width: '100%' }}>
+                                    <div className="font-bold mb-3 flex" style={{ fontSize: '20px' }}>
                                         Mã nhà thiết kế
                                         <span style={{ marginLeft: '100px', fontSize: '20px' }}>FSFGSG53F</span>
                                     </div>
-                                    <div className="font-bold">Giới thiệu bản thân</div>
-                                    <nav aria-label="secondary mailbox folders" style={{ width: '472px' }}>
+                                    <div className="font-bold" style={{ fontSize: '20px' }}>Giới thiệu bản thân</div>
+                                    <nav aria-label="secondary mailbox folders">
                                         <List>
                                             <ListItem disablePadding>
                                                 <ListItemButton>
@@ -622,7 +620,7 @@ const DesignerList = () => {
                                 </div>
                                 <Divider type="vertical" style={{ height: "auto", backgroundColor: 'black', width: '1px' }} />
                                 <div style={{ width: '700px' }}>
-                                    <div className="font-bold text-center" style={{ marginBottom: '20px' }}>Kỹ năng</div>
+                                    <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
                                     <div className="flex" style={{ flexWrap: 'wrap', gap: '12px', padding: '0 30px' }}>
                                         <div className="flex">
                                             <DoneIcon />
@@ -641,7 +639,7 @@ const DesignerList = () => {
                                             Sự hiểu biết về thiết kế và màu sắc
                                         </div>
                                     </div>
-                                    <div className="font-bold text-center" style={{ margin: '20px 0' }}>Kinh nghiệm</div>
+                                    <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                                     <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
                                         <div className="flex">
                                             <DoneIcon />
@@ -661,7 +659,7 @@ const DesignerList = () => {
                                         </div>
                                     </div>
                                     <div className="flex mt-3" style={{ float: 'right' }}>
-                                        <button className="bg_book_schedule mr-5">Đặt lịch</button>
+                                        <a href="/schedule/65f338bdb62b264a7bff5580" className="bg_book_schedule mr-5">Đặt lịch</a>
                                     </div>
                                 </div>
                             </div>

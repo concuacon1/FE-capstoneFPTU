@@ -1,6 +1,7 @@
 import { Image } from 'antd';
 import React from 'react';
 import Video from '../../src/images/noithatvugia.mp4';
+import FooterComponent from '../footer';
 import HeaderComponent from "../header/index";
 import PeopleImageScreen from '../images/image-about-screen.png';
 import './about_screen.css';
@@ -64,6 +65,7 @@ const AboutScreen = () => {
                <source src={Video} type='video/mp4'></source>
             </video>
          </div>
+         <FooterComponent  />
       </div>
    )
 }

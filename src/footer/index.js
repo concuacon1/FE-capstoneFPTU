@@ -46,26 +46,26 @@ const FooterComponent = () => {
                     </svg>
 
                     <span className='ml-3'> HaNoi, VietNam </span></p>
-                    <div>
-      <Link to="/home-page">www.noithatvugia.com</Link>
-    </div>
+                <div>
+                    <Link to="/home-page">www.noithatvugia.com</Link>
+                </div>
             </div>
 
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>Danh sách</h2>
                 <div>
-      <Link to="/project-list">Dự án</Link>
-    </div>
+                    <Link to="/project-list">Dự án</Link>
+                </div>
                 <p>Các phòng</p>
                 <div>
-      <Link to="/about-screen">Nguồn cảm hứng</Link>
-    </div>
+                    <Link to="/about-screen">Nguồn cảm hứng</Link>
+                </div>
                 <div>Doanh nghiệp</div>
                 <div>Điều khoản và chính sách</div>
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Stay Connected</h2>
+                <h2 className='tittle_footer'>Mạng xã hội</h2>
                 <p>Facebook</p>
                 <p>Instagram</p>
                 <p>Twitter</p>
@@ -77,8 +77,8 @@ const FooterComponent = () => {
                 <p>Hồ sơ của tôi</p>
                 <p>Danh mục của tôi</p>
                 <div>
-      <p onClick={logout} className="cursor-pointer">Đăng xuất</p>
-    </div>
+                    <p onClick={logout} className="cursor-pointer">Đăng xuất</p>
+                </div>
             </div>
 
         </div>
