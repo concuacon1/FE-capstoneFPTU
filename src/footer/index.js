@@ -54,7 +54,7 @@ const FooterComponent = () => {
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>Danh sách</h2>
                 <div>
-                    <Link to="/project-list">Dự án</Link>
+                    <Link to="/service">Gói dự án</Link>
                 </div>
                 <p>Các phòng</p>
                 <div>

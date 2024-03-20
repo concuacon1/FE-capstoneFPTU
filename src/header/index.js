@@ -134,7 +134,7 @@ const HeaderComponent = () => {
                         <a href='/list-user-admin'>Tài khoản</a>
                     </div>}
                     {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Lịch hẹn</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "") &&
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER"||checkRole == "") &&
                         <div className='cursor-pointer' ><Button
                             id="demo-customized-button"
                             aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -162,6 +162,8 @@ const HeaderComponent = () => {
                         <Link to="/about-screen" className='cursor-pointer'>
                             Doanh nghiệp
                         </Link>
+                    </div>}
+                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER" || checkRole == "") && <div> <Link to="/service" className='cursor-pointer'>Dịch vụ </Link>
                     </div>}
                 </div>
             </div>
