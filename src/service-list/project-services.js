@@ -3,10 +3,12 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { Image } from "antd";
 import { motion } from 'framer-motion';
 import React, { useEffect } from "react";
+import { fadeIn } from '../Animation/variants';
 import FooterComponent from '../footer';
 import HeaderComponent from '../header';
 import ProjectListBannerImage from "../images/list-project-screen-banner.png";
 import './project-services.css';
+
 
 const ProjectServices = () => {
    const iconStyle = {
@@ -30,122 +32,206 @@ const ProjectServices = () => {
          <HeaderComponent />
          <motion.div
             className="project-service-screen"
-            initial={{ x: "100vw" }} // Chuyển từ bên phải màn hình
-   animate={{ x: 0 }} // Di chuyển sang vị trí 0, tức là giữ nguyên trên màn hình
-   exit={{ x: "-100vw" }} // Chuyển ra khỏi màn hình sang bên trái
-   transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            exit={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
          >
-            <div className='list-project-screen image-banner'>
-               <Image
-                  style={{ width: "100vw", height: "auto" }}
-                  src={ProjectListBannerImage}
-                  className='bg-white'
-                  preview={false} />
-            </div>
-            <div className="project-type-scroll-bar">
-               <i id="left">
-                  <ArrowCircleLeftOutlinedIcon style={iconStyle} />
-               </i>
-               <ul className="carousel">
-                  <li className="circle">
-                     <div className="img">
-                        <img src={ProjectListBannerImage} alt="img" />
-                     </div>
-                     <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                  </li>
-                  <li className="circle">
-                  <div className="img">
-                     <img src={ProjectListBannerImage} alt="img" />
-                  </div>
-                  <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-               </li>
-               <li className="circle">
-                  <div className="img">
-                     <img src={ProjectListBannerImage} alt="img" />
-                  </div>
-                  <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-               </li>
-               <li className="circle">
-                  <div className="img">
-                     <img src={ProjectListBannerImage} alt="img" />
-                  </div>
-                  <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-               </li>
-               <li className="circle">
-                  <div className="img">
-                     <img src={ProjectListBannerImage} alt="img" />
-                  </div>
-                  <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-               </li>
-               <li className="circle">
-                  <div className="img">
-                     <img src={ProjectListBannerImage} alt="img" />
-                  </div>
-                  <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-               </li>
-               </ul>
-               <i id="right">
-                  <ArrowCircleRightOutlinedIcon style={iconStyle} />
-               </i>
-            </div>
-            <div className="title">
-               <div className="screen-name">GÓI DỊCH VỤ</div>
-               <div className="slogan">
-                  Từ những thiết kế nổi bật, thi công chính xác, chất liệu tốt nhất, ... VU GIA hứa hẹn mang đến những trải nghiệm đáng có cho khách hàng.
-                  <br />
-                  Đến và cảm nhận sự đẳng cấp và tận hưởng dịch vụ chăm sóc khách hàng tốt nhất ở VU GIA.
-               </div>
-            </div>
-            <div className="content-container">
-               <div className="service-content">
-                  <div className="image">
-                     <Image
-                        style={{ width: "100vw", height: "auto" }}
-                        src={ProjectListBannerImage}
-                        className='bg-white'
-                        preview={false} />
-                  </div>
-                  <div className="content">
-                     <div className="text">Thiết kế và thi công trọn gói căn hộ ...</div>
-                     <button className="button" type="button">
-                        ĐỌC THÊM
-                     </button>
-                  </div>
-               </div>
-               <div className="service-content" style={{ flexDirection: 'row-reverse' }}>
-               <div className="image">
+            <motion.div className='project-service-screen'
+               variants={fadeIn('up', 0.2)}
+               initial="hidden"
+               whileInView={"show"}
+               viewport={{ once: false, amount: 0.7 }}
+            >
+
+               <motion.div className='list-project-screen image-banner'
+
+               >
                   <Image
                      style={{ width: "100vw", height: "auto" }}
                      src={ProjectListBannerImage}
                      className='bg-white'
                      preview={false} />
+               </motion.div>
+               <motion.div className="project-type-scroll-bar"
+                  variants={fadeIn('up', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  <i id="left">
+                     <ArrowCircleLeftOutlinedIcon style={iconStyle} />
+                  </i>
+                  <ul className="carousel">
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                     <li className="circle">
+                        <div className="img">
+                           <img src={ProjectListBannerImage} alt="img" />
+                        </div>
+                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
+                     </li>
+                  </ul>
+                  <i id="right">
+                     <ArrowCircleRightOutlinedIcon style={iconStyle} />
+                  </i>
+               </motion.div>
+               <motion.div className="title"
+                  variants={fadeIn('down', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  <div className="screen-name">GÓI DỊCH VỤ</div>
+                  <motion.div className="slogan"
+                     variants={fadeIn('down', 0.2)}
+                     initial="hidden"
+                     whileInView={"show"}
+                     viewport={{ once: false, amount: 0.7 }}>
+                     Từ những thiết kế nổi bật, thi công chính xác, chất liệu tốt nhất, ... VU GIA hứa hẹn mang đến những trải nghiệm đáng có cho khách hàng.
+                     <br />
+                     Đến và cảm nhận sự đẳng cấp và tận hưởng dịch vụ chăm sóc khách hàng tốt nhất ở VU GIA.
+                  </motion.div>
+               </motion.div>
+               <div className="content-container">
+                  <div className="service-content">
+                     <motion.div className="image"
+                        whileHover={{
+                           scale: 1.1,
+                           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                           border: "2px solid rgba(0, 0, 0, 0.1)",
+                           filter: "brightness(100%)" // Tăng độ sáng khi trỏ chuột vào
+                        }}
+                        initial={{
+                           scale: 1,
+                           boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                           border: "2px solid rgba(0, 0, 0, 0.05)",
+                           filter: "brightness(50%)" // Đặt độ tối ban đầu của ảnh
+                        }}
+                        transition={{ duration: 0.3 }}
+                     >
+                        <Image
+                           style={{ width: "100vw", height: "auto" }}
+                           src={ProjectListBannerImage}
+                           className='bg-white'
+                           preview={false} />
+                     </motion.div>
+                     <motion.div className="content"
+                        variants={fadeIn('right', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+                     >
+                        <div className="text">Thiết kế và thi công trọn gói căn hộ ...</div>
+                        <button className="button" type="button">
+                           ĐỌC THÊM
+                        </button>
+                     </motion.div>
+                  </div>
+                  <div className="service-content" style={{ flexDirection: 'row-reverse' }}>
+                     <motion.div className="image"
+                        whileHover={{
+                           scale: 1.1,
+                           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                           border: "2px solid rgba(0, 0, 0, 0.1)",
+                           filter: "brightness(100%)" // Tăng độ sáng khi trỏ chuột vào
+                        }}
+                        initial={{
+                           scale: 1,
+                           boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                           border: "2px solid rgba(0, 0, 0, 0.05)",
+                           filter: "brightness(50%)" // Đặt độ tối ban đầu của ảnh
+                        }}
+                        transition={{ duration: 0.3 }}
+                     >
+                        <Image
+                           style={{ width: "100vw", height: "auto" }}
+                           src={ProjectListBannerImage}
+                           className='bg-white'
+                           preview={false} />
+                     </motion.div>
+                     <motion.div className="content"
+                        variants={fadeIn('left', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+                     >
+                        <div className="text">Tư vấn thiết kế sang trọng, đẹp mắt và nhanh chóng ...</div>
+                        <button className="button" type="button">
+                           ĐỌC THÊM
+                        </button>
+                     </motion.div>
+                  </div>
+                  <div className="service-content">
+                     <motion.div className="image"
+                        whileHover={{
+                           scale: 1.1,
+                           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                           border: "2px solid rgba(0, 0, 0, 0.1)",
+                           filter: "brightness(100%)" // Tăng độ sáng khi trỏ chuột vào
+                        }}
+                        initial={{
+                           scale: 1,
+                           boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                           border: "2px solid rgba(0, 0, 0, 0.05)",
+                           filter: "brightness(50%)" // Đặt độ tối ban đầu của ảnh
+                        }}
+                        transition={{ duration: 0.3 }}
+                     >
+                        <Image
+                           style={{ width: "100vw", height: "auto" }}
+                           src={ProjectListBannerImage}
+                           className='bg-white'
+                           preview={false} />
+                     </motion.div>
+                     <motion.div className="content"
+                        variants={fadeIn('right', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+                     >
+                        <div className="text">Dịch vụ đăng kí báo giá xây dựng dựa trên các thiết kế tiêu chuẩn ...</div>
+                        <button className="button" type="button">
+                           ĐỌC THÊM
+                        </button>
+                     </motion.div>
+                  </div>
                </div>
-               <div className="content">
-                  <div className="text">Tư vấn thiết kế sang trọng, đẹp mắt và nhanh chóng ...</div>
-                  <button className="button" type="button">
-                     ĐỌC THÊM
-                  </button>
-               </div>
-            </div>
-            <div className="service-content">
-               <div className="image">
-                  <Image
-                     style={{ width: "100vw", height: "auto" }}
-                     src={ProjectListBannerImage}
-                     className='bg-white'
-                     preview={false} />
-               </div>
-               <div className="content">
-                  <div className="text">Dịch vụ đăng kí báo giá xây dựng dựa trên các thiết kế tiêu chuẩn ...</div>
-                  <button className="button" type="button">
-                     ĐỌC THÊM
-                  </button>
-               </div>
-            </div>
-            </div>
+            </motion.div>
+
          </motion.div>
+
+
          <FooterComponent />
       </>
+
    )
 }
 
