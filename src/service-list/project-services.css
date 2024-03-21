@@ -53,3 +53,59 @@ img {
    text-align: center;
    padding-top: 10%;
 }
+
+.project-service-screen .title {
+   text-align: center;
+}
+
+.title .screen-name {
+   font-size: 48px;
+   font-weight: "Gabriela";
+   margin-top: 60px;
+}
+
+.title .slogan {
+   font-size: 22px;
+   margin: 20px;
+}
+
+.content-container {
+   display: flex;
+   flex-direction: column;
+}
+
+.service-content {
+   width: 90%;
+   margin: 3% auto;
+   align-items: center;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+}
+
+.service-content .image {
+   width: 48%;
+}
+
+.service-content .content {
+   width: 48%;
+   padding: 5%;
+}
+
+.service-content .content .text {
+   font-size: 30px;
+}
+
+.service-content .content .button {
+   font-size: 20px;
+   color: #FFFFFF;
+   margin-top: 2%;
+   background-color: #B91616;
+   padding: 8px 22px;
+   border-radius: 10px;
+}
+
+.service-content .content .button:hover {
+   background-color: #be3636;
+
+}
