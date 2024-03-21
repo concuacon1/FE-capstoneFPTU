@@ -264,6 +264,29 @@ const HeaderComponent = () => {
                         </MenuItem>
                     </>
                 )}
+                {checkRole == "CUSTOMER" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Thông tin cá nhân
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                        Hợp đồng
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đổi mật khẩu
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Điều khoản dịch vụ
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng xuất
+                        </MenuItem>
+                    </>
+                )}
                 {checkRole == "STAFF" && (
                     <>
                         <MenuItem onClick={logout} disableRipple>
