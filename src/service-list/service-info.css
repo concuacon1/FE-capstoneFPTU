@@ -1,7 +1,115 @@
-.service-container {
-   width: 100%;
-   height: auto;
-   display: flex;
-   flex-direction: column;
-   text-align: center;
+.service__container {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.service__container .header {
+	text-align: center;
+}
+
+.header .title {
+	font-size: 48px;
+	font-weight: "Gabriela";
+	margin-top: 60px;
+}
+
+.header .description {
+	font-size: 30px;
+	color: #DB1A1A;
+	margin-top: 20px;
+}
+
+.header hr {
+	width: 70%;
+	border-top: solid 2px #DB1A1A;
+	margin: 1% auto;
+}
+
+.body .title {
+	text-align: center;
+	margin: auto;
+	width: 80%;
+	font-size: 30px;
+}
+
+.body .content {
+	padding: 5%;
+}
+
+.content .left-content {
+	width: 40%;
+}
+
+.content .image {
+	width: 50%;
+}
+
+.left-content hr {
+	border-top: solid 2px #DB1A1A;
+	width: 12rem;
+}
+
+.content-01 {
+	display: flex;
+	justify-content: space-between;
+	align-items: stretch;
+}
+
+.left-content .content-name {
+	color: #DB1A1A;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+.left-content .content-desc {
+	font-size: 28px;
+	margin-top: 30px;
+	text-align: justify;
+}
+
+.content-02 {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row-reverse;
+	align-items: stretch;
+	margin-top: 5%;
+}
+
+.content-02 .left-content .content-name {
+	text-align: right;
+}
+
+.content-02 .left-content hr {
+	margin-left: auto;
+}
+
+.content-03 {
+	width: 90%;
+	margin: auto;
+	text-align: center;
+	font-size: 28px;
+	margin-top: 5%;
+}
+
+.content-03 .button {
+	font-size: 20px;
+	color: #FFFFFF;
+	margin-top: 2%;
+	background-color: #B91616;
+	padding: 8px 22px;
+	border-radius: 10px;
+}
+
+.other-service .title {
+	color: #B91616;
+	text-align: start;
+	margin-left: 5%;
+}
+
+.other-service hr {
+	border-top: solid 2px #DB1A1A;
+	width: 12rem;
+	margin-left: 5%;
 }
