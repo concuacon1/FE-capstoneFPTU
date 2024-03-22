@@ -95,8 +95,10 @@ const HomePage = () => {
     };
 
     return (
-        <div>
-            <HeaderComponent />
+        <> 
+        <HeaderComponent />
+        <div >
+           
 
             <Image
                 width={"100%"}
@@ -106,8 +108,10 @@ const HomePage = () => {
                 preview={false}
             />
 
-            <FooterComponent />
+            
         </div>
+        <FooterComponent />
+        </>
     );
 };
 

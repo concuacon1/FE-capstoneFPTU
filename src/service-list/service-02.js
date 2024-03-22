@@ -1,10 +1,20 @@
+import { Image } from "antd";
+import { motion } from "framer-motion";
 import React from "react";
-import { Image } from "antd"
-import ProjectListBannerImage from "../images/list-project-screen-banner.png"
+import FooterComponent from "../footer";
+import HeaderComponent from "../header";
+import ProjectListBannerImage from "../images/list-project-screen-banner.png";
 
 const Service = () => {
    return (
-      <div className="service">
+      <>
+      <HeaderComponent />
+      <motion.div className="service"
+      initial={{ scaleX: 0, originX: 1 }}
+      animate={{ scaleX: 1, originX: 1 }}
+      exit={{ scaleX: 0, originX: 1 }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      >
          <div className='service image-banner'>
             <Image
                style={{ width: "100vw", height: "auto" }}
@@ -22,7 +32,9 @@ const Service = () => {
             <p className='description'>Thiết kế và thi công trọn gói căn hộ</p>
             <hr />
          </div>
-      </div>
+      </motion.div>
+      <FooterComponent />
+      </>
    )
 };
 

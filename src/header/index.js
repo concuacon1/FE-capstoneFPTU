@@ -459,9 +459,9 @@ const HeaderComponent = () => {
                 <MenuItem>
 
                     <div className='flex items-center justify-center'>
-                        <div className='icon_notipush-yellow'>
+                        <motion.div className='icon_notipush-yellow'>
                             <CalendarMonthIcon />
-                        </div>
+                        </motion.div>
                         <div>
                             <p className='item-title-notipush'>Lịch hẹn</p>
                             <p className='item-information-notipush'>Need confirm schedule !!!</p>
