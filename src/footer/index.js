@@ -46,37 +46,37 @@ const FooterComponent = () => {
                     </svg>
 
                     <span className='ml-3'> HaNoi, VietNam </span></p>
-                <div>
+                <div className='nav-link'>
                     <Link to="/home-page">www.noithatvugia.com</Link>
                 </div>
             </div>
 
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>Danh sách</h2>
-                <div>
+                <div className='nav-link'>
                     <Link to="/service">Gói dự án</Link>
                 </div>
-                <p>Các phòng</p>
-                <div>
+                <div className='nav-link'>Các phòng</div>
+                <div className='nav-link'>
                     <Link to="/about-screen">Nguồn cảm hứng</Link>
                 </div>
-                <div>Doanh nghiệp</div>
-                <div>Điều khoản và chính sách</div>
+                <div className='nav-link'>Doanh nghiệp</div>
+                <div className='nav-link'>Điều khoản và chính sách</div>
             </div>
 
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>Mạng xã hội</h2>
-                <p>Facebook</p>
-                <p>Instagram</p>
-                <p>Twitter</p>
+                <div className='nav-link'>Facebook</div>
+                <div className='nav-link'>Instagram</div>
+                <div className='nav-link'>Twitter</div>
 
             </div>
 
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>Tài khoản</h2>
-                <p>Hồ sơ của tôi</p>
-                <p>Danh mục của tôi</p>
-                <div>
+                <div className='nav-link'>Hồ sơ của tôi</div>
+                <div className='nav-link'>Danh mục của tôi</div>
+                <div className='nav-link'>
                     <p onClick={logout} className="cursor-pointer">Đăng xuất</p>
                 </div>
             </div>

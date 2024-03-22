@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import instance from '../configApi/axiosConfig';
+import './header.css';
 
 
 const HeaderComponent = () => {
@@ -133,7 +134,8 @@ const HeaderComponent = () => {
                     <motion.div
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"// Tăng kích thước chữ lên 110% khi trỏ chuột vào
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                     ><Link to="/home-page" className="icon_home_header">
@@ -144,7 +146,8 @@ const HeaderComponent = () => {
                         <motion.div className='cursor-pointer'
                             whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
@@ -155,9 +158,10 @@ const HeaderComponent = () => {
                     }
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
                         <motion.div className='cursor-pointer'
-                        whileHover={{ 
+                    whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >Lịch hẹn</motion.div>
@@ -167,6 +171,7 @@ const HeaderComponent = () => {
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
                     scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổii
                         >
@@ -191,7 +196,8 @@ const HeaderComponent = () => {
                                 <motion.div
                                     whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                                 >
@@ -202,9 +208,10 @@ const HeaderComponent = () => {
                     }
                     {(checkRole === "ADMIN" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
                         <motion.div
-                        whileHover={{ 
+                       whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
@@ -215,7 +222,8 @@ const HeaderComponent = () => {
                         <motion.div
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
@@ -226,7 +234,8 @@ const HeaderComponent = () => {
                         <motion.div className='cursor-pointer'
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >Blogs</motion.div>
@@ -235,7 +244,8 @@ const HeaderComponent = () => {
                         <motion.div
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
@@ -251,7 +261,8 @@ const HeaderComponent = () => {
                         <motion.div
                         whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
