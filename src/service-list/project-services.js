@@ -3,6 +3,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { Image } from "antd";
 import { motion } from 'framer-motion';
 import React, { useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { fadeIn } from '../Animation/variants';
 import FooterComponent from '../footer';
 import HeaderComponent from '../header';
@@ -150,9 +151,20 @@ const ProjectServices = () => {
                         viewport={{ once: false, amount: 0.7 }}
                      >
                         <div className="text">Thiết kế và thi công trọn gói căn hộ ...</div>
-                        <button className="button" type="button">
-                           ĐỌC THÊM
-                        </button>
+                        <Link to="/service/01" style={{
+                           textDecoration: "none" // Chỉ định nút không có gạch chân
+                        }}>
+                           <button className="button" type="button" style={{
+                              fontSize: "20px",
+                              color: "#FFFFFF",
+                              marginTop: "2%",
+                              backgroundColor: "#B91616",
+                              padding: "8px 22px",
+                              borderRadius: "10px",
+                           }}>
+                              ĐỌC THÊM
+                           </button>
+                        </Link>
                      </motion.div>
                   </div>
                   <div className="service-content" style={{ flexDirection: 'row-reverse' }}>
@@ -184,9 +196,20 @@ const ProjectServices = () => {
                         viewport={{ once: false, amount: 0.7 }}
                      >
                         <div className="text">Tư vấn thiết kế sang trọng, đẹp mắt và nhanh chóng ...</div>
-                        <button className="button" type="button">
-                           ĐỌC THÊM
-                        </button>
+                        <Link to="/service/02" style={{
+                           textDecoration: "none" // Chỉ định nút không có gạch chân
+                        }}>
+                           <button className="button" type="button" style={{
+                              fontSize: "20px",
+                              color: "#FFFFFF",
+                              marginTop: "2%",
+                              backgroundColor: "#B91616",
+                              padding: "8px 22px",
+                              borderRadius: "10px",
+                           }}>
+                              ĐỌC THÊM
+                           </button>
+                        </Link>
                      </motion.div>
                   </div>
                   <div className="service-content">
@@ -218,9 +241,20 @@ const ProjectServices = () => {
                         viewport={{ once: false, amount: 0.7 }}
                      >
                         <div className="text">Dịch vụ đăng kí báo giá xây dựng dựa trên các thiết kế tiêu chuẩn ...</div>
-                        <button className="button" type="button">
-                           ĐỌC THÊM
-                        </button>
+                        <Link to="/service/03" style={{
+                           textDecoration: "none" // Chỉ định nút không có gạch chân
+                        }}>
+                           <button className="button" type="button" style={{
+                              fontSize: "20px",
+                              color: "#FFFFFF",
+                              marginTop: "2%",
+                              backgroundColor: "#B91616",
+                              padding: "8px 22px",
+                              borderRadius: "10px",
+                           }}>
+                              ĐỌC THÊM
+                           </button>
+                        </Link>
                      </motion.div>
                   </div>
                </div>

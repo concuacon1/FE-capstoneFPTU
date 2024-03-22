@@ -15,10 +15,15 @@ const AboutScreen = () => {
       height: "auto"
    }
    return (
-
-      
-      <div className='about-screen'>
-       <HeaderComponent />
+        <div>
+      <HeaderComponent />
+      <motion.div className='about-screen'
+      initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            exit={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      >
+       
          <motion.div className='about-screen title'>
             
          </motion.div>
@@ -105,6 +110,7 @@ const AboutScreen = () => {
             </video>
          </div>
          <FooterComponent  />
+      </motion.div>
       </div>
    )
 }
