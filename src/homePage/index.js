@@ -95,10 +95,10 @@ const HomePage = () => {
     };
 
     return (
-        <> 
+        <>
         <HeaderComponent />
-        <div >
-           
+        <div>
+            
 
             <Image
                 width={"100%"}
