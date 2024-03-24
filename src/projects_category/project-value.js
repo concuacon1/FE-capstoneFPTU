@@ -83,7 +83,7 @@ const ProjectValue = () => {
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
                                 {
-                                    listCategoris?.dataDesigner?.imageDesigner.length > 0 ? <Avatar
+                                    listCategoris?.dataDesigner?.imageDesigner?.length > 0 ? <Avatar
                                         size={343}
                                         src={<img src={`http://localhost:8000/img/${listCategoris?.dataDesigner?.imageDesigner}`} alt="avatar" />}
                                     /> : <Avatar

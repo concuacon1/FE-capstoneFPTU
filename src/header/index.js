@@ -11,20 +11,24 @@ import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
+import { AnimatePresence, motion } from 'framer-motion';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import instance from '../configApi/axiosConfig';
+import './header.css';
 
 
 const HeaderComponent = () => {
-
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openNotipush, setOpenNotipush] = useState(null);
     const [openListInAvatar, setOpenListInAvatar] = useState(null);
+    const [listType, setListType] = useState([]);
     const open = Boolean(anchorEl);
     const openNotipushBool = Boolean(openNotipush);
     const openListAvatarBool = Boolean(openListInAvatar);
+    const [activeElem, setActiveElem] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -95,12 +99,21 @@ const HeaderComponent = () => {
         },
     }));
 
+    useEffect(() => {
+        async function getListProjectType() {
+            try {
+                const resData = await instance.get("/get_project_type");
+                const dataRes = resData.data.data.listProjectType;
+                setListType(dataRes)
+            } catch (error) {
+
+            }
+        }
+        getListProjectType();
+    }, []);
+
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
-
-    console.log('====================================');
-    console.log("checkRole == ", checkRole);
-    console.log('====================================');
 
     const logout = () => {
         localStorage.removeItem('datawebfpt')
@@ -109,48 +122,154 @@ const HeaderComponent = () => {
         pushLink("/login")
     }
 
+    const renderProject = (id) => {
+        handleClose()
+        return navigate(`/project-list/${id}`)
+    }
 
     return (
         <div className="header_all flex">
-            <div className='bg_header_custom '>
-                <div className='flex header-custom'>
-                    <Link to="/home-page" className="icon_home_header">
-                        <HomeIcon />
-                    </Link>
-                    {(checkRole == "ADMIN") && <div className='cursor-pointer'>
-                        <a href='/list-user-admin'>Tài khoản</a>
-                    </div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div className='cursor-pointer'>Lịch hẹn</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "") &&
-                        <div className='cursor-pointer' ><Button
-                            id="demo-customized-button"
-                            aria-controls={open ? 'demo-customized-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            variant="contained"
-                            disableElevation
-                            style={{ background: 'none', textTransform: 'none' }}
-                            onClick={handleClick}
-                            endIcon={<KeyboardArrowDownIcon />}
-                        >
-                            Dự án
-                        </Button></div>}
-                    {(checkRole == "ADMIN") && <div>
-                        <Link to="/list-user-staff" className="cursor-pointer">Nhân viên</Link>
-                    </div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF" || checkRole == "CUSTOMER") && <div>
-                        <Link to="/list-user-designer" className="cursor-pointer">Kiến trúc sư</Link>
-                    </div>}
-                    {(checkRole == "ADMIN" || checkRole == "STAFF") && <div>
-                        <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
-                    </div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER" || checkRole == "") && <div className='cursor-pointer'>Blogs</div>}
-                    {(checkRole == "ADMIN" || checkRole == "DESIGNER" || checkRole == "STAFF" || checkRole == "CUSTOMER" || checkRole == "") && <div>
-                        <Link to="/about-screen" className='cursor-pointer'>
-                            Doanh nghiệp
+            <div className='bg_header_custom'>
+                <motion.div className='flex header-custom'>
+                    <motion.div
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                    ><Link to="/home-page" className="icon_home_header">
+                            <HomeIcon />
                         </Link>
-                    </div>}
-                </div>
+                    </motion.div>
+                    {(checkRole === "ADMIN") &&
+                        <motion.div className='cursor-pointer'
+                            whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <a href='/list-user-admin'>Tài khoản</a>
+                        </motion.div>
+
+
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
+                        <motion.div className='cursor-pointer'
+                    whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >Lịch hẹn</motion.div>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
+                        <motion.div className='cursor-pointer'
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổii
+                        >
+                            <Button
+                                id="demo-customized-button"
+                                aria-controls={open ? 'demo-customized-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                variant="contained"
+                                disableElevation
+                                style={{ background: 'none', textTransform: 'none' }}
+                                onClick={handleClick}
+                                endIcon={<KeyboardArrowDownIcon />}
+                            >
+                                Dự án
+                            </Button>
+                        </motion.div>
+                    }
+                    {(checkRole === "ADMIN") &&
+                        <AnimatePresence>
+                            <motion.a key="list-user-staff" onClick={() => setActiveElem('list-user-staff')}>
+                                <motion.div
+                                    whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                                >
+                                    <Link to="/list-user-staff" className="cursor-pointer">Nhân viên</Link>
+                                </motion.div>
+                            </motion.a>
+                        </AnimatePresence>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
+                        <motion.div
+                       whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/list-user-designer" className="cursor-pointer">Kiến trúc sư</Link>
+                        </motion.div>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "STAFF") &&
+                        <motion.div
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
+                        </motion.div>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
+                        <motion.div className='cursor-pointer'
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >Blogs</motion.div>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
+                        <motion.div
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+
+                            <Link to="/about-screen" className='cursor-pointer'
+                            
+                            >
+                                Doanh nghiệp
+                            </Link>
+                        </motion.div>
+                    }
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
+                        <motion.div
+                        whileHover={{ 
+                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                    padding: "5px 10px"
+                }} 
+                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/service" className='cursor-pointer'>Dịch vụ </Link>
+                        </motion.div>
+                    }
+                </motion.div>
             </div>
 
 
@@ -192,15 +311,16 @@ const HeaderComponent = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
-                    Sửa
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem onClick={handleClose} disableRipple>
-
-                    Duplicate
-                </MenuItem>
-
+                {
+                    listType.length > 0 && listType.map((type, index) => (
+                        <>
+                            <MenuItem key={index} disableRipple onClick={() => renderProject(type._id)}>
+                                {type.nameProjectType}
+                            </MenuItem>
+                            <Divider />
+                        </>
+                    ))
+                }
             </StyledMenu>
 
 
@@ -233,6 +353,29 @@ const HeaderComponent = () => {
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={createProject} disableRipple>
                             Tạo dự án mới
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đổi mật khẩu
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Điều khoản dịch vụ
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Đăng xuất
+                        </MenuItem>
+                    </>
+                )}
+                {checkRole == "CUSTOMER" && (
+                    <>
+                        <MenuItem onClick={logout} disableRipple>
+                            Thông tin cá nhân
+                        </MenuItem>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={logout} disableRipple>
+                            Hợp đồng
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -316,9 +459,9 @@ const HeaderComponent = () => {
                 <MenuItem>
 
                     <div className='flex items-center justify-center'>
-                        <div className='icon_notipush-yellow'>
+                        <motion.div className='icon_notipush-yellow'>
                             <CalendarMonthIcon />
-                        </div>
+                        </motion.div>
                         <div>
                             <p className='item-title-notipush'>Lịch hẹn</p>
                             <p className='item-information-notipush'>Need confirm schedule !!!</p>

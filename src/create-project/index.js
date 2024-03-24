@@ -266,7 +266,7 @@ const CreateProject = () => {
 
             await instance.post("/create_project", listData);
             toast.success("Tao thanh cong")
-            return navigate('/project-list')
+            // return navigate('/project-list')
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -364,7 +364,7 @@ const CreateProject = () => {
                                 style={{ width: 250, height: 35, marginRight: 100 }}
                                 onChange={(data) => onChangeValueInput(data, "userCode")}
                                 value={formCreateProject.userCode}
-                                placeholder="Design by"
+                                placeholder="Design by "
                             />
                             <div>
                                 <button
@@ -596,7 +596,7 @@ const CreateProject = () => {
                             </div>
                         </div>
 
-                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Design by {formCreateProject.designerName} </div>
+                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Design by  {formCreateProject.designerName} </div>
 
                     </div>
                 </div>
