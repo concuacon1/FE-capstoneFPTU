@@ -26,9 +26,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { Switch } from "antd";
-import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { formatDate } from "../helper/formatDate";
 
 const AccountList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -188,7 +188,7 @@ const AccountList = () => {
                         'accountcode': item_data.userCode,
                         'username': item_data.fullName,
                         'permission': item_data.role,
-                        'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                        'created_date': formatDate(item_data?.createdAt),
                         'action': <div >
                             <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Sửa</button>
                             <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>
@@ -232,7 +232,7 @@ const AccountList = () => {
                             'accountcode': item_data.userCode,
                             'username': item_data.fullName,
                             'permission': item_data.role,
-                            'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                            'created_date': formatDate(item_data?.createdAt),
                             'action': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Sửa</button>
                                 <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>

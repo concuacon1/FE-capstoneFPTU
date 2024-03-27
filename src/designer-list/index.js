@@ -23,9 +23,9 @@ import TableRow from '@mui/material/TableRow';
 import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { Image, Switch } from "antd";
-import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { formatDate } from "../helper/formatDate";
 
 const DesignerList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -55,8 +55,8 @@ const DesignerList = () => {
     }
 
     const columns = [
-        { id: 'designercode', label: 'Mã kiến trúc sư', minWidth: 170, fontWeight: 600, fontSize: 20 },
-        { id: 'designername', label: 'Tên kiến trúc sư', minWidth: 100, fontWeight: 600, fontSize: 20 },
+        { id: 'userCode', label: 'Mã kiến trúc sư', minWidth: 170, fontWeight: 600, fontSize: 20 },
+        { id: 'fullName', label: 'Tên kiến trúc sư', minWidth: 100, fontWeight: 600, fontSize: 20 },
         {
             id: 'district',
             label: 'Quận',
@@ -74,12 +74,7 @@ const DesignerList = () => {
         },
     ];
 
-    const [formShow, setFormShow] = useState({
-        username: "",
-        accountcode: "",
-        email: "",
-        phoneNumber: ""
-    });
+    const [formShow, setFormShow] = useState({});
 
     const [rowsData, setRowData] = useState([])
 
@@ -98,6 +93,9 @@ const DesignerList = () => {
     }
 
     const showInfo = (data) => {
+        console.log('====================================');
+        console.log("data == ", data);
+        console.log('====================================');
         setFormShow(data);
         setOpenShowInfo(true);
     }
@@ -169,7 +167,6 @@ const DesignerList = () => {
         }
     }
 
-
     const apiSearch = async () => {
         try {
             const dataSeachForm = {
@@ -191,7 +188,7 @@ const DesignerList = () => {
                         'accountcode': item_data.userCode,
                         'username': item_data.fullName,
                         'permission': item_data.role,
-                        'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                        'created_date': formatDate(item_data?.createdAt),
                         'action': <div >
                             <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
                             <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
@@ -235,17 +232,16 @@ const DesignerList = () => {
                             'phoneNumber': item_data.phoneNumber,
                             'dob': item_data.dob,
                             'isActive': item_data.isActive,
-                            'accountcode': item_data.userCode,
-                            'username': item_data.fullName,
+                            'userCode': item_data.userCode,
+                            'fullName': item_data.fullName,
                             'permission': item_data.role,
-                            'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                            'created_date': formatDate(item_data?.createdAt),
                             'information': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                             </div>
                         };
                         item.push(objectPush); // Push the object to the array
                     });
-                    console.log("item == ", item);
                     setRowData(item);
                 }
             } catch (error) {
@@ -276,6 +272,19 @@ const DesignerList = () => {
         setFormEdit(formData)
     }
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // const [calendarRes, designerRes] = await Promise.all([
+                //     instance.post(`/update-designer/${designer_id}`)
+                // ]);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, [])
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -307,7 +316,6 @@ const DesignerList = () => {
         };
         setFormSearch(data);
     };
-
 
     return (
         <div className="h-screen">
@@ -516,7 +524,7 @@ const DesignerList = () => {
                 </Modal>
 
                 <Modal
-                    open={true}
+                    open={openShowInfo}
                     onClose={handleCloseShow}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
@@ -554,7 +562,7 @@ const DesignerList = () => {
                                         src={VuGia}
                                         preview={true}
                                     />
-                                    <div>Đào Minh Đức</div>
+                                    <div>{formShow?.fullName}</div>
                                 </div>
                                 <div style={{ margin: '20px' }}>
                                     <div className="text-center mb-3" style={{ textDecoration: 'underline', fontWeight: 'bold', fontSize: '20px' }}>Các dự án tiêu biểu</div>
@@ -564,34 +572,18 @@ const DesignerList = () => {
                                             overflowY: 'hidden',
                                             display: 'flex'
                                         }}>
-                                            <ImageListItem>
-                                                <Image
-                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                                    src={VuGia}
-                                                    preview={true}
-                                                />
-                                            </ImageListItem>
-                                            <ImageListItem>
-                                                <Image
-                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                                    src={VuGia}
-                                                    preview={true}
-                                                />
-                                            </ImageListItem>
-                                            <ImageListItem>
-                                                <Image
-                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                                    src={VuGia}
-                                                    preview={true}
-                                                />
-                                            </ImageListItem>
-                                            <ImageListItem>
-                                                <Image
-                                                    style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                                    src={VuGia}
-                                                    preview={true}
-                                                />
-                                            </ImageListItem>
+                                            {
+                                                formShow?.dataDesigner?.listImageProject?.map((image, index) => (
+                                                    <ImageListItem>
+                                                        <Image
+                                                            key={index}
+                                                            style={{ minWidth: 365, height: 'auto', padding: 5 }}
+                                                            src={image}
+                                                            preview={true}
+                                                        />
+                                                    </ImageListItem>
+                                                ))
+                                            }
                                         </div>
                                     </ImageList>
                                 </div>
@@ -600,7 +592,7 @@ const DesignerList = () => {
                                 <div style={{ width: '100%' }}>
                                     <div className="font-bold mb-3 flex" style={{ fontSize: '20px' }}>
                                         Mã nhà thiết kế
-                                        <span style={{ marginLeft: '100px', fontSize: '20px' }}>FSFGSG53F</span>
+                                        <span style={{ marginLeft: '100px', fontSize: '20px' }}>{formShow?.userCode}</span>
                                     </div>
                                     <div className="font-bold" style={{ fontSize: '20px' }}>Giới thiệu bản thân</div>
                                     <nav aria-label="secondary mailbox folders">
@@ -622,44 +614,28 @@ const DesignerList = () => {
                                 <div style={{ width: '700px' }}>
                                     <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
                                     <div className="flex" style={{ flexWrap: 'wrap', gap: '12px', padding: '0 30px' }}>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
+                                        {
+                                            formShow?.dataDesigner?.skill?.map((ski, index) => (
+                                                <div className="flex" key={index}>
+                                                    <DoneIcon />
+                                                    {ski?.name}
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                     <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                                     <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
-                                        <div className="flex">
-                                            <DoneIcon />
-                                            Sự hiểu biết về thiết kế và màu sắc
-                                        </div>
+                                        {
+                                            formShow?.dataDesigner?.experience?.map((exp, index) => (
+                                                <div className="flex" key={index}>
+                                                    <DoneIcon />
+                                                    {exp?.name}
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                     <div className="flex mt-3" style={{ float: 'right' }}>
-                                        <a href="/schedule/65f338bdb62b264a7bff5580" className="bg_book_schedule mr-5">Đặt lịch</a>
+                                        <a href={`/schedule/${formShow?.dataDesigner?._id}`} className="bg_book_schedule mr-5">Đặt lịch</a>
                                     </div>
                                 </div>
                             </div>

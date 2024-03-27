@@ -3,13 +3,16 @@ import { Divider, Grid, ImageList, ImageListItem, TextField } from "@mui/materia
 import Fade from '@mui/material/Fade';
 import { styled } from '@mui/system';
 import { Image } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ToastContainer } from 'react-toastify';
+import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
 import VuGia from "../images/Vu_gia.png";
 
 const WorkingProject = () => {
+    const userId = JSON.parse(localStorage.getItem('datawebfpt'))?.designerId || '';
+    const [userInfo, setUserInfo] = useState(null);
     const [formCreateProject, setFormCretaeProject] = useState({
         projectImage: "",
     });
@@ -19,23 +22,24 @@ const WorkingProject = () => {
         email: "",
         phoneNumber: ""
     });
+    const [listCategory, setListCategory] = useState([]);
+
     const fileInputRef = useRef(null);
+    const [isActive, setIsActive] = useState(0)
 
     const handleButtonClick = () => {
         fileInputRef.current.click();
     };
 
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        fileInputRef.current.value = "";
-
-        if (file) {
-            const dataOle = {
-                ...formCreateProject,
-                "projectImage": file,
-            };
-            setFormCretaeProject(dataOle)
+        const filesList = event.target.files;
+        for (let i = 0; i < filesList.length; i++) {
+            console.log(`file${i + 1}`, filesList[i]);
         }
+
+        const listDataOle = [...listCategory];
+        listDataOle[isActive].images = event.target.files;
+        setListCategory(listDataOle);
     };
 
     const onChangeInput = (event) => {
@@ -47,6 +51,20 @@ const WorkingProject = () => {
         setFormShow(data);
     };
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const designerRes = await instance.post(`/update-designer/${userId}`);
+                setUserInfo(designerRes.data.message[0])
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, [])
+
+    console.log(userInfo);
     return (
         <div className="h-screen">
             <HeaderComponent />
@@ -67,7 +85,7 @@ const WorkingProject = () => {
                             src={VuGia}
                             preview={true}
                         />
-                        <div>Đào Minh Đức</div>
+                        <div>{userInfo?.dataDesigner[0].fullName}</div>
                     </div>
                     <div style={{ margin: '20px' }}>
                         <div className="flex justify-around items-center">
@@ -82,6 +100,7 @@ const WorkingProject = () => {
                                     ref={fileInputRef}
                                     style={{ display: 'none' }}
                                     onChange={handleFileChange}
+                                    multiple
                                 />
                             </div>
                         </div>
@@ -91,34 +110,17 @@ const WorkingProject = () => {
                                 overflowY: 'hidden',
                                 display: 'flex'
                             }}>
-                                <ImageListItem>
-                                    <Image
-                                        style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                        src={VuGia}
-                                        preview={true}
-                                    />
-                                </ImageListItem>
-                                <ImageListItem>
-                                    <Image
-                                        style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                        src={VuGia}
-                                        preview={true}
-                                    />
-                                </ImageListItem>
-                                <ImageListItem>
-                                    <Image
-                                        style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                        src={VuGia}
-                                        preview={true}
-                                    />
-                                </ImageListItem>
-                                <ImageListItem>
-                                    <Image
-                                        style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                        src={VuGia}
-                                        preview={true}
-                                    />
-                                </ImageListItem>
+                                {
+                                    userInfo?.listImageProject.length > 0 && userInfo?.listImageProject.map((image, index) => (
+                                        <ImageListItem key={index}>
+                                            <Image
+                                                style={{ minWidth: 365, height: 'auto', padding: 5 }}
+                                                src={image}
+                                                preview={true}
+                                            />
+                                        </ImageListItem>
+                                    ))
+                                }
                             </div>
                         </ImageList>
                     </div>
@@ -132,7 +134,7 @@ const WorkingProject = () => {
                                 style={{ width: 222.45 }}
                                 id="outlined-start-adornment"
                                 name="accountcode"
-                                value={formShow?.accountcode}
+                                value={userInfo?.dataDesigner[0].userCode}
                                 sx={{ m: 1, width: "222.45px", }}
                                 onChange={onChangeInput}
                             />

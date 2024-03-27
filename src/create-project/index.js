@@ -2,7 +2,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { AutoComplete, Button, Checkbox, DatePicker, Select, Steps, theme } from "antd";
+import { AutoComplete, Button, Checkbox, DatePicker, Image, Select, Steps, theme } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ const CreateProject = () => {
         name: "",
         projectIdType: "",
         projectImage: "",
+        customerImage: "",
         designerId: "",
         designerDate: "",
         constructionDate: "",
@@ -45,14 +46,11 @@ const CreateProject = () => {
         setCheckNewProject(e.target.checked);
     };
 
-    console.log(formCreateProject)
-
     const onChangeSelect = (data, name) => {
         const dataNew = {
             ...formCreateProject,
             [name]: data,
         };
-        console.log("dataNew == ", dataNew);
         setFormCretaeProject(dataNew);
     };
 
@@ -75,11 +73,16 @@ const CreateProject = () => {
 
 
     const fileInputRef = useRef(null);
+    const fileImageRef = useRef(null);
 
     const handleButtonClick = () => {
         // Trigger the file input click when the button is clicked
         fileInputRef.current.click();
     };
+
+    const handleChangeAvatar = () => {
+        fileImageRef.current.click();
+    }
 
     const handleCVChange = (event) => {
         const filesList = event.target.files;
@@ -163,9 +166,20 @@ const CreateProject = () => {
             };
             setFormCretaeProject(dataOle)
         }
-
-
     };
+
+    const handleAvatarChange = (event) => {
+        const file = event.target.files[0];
+        fileImageRef.current.value = "";
+
+        if (file) {
+            const dataOle = {
+                ...formCreateProject,
+                "customerImage": file,
+            };
+            setFormCretaeProject(dataOle)
+        }
+    }
 
     const addCategorys = () => {
 
@@ -212,7 +226,6 @@ const CreateProject = () => {
             }
             let listCategoriesCustom = [];
             for (let i = 0; i < listCategory.length; i++) {
-                console.log(3333333, listCategory[i].images)
                 let imagesList = listCategory[i].images;
                 let formDataFile = new FormData();
                 let dataImage = []
@@ -230,17 +243,13 @@ const CreateProject = () => {
                     dataImage.push(imagesRes[k]?.filename)
                 }
 
-
-                console.log(dataImage)
-
                 listCategoriesCustom.push({
                     categoriesName: listCategory[i].categoriesName,
                     images: dataImage
                 })
             }
 
-
-            let formDataFileOne = new FormData();
+            const formDataFileOne = new FormData();
             formDataFileOne.append('file', formCreateProject.projectImage);
             const resOneFile = await instance.post("/upload-file", formDataFileOne, {
                 headers: {
@@ -248,25 +257,38 @@ const CreateProject = () => {
                 },
             });
 
-            let listData = {}
+            // Upload customerImage
+            const formDataFileTwo = new FormData();
+            formDataFileTwo.append('file', formCreateProject.customerImage);
+            const resTwoFile = await instance.post("/upload-file", formDataFileTwo, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // Construct listData after both files are uploaded
+            let listData = {};
+
             if (formCreateProject.projectTypeNew.length > 0) {
                 listData = {
                     ...formCreateProject,
                     listCategory: listCategoriesCustom,
                     projectImage: resOneFile.data.filename,
-                    projectIdType: dataResIdType.data.data.id
-                }
+                    projectIdType: dataResIdType.data.data.id,
+                    customerImage: resTwoFile.data.filename
+                };
             } else {
                 listData = {
                     ...formCreateProject,
                     listCategory: listCategoriesCustom,
                     projectImage: resOneFile.data.filename,
-                }
+                    customerImage: resTwoFile.data.filename
+                };
             }
-
+            console.log("listData == ", listData);
             await instance.post("/create_project", listData);
             toast.success("Tao thanh cong")
-            // return navigate('/project-list')
+            // return navigate('/home-page')
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -345,7 +367,6 @@ const CreateProject = () => {
                         <div className="flex" style={{ marginTop: 30 }}>
                             <DatePicker
                                 onChange={(data) => onChangeDate(data, "designerDate")}
-
                                 value={formCreateProject.designerDate}
                                 placeholder="Design date"
                             />
@@ -364,7 +385,7 @@ const CreateProject = () => {
                                 style={{ width: 250, height: 35, marginRight: 100 }}
                                 onChange={(data) => onChangeValueInput(data, "userCode")}
                                 value={formCreateProject.userCode}
-                                placeholder="Design by "
+                                placeholder="Design by"
                             />
                             <div>
                                 <button
@@ -377,8 +398,9 @@ const CreateProject = () => {
                         </div>
 
                         <div className="customByCode" style={{ marginTop: 30 }}>
-                            {(formCreateProject.designerName.length < 1 || formCreateProject.userCode.length < 1) ? <p className="text-red-600">Khong tim thay design code</p> : <p className="text-2xl font-bold">  Designer: {formCreateProject.designerName}</p>}
-
+                            {
+                                formCreateProject.userCode.length > 0 && <p className="text-2xl font-bold">  Designer: {formCreateProject.designerName}</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -387,7 +409,7 @@ const CreateProject = () => {
         {
             title: "",
             content: (
-                <div className="flex m-auto">
+                <div className="flex m-auto" style={{ padding: '10px' }}>
                     <div className="m-auto">
                         <div
                             style={{ height: 50 }}
@@ -396,8 +418,8 @@ const CreateProject = () => {
                             {" "}
                             Categories​{" "}
                         </div>
-                        <div className="flex">
-                            <div className="block_left_category">
+                        <div className="flex" style={{ width: '100%' }}>
+                            <div className="block_left_category" style={{ width: '40%' }}>
                                 <div className="h-96 overflow-auto">
                                     {
                                         listCategory.map((e, vt) => {
@@ -419,7 +441,7 @@ const CreateProject = () => {
                                 </div>
                                 <div className="flex">
                                     <AutoComplete
-                                        style={{ width: 300, height: 35, paddingRight: 50 }}
+                                        style={{ width: 250, height: 35, paddingRight: 50 }}
                                         onChange={(value) => onChangeValueInput(value, "categoriesAdd")}
                                         name="categoriesAdd"
                                         value={formCreateProject.categoriesAdd}
@@ -431,8 +453,8 @@ const CreateProject = () => {
                                 </div>
                             </div>
 
-                            <div className="block_right_category pl-10 pb-16">
-                                <div className="pb-10">
+                            <div className="block_right_category pb-16">
+                                <div>
                                     {
                                         listCategory.length > 0 && <button
                                             className="button-upload-images add-images"
@@ -468,9 +490,9 @@ const CreateProject = () => {
                                             )
                                         })}
                                 </ImageList>
-
-                                <button className="button-upload-images" onClick={handleButtonClickClearImage}>Clear All Images</button>
-
+                                {
+                                    listCategory[0]?.images.length > 0 && <button className="button-upload-images" onClick={handleButtonClickClearImage}>Clear All Images</button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -511,7 +533,25 @@ const CreateProject = () => {
                                     placeholder="Phản hồi"
                                 />
                             </div>
-
+                        </div>
+                        <div className="flex justify-between items-center mt-10 pl-15">
+                            <button className="button-upload-images" onClick={handleChangeAvatar}>Chọn ảnh</button>
+                            {formCreateProject.customerImage && (
+                                <Image
+                                    style={{ borderRadius: '50%' }}
+                                    height={250}
+                                    width={250}
+                                    src={URL.createObjectURL(formCreateProject.customerImage)}
+                                    preview={true}
+                                />
+                            )}
+                            <input
+                                type="file"
+                                accept="image/png, image/jpeg, image/jpg"
+                                ref={fileImageRef}
+                                style={{ display: 'none' }}
+                                onChange={handleAvatarChange}
+                            />
                         </div>
                     </div>
 
@@ -523,7 +563,7 @@ const CreateProject = () => {
             content: (
                 <div className="flex m-auto">
                     <div className="m-auto">
-                        <div>
+                        <div style={{ width: '100%' }}>
                             <p style={{ height: 50 }}
                                 className="text-4xl  mb-10 mt-7 text-black font-bold">{formCreateProject.name}</p>
                             <div className="flex">
@@ -545,12 +585,12 @@ const CreateProject = () => {
 
                                     <div className="flex justify-between">
                                         <div className="text-black "> Design date : </div>
-                                        <div className="text-black ">  {dayjs(formCreateProject.designerDate).format('YYYY/DD/MM')}   </div>
+                                        <div className="text-black ">  {dayjs(formCreateProject.designerDate).format('DD/MM/YYYY')}   </div>
 
                                     </div>
                                     <div className="flex justify-between mt-10">
                                         <div className="text-black ">  Construction date : </div>
-                                        <div className="text-black ">   {dayjs(formCreateProject.constructionDate).format('YYYY/DD/MM')}</div>
+                                        <div className="text-black ">   {dayjs(formCreateProject.constructionDate).format('DD/MM/YYYY')}</div>
                                     </div>
 
                                 </div>
@@ -596,7 +636,7 @@ const CreateProject = () => {
                             </div>
                         </div>
 
-                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Design by  {formCreateProject.designerName} </div>
+                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Design by {formCreateProject.designerName} </div>
 
                     </div>
                 </div>
@@ -611,12 +651,31 @@ const CreateProject = () => {
 
         let check = current + 1
         if (check === 1) {
-            setTitleStep("Add Category")
             const dataCheck = {
                 userCode: formCreateProject.userCode
             }
             const dataRes = await instance.post("/check_design", dataCheck);
             const dataFind = dataRes.data.data.data;
+            if (!formCreateProject.name) {
+                return toast.error("Chưa có Project name")
+            }
+            if (formCreateProject.projectIdType.length < 1) {
+                if (formCreateProject.projectTypeNew.length < 1) {
+                    return toast.error("Project Type chưa có")
+                }
+            }
+
+            if (formCreateProject.projectTypeNew.length < 1) {
+                if (formCreateProject.projectIdType.length < 1) {
+                    return toast.error("Project Type chưa có")
+                }
+            }
+            if (!formCreateProject.designerDate || !formCreateProject.constructionDate) {
+                return toast.error("Vui lòng chọn date")
+            }
+            if (formCreateProject.designerDate > formCreateProject.constructionDate) {
+                return toast.error("Design date phải trước Construction date")
+            }
             if (!dataFind?.fullName) {
                 return toast.error("Khong ton tai design ")
             } else {
@@ -630,23 +689,22 @@ const CreateProject = () => {
             if (dataFind?.fullName < 1) {
                 return toast.error("Khong ton tai design")
             }
-
-            if (formCreateProject.projectIdType.length < 1) {
-                if (formCreateProject.projectTypeNew.length < 1) {
-                    return toast.error("Project Type chưa có")
-                }
-            }
-
-            if (formCreateProject.projectTypeNew.length < 1) {
-                if (formCreateProject.projectIdType.length < 1) {
-                    return toast.error("Project Type chưa có")
-                }
-            }
-
-
+            setTitleStep("Add Category")
         } else if (check === 2) {
+            if (!formCreateProject.categoriesAdd) {
+                return toast.error("Vui lòng thêm Category")
+            }
+            if (listCategory[0].images.length == 0) {
+                return toast.error("Vui lòng thêm ảnh")
+            }
             setTitleStep("Add catalogue")
         } else if (check === 3) {
+            if (!formCreateProject.catalog) {
+                return toast.error("Vui lòng nhập Link catalogue")
+            }
+            if (!formCreateProject.description) {
+                return toast.error("Vui lòng nhập phản hồi")
+            }
             setTitleStep("Last confirm update")
         }
         setCurrent(current + 1);
@@ -682,14 +740,14 @@ const CreateProject = () => {
             <div className="flex text-4xl  mt-5 text-black font-bold items-center justify-center mb-10">
                 {titleStep}
             </div>
-            <Steps current={current} items={items} className="custom_step" />
+            <Steps current={current} items={items} className="custom_step" style={{ fontSize: '150%', alignItems: 'center' }} />
             <div style={contentStyle}>{steps[current].content}</div>
             <div
                 style={{ marginTop: 24, marginBottom: 30 }}
                 className="custom-button-step"
             >
                 {current < steps.length - 1 && (
-                    <Button onClick={() => next()} className="buttonNext">
+                    <Button onClick={() => next()} className="buttonNext" style={{ color: '#fff' }}>
                         Next
                     </Button>
                 )}

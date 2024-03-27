@@ -131,7 +131,7 @@ const ListProject = () => {
                                         listProjectB.map((item, index) => {
                                             return (
                                                 <Col className="gutter-row" span={6} style={colStyle} key={index}>
-                                                    <a href={`project/${item._id}`}>
+                                                    <a href={`/project/${item._id}`}>
                                                         <Image
                                                             style={projectImageStyle}
                                                             src={`http://localhost:8000/img/${item.projectImage}`}
@@ -156,7 +156,7 @@ const ListProject = () => {
                                         listProjectC.map((item, index) => {
                                             return (
                                                 <Col className="gutter-row" span={6} style={colStyle} key={index}>
-                                                    <a href={`project/${item._id}`}>
+                                                    <a href={`/project/${item._id}`}>
                                                         <Image
                                                             style={projectImageStyle}
                                                             src={`http://localhost:8000/img/${item.projectImage}`}

@@ -32,7 +32,9 @@ const ProjectServices = () => {
       <>
          <HeaderComponent />
          <motion.div
-            className="project-service-screen"
+            className="project-service-screen " style={{
+               transform:"none"
+            }}
 
             initial={{ scaleY: 0 }}
             animate={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
@@ -40,7 +42,7 @@ const ProjectServices = () => {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
          >
             <motion.div className='project-service-screen'
-               variants={fadeIn('up', 0.2)}
+               // variants={fadeIn('up', 0.2)}
                initial="hidden"
                whileInView={"show"}
                viewport={{ once: false, amount: 0.7 }}

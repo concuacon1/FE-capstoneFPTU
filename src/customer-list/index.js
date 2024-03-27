@@ -21,9 +21,9 @@ import TableRow from '@mui/material/TableRow';
 import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { Image, Switch } from "antd";
-import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { formatDate } from "../helper/formatDate";
 
 const CustomerList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -192,7 +192,7 @@ const CustomerList = () => {
                         'accountcode': item_data.userCode,
                         'username': item_data.fullName,
                         'permission': item_data.role,
-                        'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                        'created_date': formatDate(item_data?.createdAt),
                         'information': <div >
                             <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                         </div>
@@ -238,7 +238,7 @@ const CustomerList = () => {
                             'accountcode': item_data.userCode,
                             'username': item_data.fullName,
                             'permission': item_data.role,
-                            'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                            'created_date': formatDate(item_data?.createdAt),
                             'information': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                             </div>

@@ -27,9 +27,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { Image, Switch } from "antd";
-import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { formatDate } from "../helper/formatDate";
 
 const ContractList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -180,7 +180,7 @@ const ContractList = () => {
                         'accountcode': item_data.userCode,
                         'username': item_data.fullName,
                         'permission': item_data.role,
-                        'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                        'created_date': formatDate(item_data?.createdAt),
                         'action': <div >
                             <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
                             <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
@@ -224,7 +224,7 @@ const ContractList = () => {
                             'accountcode': item_data.userCode,
                             'username': item_data.fullName,
                             'permission': item_data.role,
-                            'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                            'created_date': formatDate(item_data?.createdAt),
                             'action': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Edit</button>
                                 <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
@@ -574,7 +574,7 @@ const ContractList = () => {
                 <Paper sx={{ width: '100%', overflow: 'hidden', height: '750px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
                     <TableContainer sx={{ maxHeight: 440 }}>
                         <Table stickyHeader aria-label="sticky table">
-                        <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
+                            <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                                 <TableRow>
                                     {columns.map((column) => (
                                         <TableCell

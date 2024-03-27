@@ -27,9 +27,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { Image } from "antd";
-import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { formatDate } from "../helper/formatDate";
 
 const StaffList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -212,7 +212,7 @@ const StaffList = () => {
                         'accountcode': item_data.userCode,
                         'username': item_data.fullName,
                         'permission': item_data.role,
-                        'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                        'created_date': formatDate(item_data?.createdAt),
                         'information': <div >
                             <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                         </div>
@@ -257,7 +257,7 @@ const StaffList = () => {
                             'accountcode': item_data.userCode,
                             'username': item_data.fullName,
                             'permission': item_data.role,
-                            'created_date': dayjs(item_data?.createdAt).format('DD/MM/YYYY'),
+                            'created_date': formatDate(item_data?.createdAt),
                             'information': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                             </div>
