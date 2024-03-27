@@ -1,11 +1,13 @@
 import { Image } from 'antd';
+import { motion } from 'framer-motion';
 import React from 'react';
 import Video from '../../src/images/noithatvugia.mp4';
+import { fadeIn } from '../Animation/variants';
+import { waveVariants } from '../Animation/waveVariants';
 import FooterComponent from '../footer';
 import HeaderComponent from "../header/index";
 import PeopleImageScreen from '../images/image-about-screen.png';
 import './about_screen.css';
-
 
 const AboutScreen = () => {
    const ImageContentStyle = {
@@ -13,23 +15,50 @@ const AboutScreen = () => {
       height: "auto"
    }
    return (
-
-      
-      <div className='about-screen'>
-       <HeaderComponent />
-         <div className='about-screen title'>
+        <div>
+      <HeaderComponent />
+      <motion.div className='about-screen'
+      initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            exit={{ scaleY: 1 }} // Change from 0 to 1 to animate from scaleY 0 to scaleY 1
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      >
+       
+         <motion.div className='about-screen title'>
+            
+         </motion.div>
+         <motion.div className='Text-content'
+         variants={fadeIn('down', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+         >
             ABOUT US
-         </div>
+         </motion.div>
+
          <div className='about-screen container'>
-            <div className='images'>
+            <motion.div className='images'
+             variants={waveVariants}
+      animate="wave"
+      style={{
+        fontSize: "40px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+            >
                <Image
                   style={ImageContentStyle}
                   src={PeopleImageScreen}
                   className='bg-white'
                   preview={false}
                />
-            </div>
-            <div className="content">
+            </motion.div>
+            <motion.div className="content"
+            
+      
+            
+            >
                Chúng ta đã có hàng chục năm gia công cho các thương hiệu nội thất lớn trên thế giới.
                Các sản phẩm được sản xuất tại Việt Nam, gắn thương hiệu ngoại và quay trở lại bán
                cho người Việt với giá gấp nhiều lần giá trị sử dụng thực.
@@ -39,21 +68,36 @@ const AboutScreen = () => {
                hiệu gia công chế tác Nội thất cao cấp.
                <br /><br />D.Agostino nâng tầm phong cách sống sang trọng,
                đẳng cấp với những giá trị bền vững đi cùng mức chi phí hợp lý.
-            </div>
+            </motion.div>
             <div className='data'>
-               <div className='item'>
+               <motion.div className='item'
+               variants={fadeIn('right', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+               >
                   <p style={{ fontSize: "40px" }}>13+</p>
                   Hệ thống showrom trải dài khắp cả nước.
-               </div>
-               <div className='item'>
+               </motion.div>
+               <motion.div className='item'
+               variants={fadeIn('up', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+               >
                   <p style={{ fontSize: "40px" }}>9</p>
                   Hành trình 9 năm
                   <br />Chinh phục thị trường Việt Nam
-               </div>
-               <div className='item'>
+               </motion.div>
+               <motion.div className='item'
+               variants={fadeIn('left', 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: false, amount: 0.7 }}
+               >
                   <p style={{ fontSize: "40px" }}>1000+</p>
                   Dự án Villa, Khách sạn, Penthouse, Chung cư cao cấp, ...  trải dài từ Bắc tới Nam
-               </div>
+               </motion.div>
             </div>
          </div>
          <div className='about-screen slogan'>
@@ -66,6 +110,7 @@ const AboutScreen = () => {
             </video>
          </div>
          <FooterComponent  />
+      </motion.div>
       </div>
    )
 }

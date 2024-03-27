@@ -51,8 +51,8 @@ function App() {
         <Route path="/working-profile" element={<WorkingProject />} />
         <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         {/* <Route path="/project-list/:project_type" element={<ListProject />} /> */}
-        <Route path="/project/:project_id" element={<ProjectValue />} />
-        <Route path="/service" element={<ProjectServices />} />
+        {/* <Route path="/project/:project_id" element={<ProjectValue />} /> */}
+        {/* <Route path="/service" element={<ProjectServices />} /> */}
         <Route path="/service/01" element={<Service1 />} />
         <Route path="/service/02" element={<Service2 />} />
         <Route path="/service/03" element={<Service3 />} />

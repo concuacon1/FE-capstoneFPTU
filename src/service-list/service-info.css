@@ -1,4 +1,4 @@
-/* service1 */
+
 .service1 {
 	background-color: #DED49F;
 }
@@ -23,7 +23,7 @@
 .header .description {
 	font-size: 30px;
 	color: #DB1A1A;
-	margin-top: 20px;
+	margin-top: 30px;
 }
 
 .header hr {
@@ -60,7 +60,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
-	margin-top: 5%;
+   margin-top: 5%;
 }
 
 .left-content .content-name {
@@ -99,11 +99,12 @@
 	margin-top: 5%;
 }
 
+
 .other-service .title {
 	color: #B91616;
 	text-align: start;
 	margin-left: 5%;
-	width: 80%;
+   width: 80%;
 	font-size: 30px;
 }
 
