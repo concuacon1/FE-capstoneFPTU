@@ -1,8 +1,5 @@
 export function formatDate(inputDate) {
     if (!inputDate) return '';
-    console.log('====================================');
-    console.log("inputDate == ", inputDate);
-    console.log('====================================');
     // Tách các thành phần của ngày tháng từ chuỗi đầu vào
     const parts = inputDate.split('T')[0].split('-');
     const year = parts[0];

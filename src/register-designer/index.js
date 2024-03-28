@@ -146,9 +146,6 @@ const RegisterDesigner = () => {
         },
     });
 
-
-
-
     const handleButtonClick = () => {
         // Trigger the file input click when the button is clicked
         fileInputRef.current.click();
@@ -220,8 +217,6 @@ const RegisterDesigner = () => {
                                     {touched.lastName && errors.lastName && <p className="errors-file">{errors.lastName}</p>}
                                 </div>
 
-
-
                             </div>
 
                             <div className="flex">
@@ -281,7 +276,6 @@ const RegisterDesigner = () => {
 
                                 </div>
                             </div>
-
                             <div>
                                 <TextField
                                     label="Email"
@@ -293,9 +287,7 @@ const RegisterDesigner = () => {
                                 />
 
                                 {touched.email && errors.email && <p className="errors-file">{errors.email}</p>}
-
                             </div>
-
                             <div style={{ display: 'flex' }}>
                                 <div>
                                     <TextField

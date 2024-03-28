@@ -13,15 +13,11 @@ const DesignerSchedule = () => {
     const { designer_id } = useParams();
     const [designerInfo, setDesignerInfo] = useState({});
     const [userId, setUserId] = useState('');
-    const [value, setValue] = useState(() => dayjs('2017-01-25'));
     const [selectedDate, setSelectedDate] = useState(null);
     const [timeOfDay, setTimeOfDay] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [note, setNote] = useState('');
-    const [emailEdit, setEmailEdit] = useState('');
-    const [noteEdit, setNoteEdit] = useState('');
-    const [selectedValue, setSelectedValue] = useState(() => dayjs('2017-01-25'));
     const [scheduleId, setScheduleId] = useState('');
 
     const [busyDate, setBusyDate] = useState([]);
@@ -29,11 +25,7 @@ const DesignerSchedule = () => {
 
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedDates, setSelectedDates] = useState([]);
     const [selectedDateModalVisible, setSelectedDateModalVisible] = useState(false);
-    const [selectedDateModalValue, setSelectedDateModalValue] = useState(null);
-    const [confirmChecked, setConfirmChecked] = useState(false);
     const [waitingForApprovalModalVisible, setWaitingForApprovalModalVisible] = useState(false);
     const [confirmBookModalVisible, setConfirmBookModalVisible] = useState(false);
     const [isBooked, setIsBooked] = useState(false)
@@ -63,60 +55,6 @@ const DesignerSchedule = () => {
         setTimeOfDay(value);
     };
 
-    const handleEdit = () => {
-        setModalVisible(true);
-    };
-
-    const handleOk = () => {
-        if (confirmChecked) {
-            // Show confirmation alert
-            Modal.confirm({
-                title: 'Xác nhận',
-                content: 'Bạn có chắc chắn muốn xác nhận thời gian làm việc?',
-                onOk() {
-                    // Handle OK button click
-                    setBusyDate([...busyDate, ...selectedDates]);
-                    setModalVisible(false);
-                    instance.post(`/schedule/${designer_id}/confirm`, {
-                        timeWorkOn: selectedDates,
-                        description_off: scheduleId,
-                        email: email
-                    }).then(response => {
-                        console.log('Request thành công:', response.data);
-                    }).catch(error => {
-                        console.error('Đã xảy ra lỗi:', error);
-                    });
-                    setSelectedDates([]);
-                    setConfirmChecked(false); // Reset checkbox
-                    setSelectedDateModalVisible(false);
-                },
-                onCancel() {
-                    // Handle Cancel button click
-                },
-            });
-        } else {
-            toast.error("Bạn cần xác nhận với thời gian làm việc trước khi xác nhận.");
-        }
-    };
-
-    const handleCancel = () => {
-        setModalVisible(false);
-        setSelectedDates([]);
-        setConfirmChecked(false); // Reset checkbox
-    };
-
-    const handleDateSelectEdit = (date) => {
-        const formattedDate = dayjs(date);
-        const formattedDateString = formattedDate.format('YYYY-MM-DD');
-
-        if (busyDate && busyDate.includes(formattedDateString)) {
-            return;
-        }
-
-        setSelectedDateModalValue(formattedDate);
-        setSelectedDates(prevSelectedDates => [...prevSelectedDates, formattedDateString]);
-    };
-
     const handleDateSelect = (date) => {
         const formattedDate = dayjs(date);
         const formattedDateString = formattedDate.format('YYYY-MM-DD');
@@ -133,7 +71,7 @@ const DesignerSchedule = () => {
             return;
         }
         setSelectedDateModalVisible(true);
-        setSelectedDate(date);
+        setSelectedDate(formattedDateString);
     };
 
     const handleDateModalOk = () => {
@@ -254,7 +192,7 @@ const DesignerSchedule = () => {
                             <Input disabled value={designerInfo?.fullName} />
                         </Form.Item>
                         <Form.Item label="Ngày">
-                            <Input disabled value={selectedDate ? selectedDate.format('DD/MM/YYYY') : ''} />
+                            <Input disabled value={selectedDate} />
                         </Form.Item>
                         <Form.Item label="Thời gian">
                             <Select onChange={handleTimeChange} value={timeOfDay}>

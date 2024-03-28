@@ -51,19 +51,6 @@ const CreateSchedule = () => {
         fetchData();
     }, []);
 
-    const handleTimeChange = (value) => {
-        setTimeOfDay(value);
-    };
-
-    const onSelect = (newValue) => {
-        setValue(newValue);
-        setSelectedValue(newValue);
-    };
-
-    const onPanelChange = (newValue) => {
-        setValue(newValue);
-    };
-
     const handleEdit = () => {
         setModalVisible(true);
     };
