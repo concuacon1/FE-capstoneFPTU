@@ -4,7 +4,6 @@ import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
 import VuGia from "../images/Vu_gia.png";
 // import { Image } from "antd";
-import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
@@ -46,7 +45,6 @@ const AccountList = () => {
         permission: ""
     })
 
-
     const onChangeEditForm = (event, nameProps) => {
         const formEditOld = { ...formEdit };
         if (nameProps === "activeAccount") {
@@ -55,6 +53,13 @@ const AccountList = () => {
             formEditOld[event.target.name] = event.target.value
         }
         setFormEdit(formEditOld);
+    }
+
+    const onChangeSwitch = (event, nameProps) => {
+        setFormEdit(prevState => ({
+            ...prevState,
+            [nameProps]: event
+        }));
     }
 
     const columns = [
@@ -86,14 +91,10 @@ const AccountList = () => {
         },
     ];
 
-
     const [rowsData, setRowData] = useState([])
-
     const [dateEditSelect, setDataEditSelect] = useState()
-
     const [openDelete, setOpenDelete] = useState(false);
     const [idDeleteAccount, setIdDeleteAccount] = useState();
-
     const [openEdit, setOpenEdit] = useState(false);
     const [idEditAccount, setIdEditAccount] = useState();
 
@@ -109,8 +110,6 @@ const AccountList = () => {
     const handleCloseEdit = () => {
         setOpenEdit(false);
     };
-
-
 
     const [callApiReset, setCallApiReset] = useState(false)
 
@@ -147,8 +146,8 @@ const AccountList = () => {
                 role: formEdit.role,
             }
             await instance.post(`/update-user`, formDataEdit);
-            console.log(formDataEdit)
             setCallApiReset(prev => !prev);
+            setFormEdit({})
             toast.success("Sửa  thành công");
             setOpenEdit(false)
         } catch (error) {
@@ -163,7 +162,6 @@ const AccountList = () => {
             }
         }
     }
-
 
     const apiSearch = async () => {
         try {
@@ -270,7 +268,6 @@ const AccountList = () => {
         setFormEdit(formData)
     }
 
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -283,13 +280,11 @@ const AccountList = () => {
         setPage(0);
     };
 
-
     const onChangeInput = (event) => {
         const data = {
             ...formSearch,
             [event.target.name]: event.target.value,
         };
-
         setFormSearch(data);
     };
 
@@ -301,7 +296,6 @@ const AccountList = () => {
         };
         setFormSearch(data);
     };
-
 
     return (
         <div className="h-screen">
@@ -316,7 +310,6 @@ const AccountList = () => {
                     />
                     <div style={{ marginLeft: '40px' }}>Danh sách tài khoản</div>
                 </div>
-
                 <Modal
                     open={openDelete}
                     onClose={handleCloseDelete}
@@ -337,11 +330,8 @@ const AccountList = () => {
                             <button className="pr-5" onClick={handleCloseDelete}>Hủy</button>
                             <button onClick={deleteAccountAsync}>Ok</button>
                         </div>
-
-
                     </ModalContent>
                 </Modal>
-
                 <Modal
                     open={openEdit}
                     onClose={handleCloseEdit}
@@ -349,7 +339,6 @@ const AccountList = () => {
                     aria-describedby="parent-modal-description"
                     closeAfterTransition
                     slots={{ backdrop: StyledBackdrop }}
-
                 >
                     <ModalContent >
                         <div>
@@ -364,9 +353,7 @@ const AccountList = () => {
                                     sx={{ m: 1, width: "280px" }}
                                     disabled
                                 />
-
                             </div>
-
                             <div className="item flex justify-center items-center">
                                 <div style={{ width: 200 }}>Email : </div>
                                 <TextField
@@ -380,8 +367,6 @@ const AccountList = () => {
                                     disabled
                                 />
                             </div>
-
-
                             <div className="item flex justify-center items-center">
                                 <div style={{ width: 200 }}>Số điện thoại : </div>
                                 <TextField
@@ -395,7 +380,6 @@ const AccountList = () => {
                                     disabled
                                 />
                             </div>
-
                             <div className="item flex justify-center items-center">
                                 <div style={{ width: 200 }}>Ngày sinh : </div>
                                 <TextField
@@ -409,7 +393,6 @@ const AccountList = () => {
                                     disabled
                                 />
                             </div>
-
                             <div className="item flex justify-center items-center">
                                 <div style={{ width: 200 }}>Mật khẩu : </div>
                                 <TextField
@@ -422,18 +405,14 @@ const AccountList = () => {
                                     sx={{ m: 1, width: "280px" }}
                                 />
                             </div>
-
-
                             <div className="item flex justify-start items-center" style={{ height: '56px' }}>
                                 <div style={{ width: 200 }}>Trạng thái : </div>
                                 <Switch
                                     style={{ marginLeft: '10px' }}
                                     checked={formEdit.activeAccount}
-                                    onChange={(data) => onChangeEditForm(data, "activeAccount")}
+                                    onChange={(event) => onChangeSwitch(event, "activeAccount")}
                                 />
                             </div>
-
-
                             <div className="flex justify-center items-center">
                                 <div className="" style={{ width: 200 }}>Chức vụ :</div>
                                 <FormControl sx={{ m: 1, minWidth: 300 }} size="small">
@@ -451,11 +430,7 @@ const AccountList = () => {
                                     </Select>
                                 </FormControl>
                             </div>
-
-
-
                         </div>
-
                         <div className="flex justify-end">
                             <button className="bg_edit_account mr-5" onClick={editAccountAsync}>Lưu</button>
                         </div>
@@ -544,7 +519,6 @@ const AccountList = () => {
                                             }}
                                         />
                                     </div>
-
                                     <div className="flex items-center justify-center pl-10">
                                         <div className="text-2xl pr-5">
                                             Tên tài khoản{" "}
@@ -567,9 +541,8 @@ const AccountList = () => {
                         </div>
                     </div>
                 </div>
-
-                <Paper sx={{ width: '100%', overflow: 'hidden', height: '750px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
-                    <TableContainer sx={{ maxHeight: 440 }}>
+                <Paper sx={{ width: '100%', overflow: 'hidden', height: '850px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
+                    <TableContainer sx={{}}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                                 <TableRow>
@@ -616,9 +589,7 @@ const AccountList = () => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                 </Paper>
-
             </div>
-
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
         </div >
@@ -635,17 +606,6 @@ const Backdrop = React.forwardRef((props, ref) => {
         </Fade>
     );
 });
-
-
-
-const blue = {
-    200: '#99CCFF',
-    300: '#66B2FF',
-    400: '#3399FF',
-    500: '#007FFF',
-    600: '#0072E5',
-    700: '#0066CC',
-};
 
 const grey = {
     50: '#F3F6F9',
@@ -677,14 +637,6 @@ const StyledBackdrop = styled(Backdrop)`
     -webkit-tap-highlight-color: transparent;
   `;
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-};
-
 const ModalContent = styled('div')(
     ({ theme }) => css`
       font-family: 'IBM Plex Sans', sans-serif;
@@ -715,37 +667,6 @@ const ModalContent = styled('div')(
         font-weight: 400;
         color: ${theme.palette.mode === 'dark' ? grey[400] : grey[800]};
         margin-bottom: 4px;
-      }
-    `,
-);
-
-const TriggerButton = styled(Button)(
-    ({ theme }) => css`
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      padding: 8px 16px;
-      border-radius: 8px;
-      transition: all 150ms ease;
-      cursor: pointer;
-      background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-      border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-      color: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};
-      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  
-      &:hover {
-        background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-        border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
-      }
-  
-      &:active {
-        background: ${theme.palette.mode === 'dark' ? grey[700] : grey[100]};
-      }
-  
-      &:focus-visible {
-        box-shadow: 0 0 0 4px ${theme.palette.mode === 'dark' ? blue[300] : blue[200]};
-        outline: none;
       }
     `,
 );

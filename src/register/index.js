@@ -24,12 +24,12 @@ const Register = () => {
                     preview={false} />
                 <div className='with-banner-login flex items-center justify-center'>
                     <div>
-                        <div className='text-xs font-bold flex justify-center mb-12'> WELCOME </div>
-                        <div className='text-3xl font-bold flex justify-center mb-12'> Sign Up as: </div>
-                        <div className='border-button-designer mb-8' onClick={linkScreenDesigner}>Designer</div>
-                        <div className='border-button-customer mb-12' onClick={linkScreenCustomer}>Customer</div>
+                        <div className='text-xs font-bold flex justify-center mb-12'> Welcome </div>
+                        <div className='text-3xl font-bold flex justify-center mb-12'> Đăng ký với: </div>
+                        <div className='border-button-designer mb-8' onClick={linkScreenDesigner}>Kiến trúc sư</div>
+                        <div className='border-button-customer mb-12' onClick={linkScreenCustomer}>Khách hàng</div>
                         <div className='banner-login-color flex justify-center'>
-                            Already have an account? <Link to="/login" className='banner-login-here'>LOGIN HERE</Link>
+                            Bạn đã có tài khoản? <Link to="/login" className='banner-login-here'>Đăng nhập tại đây</Link>
                         </div>
                     </div>
                 </div>

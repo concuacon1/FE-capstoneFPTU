@@ -1,18 +1,20 @@
 import { Avatar, Button, Col, Flex, FloatButton, Image, Popover, Row } from 'antd';
-import dayjs from "dayjs";
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import '../App.css';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
+import { formatDate } from '../helper/formatDate';
 import AvatarCustomer from '../images/avatar-customer.png';
 import ProjectValueBannerImage from '../images/project-screen-banner.png';
 import AIchatBoxIcon from '../images/support.png';
 import './project-value.css';
 
 const ProjectValue = () => {
+    const navigate = useNavigate();
+
     const [clicked, setClicked] = useState(false);
     const [hovered, setHovered] = useState(false);
     const hide = () => {
@@ -57,9 +59,17 @@ const ProjectValue = () => {
         setIsActive(index);
     }
 
-    const removeProject = (id) => {
-        console.log("id == ", id);
-    }
+    const removeProject = async (id) => {
+        try {
+            const del = await instance.delete(`/del_project/${id}`);
+            toast.success(del.data.message);
+            setTimeout(() => {
+                navigate('/home-page');
+            }, 1000);
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
+    };
 
     const hoverContent = <div style={{ fontSize: "24px" }}>Có thể giúp gì cho bạn ... ?</div>;
     const clickContent = <div ></div>;
@@ -83,9 +93,9 @@ const ProjectValue = () => {
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
                                 {
-                                    listCategoris?.dataDesigner?.imageDesigner?.length > 0 ? <Avatar
+                                    listCategoris?.customerImage?.length > 0 ? <Avatar
                                         size={343}
-                                        src={<img src={`http://localhost:8000/img/${listCategoris?.dataDesigner?.imageDesigner}`} alt="avatar" />}
+                                        src={<img src={`http://localhost:8000/img/${listCategoris?.customerImage}`} alt="avatar" />}
                                     /> : <Avatar
                                         size={343}
                                         src={<img src={AvatarCustomer} alt="avatar" />}
@@ -115,7 +125,7 @@ const ProjectValue = () => {
                                             {
                                                 listCategoris?.categoryData?.length > 0 && listCategoris?.categoryData.map((item, index) => {
                                                     return (
-                                                        <Button type="primary" key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item" : "item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
+                                                        <Button type="primary" key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item category-button" : "category-button item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
                                                             {item.categoriesName}
                                                         </Button>
                                                     )
@@ -125,9 +135,9 @@ const ProjectValue = () => {
                                     </div>
                                     <div className='date'>
                                         <label className='design-date'>
-                                            Design date : <span className='date-value'> {dayjs(listCategoris?.designerDate).format('DD/MM/YYYY')} </span></label>
+                                            Design date : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
                                         <label className='construction-date'>
-                                            Construction date: <span className='date-value'>{dayjs(listCategoris?.constructionDate).format('DD/MM/YYYY')} </span></label>
+                                            Construction date: <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
                                     </div>
                                 </div>
                                 <div className='middle-line'>

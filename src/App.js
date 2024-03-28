@@ -6,6 +6,7 @@ import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
 import ContractList from './contract-list';
 import CreateProject from "./create-project/index";
+import CreateSchedule from './create-schedule';
 import CustomerList from './customer-list';
 import DesignerList from './designer-list';
 import DesignerSchedule from './designer-schedule';
@@ -53,6 +54,7 @@ function App() {
         <Route path="/service/01" element={<Service1 />} />
         <Route path="/service/02" element={<Service2 />} />
         <Route path="/service/03" element={<Service3 />} />
+        <Route path="/create-schedule" element={<CreateSchedule />} />
       </Routes>
     </BrowserRouter>
   );

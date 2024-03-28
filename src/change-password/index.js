@@ -1,31 +1,18 @@
-import ChangePasswordImage from "../images/change_password.png";
-import { Image } from "antd";
-import { useState, useEffect } from "react";
-import RegisterCunstomerImage from "../images/register-customer.png";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import * as yup from "yup";
-import Checkbox from "@mui/material/Checkbox";
+import TextField from "@mui/material/TextField";
+import { Image } from "antd";
 import { useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import * as yup from "yup";
 import instance from "../configApi/axiosConfig";
-import { toast, ToastContainer } from "react-toastify";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import ChangePasswordImage from "../images/change_password.png";
 
 const ChangePassword = () => {
     const [showPasswordOld, setShowPasswordOld] = useState(false);
@@ -120,13 +107,13 @@ const ChangePassword = () => {
 
             <div className="with-banner-change-pass flex justify-center items-center">
                 <div>
-                    <p className="xl font-bold text-2xl pb-5">Change password</p>
+                    <p className="xl font-bold text-2xl pb-5">Đổi mật khẩu</p>
 
                     <div className="pl-15">
                         <form onSubmit={handleSubmit}>
                             <div className="pb-5">
                                 <TextField
-                                    label="FullName"
+                                    label="Tên đầy đủ"
                                     id="outlined-start-adornment"
                                     sx={{ m: 1, width: "410px" }}
                                     onChange={handleChange}
@@ -147,7 +134,7 @@ const ChangePassword = () => {
                             <div className="pb-5">
                                 <FormControl sx={{ m: 1, width: "410px" }} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password-old">
-                                        Old Password
+                                        Mật khẩu cũ
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password-old"
@@ -178,7 +165,7 @@ const ChangePassword = () => {
                             <div className="pb-5">
                                 <FormControl sx={{ m: 1, width: "410px" }} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-new-password">
-                                        New Password
+                                        Mật khẩu mới
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-new-password"
@@ -209,7 +196,7 @@ const ChangePassword = () => {
                             <div className="pb-5">
                                 <FormControl sx={{ m: 1, width: "410px" }} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-confirm-password-new">
-                                        Confirm Password New
+                                        Xác nhận mật khẩu mới
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-confirm-password-new"
@@ -246,7 +233,7 @@ const ChangePassword = () => {
                                 style={{ margin: "1", width: "100%" }}
                                 type="submit"
                             >
-                                CONTINUE
+                                Xác nhận
                             </button>
                         </form>
                     </div>

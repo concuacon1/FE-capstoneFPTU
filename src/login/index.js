@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import instance from "../configApi/axiosConfig";
 import BannerLogin from "../images/banner_login.png";
-import BackgroundImage from '../images/logo_banner_001.png';
+import BackgroundImage from '../images/logo_banner_1.png';
 
 function a11yProps(index) {
     return {
@@ -84,8 +84,6 @@ const Login = () => {
         setFormPhone(dataPhone)
 
     }, [])
-
-    console.log(22222222222, formPhone)
 
     const pushLink = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -158,9 +156,7 @@ const Login = () => {
 
     return (
         <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom"
-            style={{ backgroundImage: `url(${BackgroundImage})`, 
-                    
-            }}
+            style={{ backgroundImage: `url(${BackgroundImage})` }}
         >
             <div className="bg-white" style={{ height: "679px" }}>
                 <div className="max-w-custom-width-register-designer">
@@ -315,10 +311,10 @@ const Login = () => {
 
                             <div className="flex justify-around m-auto">
                                 <div>
-                                    Need an account ?{" "}
+                                    Bạn chưa có tài khoản ?{" "}
                                     <Link href="/register" className="pl-3 pr-3">
                                         {" "}
-                                        SIGN UP{" "}
+                                        Đăng ký{" "}
                                     </Link>{" "}
                                     now !!
                                 </div>
