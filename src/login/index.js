@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import instance from "../configApi/axiosConfig";
 import BannerLogin from "../images/banner_login.png";
-import BackgroundImage from '../images/logo_banner_1.png';
+import BackgroundImage from '../images/logo_banner_001.png';
 
 function a11yProps(index) {
     return {
@@ -306,7 +306,7 @@ const Login = () => {
                                 style={{ width: "330px", margin: '10px' }}
                             >
                                 <span className="border w-36 mr-5" />
-                                OR <span className="border w-36 ml-5" />
+                                HOẶC <span className="border w-36 ml-5" />
                             </div>
 
                             <div className="flex justify-around m-auto">
@@ -316,7 +316,7 @@ const Login = () => {
                                         {" "}
                                         Đăng ký{" "}
                                     </Link>{" "}
-                                    now !!
+                                    bây giờ !!
                                 </div>
                             </div>
                         </Box>

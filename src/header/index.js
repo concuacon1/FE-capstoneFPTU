@@ -355,8 +355,8 @@ const HeaderComponent = () => {
                             Tạo dự án mới
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Đổi mật khẩu
+                        <MenuItem>
+                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -378,8 +378,8 @@ const HeaderComponent = () => {
                             Hợp đồng
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Đổi mật khẩu
+                        <MenuItem >
+                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -405,8 +405,8 @@ const HeaderComponent = () => {
                             Tạo dự án mới
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Đổi mật khẩu
+                        <MenuItem >
+                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -432,8 +432,8 @@ const HeaderComponent = () => {
                             Hợp đồng
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Đổi mật khẩu
+                        <MenuItem >
+                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>

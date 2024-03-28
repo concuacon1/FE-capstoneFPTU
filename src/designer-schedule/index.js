@@ -1,4 +1,4 @@
-import { Input as AntdInput, Button, Calendar, Checkbox, Form, Input, Modal, Select } from "antd";
+import { Input as AntdInput, Button, Calendar, Form, Input, Modal, Select } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -35,6 +35,7 @@ const DesignerSchedule = () => {
     const [selectedDateModalValue, setSelectedDateModalValue] = useState(null);
     const [confirmChecked, setConfirmChecked] = useState(false);
     const [waitingForApprovalModalVisible, setWaitingForApprovalModalVisible] = useState(false);
+    const [confirmBookModalVisible, setConfirmBookModalVisible] = useState(false);
     const [isBooked, setIsBooked] = useState(false)
 
     useEffect(() => {
@@ -62,23 +63,11 @@ const DesignerSchedule = () => {
         setTimeOfDay(value);
     };
 
-    const onSelect = (newValue) => {
-        setValue(newValue);
-        setSelectedValue(newValue);
-    };
-
-    const onPanelChange = (newValue) => {
-        setValue(newValue);
-    };
-
     const handleEdit = () => {
         setModalVisible(true);
     };
 
     const handleOk = () => {
-        // setBusyDate([...busyDate, ...selectedDates]);
-        // setModalVisible(false);
-        // setSelectedDates([]);
         if (confirmChecked) {
             // Show confirmation alert
             Modal.confirm({
@@ -135,8 +124,12 @@ const DesignerSchedule = () => {
         if (busyDate && busyDate.includes(formattedDateString) || workOnDate && workOnDate.includes(formattedDateString)) {
             return;
         }
-        if (isBooked) {
+        if (isBooked && workOnDate.length === 0) {
             setWaitingForApprovalModalVisible(true);
+            return;
+        }
+        if (isBooked && workOnDate.length > 0) {
+            setConfirmBookModalVisible(true);
             return;
         }
         setSelectedDateModalVisible(true);
@@ -160,6 +153,7 @@ const DesignerSchedule = () => {
                         email: email
                     }).then(response => {
                         console.log('Request thành công:', response.data);
+                        window.location.reload();
                     }).catch(error => {
                         console.error('Đã xảy ra lỗi:', error);
                     });
@@ -179,7 +173,7 @@ const DesignerSchedule = () => {
     };
 
     const customDateCellRender = (date, busyDate, workOnDate) => {
-        if (!busyDate || !workOnDate) {
+        if (!busyDate) {
             return <div></div>;
         }
 
@@ -206,17 +200,21 @@ const DesignerSchedule = () => {
             }
         }
 
+        // Nếu workOnDate là một mảng rỗng và isBooked là true, đặt màu vàng cho ngày cuối cùng trong busyDate
+        if (workOnDate.length === 0 && isBooked) {
+            const lastBusyDate = busyDateObjects[busyDateObjects.length - 1];
+            if (lastBusyDate && lastBusyDate.isSame(date, 'day')) {
+                backgroundColor = 'yellow';
+            }
+        }
+
         return (
             <div style={{ backgroundColor: backgroundColor, width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             </div>
         );
     };
 
-    const handleConfirmCheckboxChange = (e) => {
-        setConfirmChecked(e.target.checked);
-    };
-
-    const CustomCalendar = ({ busyDate }) => {
+    const CustomCalendar = ({ busyDate, workOnDate }) => {
         return (
             <div>
                 <Calendar cellRender={(date) => customDateCellRender(date, busyDate, workOnDate)} onSelect={handleDateSelect} />
@@ -243,95 +241,40 @@ const DesignerSchedule = () => {
             <HeaderComponent />
             <ToastContainer />
             <div style={{ padding: '50px' }}>
-                {
-                    checkRole === "DESIGNER" && (
-                        <Button onClick={handleEdit}>Chọn ngày nghỉ</Button>
-                    )
-                }
-                {
-                    checkRole != "DESIGNER" && (
-                        <h1 style={{ fontWeight: 'bold' }}>Lịch trình của kiến trúc sư {designerInfo?.fullName}</h1>
-                    )
-                }
-                <CustomCalendar busyDate={busyDate} />
+                <h1 style={{ fontWeight: 'bold' }}>Lịch trình của kiến trúc sư {designerInfo?.fullName}</h1>
+                <CustomCalendar busyDate={busyDate} workOnDate={workOnDate} />
                 <Modal
-                    title="Chọn ngày nghỉ"
-                    open={modalVisible}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
+                    title="Đặt lịch hẹn"
+                    open={selectedDateModalVisible}
+                    onOk={handleDateModalOk}
+                    onCancel={handleDateModalCancel}
                 >
-                    <Calendar
-                        onSelect={(date) => handleDateSelectEdit(date.format('YYYY-MM-DD'))}
-                        cellRender={(date) => {
-                            const formattedDate = date.format('YYYY-MM-DD');
-                            return (
-                                <div
-                                    style={{
-                                        backgroundColor: selectedDates && selectedDates.includes(formattedDate) ? 'blue' :
-                                            busyDate && busyDate.includes(formattedDate) ? 'gray' :
-                                                workOnDate && workOnDate.includes(formattedDate) ? 'green' :
-                                                    'transparent',
-
-                                        width: '100%',
-                                        height: '100%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}
-                                    onClick={() => handleDateSelectEdit(formattedDate)}
-                                >
-                                </div>
-                            );
-                        }}
-                    />
                     <Form>
+                        <Form.Item label="Tên nhà thiết kế">
+                            <Input disabled value={designerInfo?.fullName} />
+                        </Form.Item>
+                        <Form.Item label="Ngày">
+                            <Input disabled value={selectedDate ? selectedDate.format('DD/MM/YYYY') : ''} />
+                        </Form.Item>
+                        <Form.Item label="Thời gian">
+                            <Select onChange={handleTimeChange} value={timeOfDay}>
+                                <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option>
+                                <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại">
+                            <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                        </Form.Item>
                         <Form.Item label="Email">
-                            <Input value={emailEdit} onChange={(e) => setEmailEdit(e.target.value)} />
+                            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Ghi chú">
-                            <AntdInput.TextArea value={noteEdit} onChange={(e) => setNoteEdit(e.target.value)} />
-                        </Form.Item>
-                        <Form.Item>
-                            <Checkbox onChange={handleConfirmCheckboxChange}>Chắc chắn với thời gian làm việc</Checkbox>
+                            <AntdInput.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
                         </Form.Item>
                     </Form>
                 </Modal>
-                {
-                    checkRole === "CUSTOMER" && (
-                        <Modal
-                            title="Đặt lịch hẹn"
-                            open={selectedDateModalVisible}
-                            onOk={handleDateModalOk}
-                            onCancel={handleDateModalCancel}
-                        >
-                            <Form>
-                                <Form.Item label="Tên nhà thiết kế">
-                                    <Input disabled value={designerInfo?.fullName} />
-                                </Form.Item>
-                                <Form.Item label="Ngày">
-                                    <Input disabled value={selectedDate ? selectedDate.format('DD/MM/YYYY') : ''} />
-                                </Form.Item>
-                                <Form.Item label="Thời gian">
-                                    <Select onChange={handleTimeChange} value={timeOfDay}>
-                                        <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option>
-                                        <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>
-                                    </Select>
-                                </Form.Item>
-                                <Form.Item label="Số điện thoại">
-                                    <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-                                </Form.Item>
-                                <Form.Item label="Email">
-                                    <Input value={email} onChange={(e) => setEmail(e.target.value)} />
-                                </Form.Item>
-                                <Form.Item label="Ghi chú">
-                                    <AntdInput.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
-                                </Form.Item>
-                            </Form>
-                        </Modal>
-                    )
-                }
                 <Modal
-                    title="Đang chờ phê duyệt"
+                    title="Thông báo"
                     visible={waitingForApprovalModalVisible}
                     onCancel={() => setWaitingForApprovalModalVisible(false)}
                     footer={[
@@ -342,7 +285,18 @@ const DesignerSchedule = () => {
                 >
                     <p>Đang chờ phê duyệt</p>
                 </Modal>
-
+                <Modal
+                    title="Thông báo"
+                    visible={confirmBookModalVisible}
+                    onCancel={() => setConfirmBookModalVisible(false)}
+                    footer={[
+                        <Button key="ok" type="primary" onClick={() => setConfirmBookModalVisible(false)}>
+                            OK
+                        </Button>
+                    ]}
+                >
+                    <p>Bạn đã đặt lịch thành công. Vui lòng thực hiện lịch trình trước khi đặt lịch mới</p>
+                </Modal>
             </div>
             <FooterComponent />
         </div >
