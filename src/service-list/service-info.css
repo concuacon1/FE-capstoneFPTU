@@ -1,4 +1,4 @@
-
+/* service1 */
 .service1 {
 	background-color: #DED49F;
 }
@@ -60,7 +60,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
-   margin-top: 5%;
+	margin-top: 5%;
 }
 
 .left-content .content-name {
@@ -104,7 +104,7 @@
 	color: #B91616;
 	text-align: start;
 	margin-left: 5%;
-   width: 80%;
+	width: 80%;
 	font-size: 30px;
 }
 
@@ -240,4 +240,10 @@
 	display: flex;
 	margin: 4% 0 8% 0;
 	justify-content: center;
+}
+
+/* service3 */
+
+.service3 {
+	background-color: #DED49F;
 }

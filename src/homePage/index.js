@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
 import HomeOne from "../images/home_image_one.png";
-
+import './index.css'
+import DesignImage from "../images/list-project-screen-banner.png"
+import BuildImage from "../images/list-project-screen-banner.png"
 
 const HomePage = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -96,21 +98,58 @@ const HomePage = () => {
 
     return (
         <>
-        <HeaderComponent />
-        <div>
-            
+            <HeaderComponent />
+            <div style={{ backgroundColor: '#DED49F' }}>
 
-            <Image
-                width={"100%"}
-                height={679}
-                src={HomeOne}
-                className="bg-white"
-                preview={false}
-            />
+                <Image
+                    width={"100%"}
+                    height={"auto"}
+                    src={HomeOne}
+                    className="bg-white"
+                    preview={false}
+                />
 
-            
-        </div>
-        <FooterComponent />
+                <div className="manufactoring-process">
+                    <div className="design-and-build">
+                        <div className="design">
+                            <div className="service-image">
+                                <Image
+                                    width={"100%"}
+                                    height={"auto"}
+                                    style={{ objectFit: "cover", borderRadius: "20px", boxShadow: "-10px 20px 30px 5px" }}
+                                    src={DesignImage}
+                                    className="bg-white"
+                                    preview={false}
+                                />
+                            </div>
+                            <div className="bg-text">
+                                <div className="text">Design</div>
+                                <div className="button-view-service">Xem dịch vụ</div>
+                            </div>
+
+                        </div>
+                        <div className="and">&</div>
+                        <div className="build">
+                            <div className="service-image">
+                                <Image
+                                    width={"100%"}
+                                    height={"auto"}
+                                    style={{ objectFit: "cover", borderRadius: "20px", boxShadow: "-10px 20px 30px 5px" }}
+                                    src={BuildImage}
+                                    className="bg-white"
+                                    preview={false}
+                                />
+                            </div>
+                            <div className="bg-text">
+                                <div className="text">Build</div>
+                                <div className="button-view-service">Xem dịch vụ</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="get-price">Nhận tư vấn báo giá</div>
+                </div>
+            </div>
+            <FooterComponent />
         </>
     );
 };
