@@ -51,11 +51,11 @@ const ProjectServices = () => {
                <motion.div className='list-project-screen image-banner'
 
                >
-                  <Image
+                  {/* <Image
                      style={{ width: "100vw", height: "auto" }}
                      src={ProjectListBannerImage}
                      className='bg-white'
-                     preview={false} />
+                     preview={false} /> */}
                </motion.div>
                <motion.div className="project-type-scroll-bar"
                   variants={fadeIn('up', 0.2)}

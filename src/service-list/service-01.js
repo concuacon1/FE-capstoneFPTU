@@ -25,12 +25,12 @@ const Service = () => {
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
          >
             <div className='service__image-banner'>
-               <Image
+               {/* <Image
                   style={{ width: "100vw", height: "auto" }}
                   src={ProjectListBannerImage}
                   className='bg-white'
                   preview={false}
-               />
+               /> */}
             </div>
             <div className='service__container'>
                <div className='header'>
