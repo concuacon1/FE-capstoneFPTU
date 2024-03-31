@@ -1,5 +1,5 @@
 .project-service-screen {
-   background-color: #DED49F;
+   background-color: #FFFFFF;
 }
 
 img {
@@ -11,7 +11,7 @@ img {
    justify-content: center;
    align-items: center;
    min-height: 300px;
-   margin-top: -150px;
+   margin-top: 30px;
 }
 
 .carousel {
