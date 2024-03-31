@@ -6,7 +6,6 @@ import '../App.css';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import ProjectListBannerImage from '../images/list-project-screen-banner.png';
 import './list-project.css';
 
 const ListProject = () => {
@@ -81,14 +80,14 @@ const ListProject = () => {
         <div>
             <HeaderComponent />
             <ToastContainer />
-            <div className='list-project-screen' style={{ backgroundColor: '#DED49F' }}>
+            <div className='list-project-screen' style={{ backgroundColor: '#FFFFFF' }}>
                 <div className='list-project-screen__image-banner'>
-                    <Image
+                    {/* <Image
                         style={{ width: "100vw", height: "auto" }}
                         src={ProjectListBannerImage}
                         className='bg-white'
                         preview={false}
-                    />
+                    /> */}
                 </div>
                 <Divider orientation="center" style={dividerStyle}>{listAll.nameProjectType}</Divider>
                 <hr style={{

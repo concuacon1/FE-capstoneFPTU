@@ -6,7 +6,6 @@ import { fadeIn } from '../Animation/variants';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import ProjectListBannerImage from "../images/list-project-screen-banner.png";
 import Service2Image from "../images/service2-image.png";
 import Service3Image from "../images/service3-image.png";
 import BuildImage from "../images/vgbuild-image.png";
@@ -47,9 +46,17 @@ const Service = () => {
                   <hr />
                </div>
                <div className="body">
-                  <motion.div className="title">
-                     Một giải pháp thông minh cho những ai đang tìm kiếm sự chuyên nghiệp và sáng tạo trong việc thiết kế không gian sống hoặc làm việc của mình.
-                  </motion.div>
+               <div className="service1__content-head"
+            style={{
+               textAlign: 'center',
+        fontSize: '30px',
+        fontWeight: 600,
+        marginTop: '20px'
+            }}
+            >
+                     🌟  Một giải pháp thông minh cho những ai đang tìm kiếm sự chuyên nghiệp và sáng tạo trong việc thiết kế không gian sống !!! 🌟
+                  </div>
+                  
                   <div className="content">
                      <div className="content-01">
                         <div className="left-content">

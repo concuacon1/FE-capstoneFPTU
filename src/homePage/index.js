@@ -4,12 +4,11 @@ import { Image } from "antd";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Video from '../../src/images/noithatvugia.mp4';
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import HomeOne from "../images/home_image_one.png";
-import './index.css'
-import DesignImage from "../images/list-project-screen-banner.png"
-import BuildImage from "../images/list-project-screen-banner.png"
+import { default as BuildImage, default as DesignImage } from "../images/list-project-screen-banner.png";
+import './index.css';
 
 const HomePage = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -99,16 +98,31 @@ const HomePage = () => {
     return (
         <>
             <HeaderComponent />
-            <div style={{ backgroundColor: '#DED49F' }}>
+            <div style={{ backgroundColor: '#FFFFFF' }}>
 
-                <Image
-                    width={"100%"}
-                    height={"auto"}
-                    src={HomeOne}
-                    className="bg-white"
-                    preview={false}
-                />
-
+            <div className='about-screen video'>
+            <video autoPlay loop muted style={{ width: '100vw' }}>
+               <source src={Video} type='video/mp4'></source>
+            </video>
+         </div>
+         <div className='about-screen slogan' style={{
+            display: 'flex',
+        backgroundImage: 'linear-gradient(to left, #e89f71, #000000)',
+        height: '250px',
+        color: 'white',
+        fontSize: '60px',
+        fontFamily: 'Gabriela',
+        fontWeight: 400,
+        lineHeight: '54px',
+        letterSpacing: '10px',
+        flexWrap: 'wrap',
+        padding: '3% 10%',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+         }}>
+            <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
+            <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
+         </div>
                 <div className="manufactoring-process">
                     <div className="design-and-build">
                         <div className="design">
@@ -148,6 +162,7 @@ const HomePage = () => {
                     </div>
                     <div className="get-price">Nhận tư vấn báo giá</div>
                 </div>
+                
             </div>
             <FooterComponent />
         </>

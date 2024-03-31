@@ -10,6 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 
 
+
+
 const CreateProject = () => {
     const navigate = useNavigate();
     const [formCreateProject, setFormCretaeProject] = useState({
@@ -310,9 +312,16 @@ const CreateProject = () => {
             content: (
                 <div
                     className="flex items-center justify-center m-auto"
-                    style={{ width: 600 }}
-                >
+                    style={{ width: 600 }}>
+                       
+
+
+
+                
                     <div className="py-10">
+                   
+               />
+
                         <div className="flex items-center ">
                             <AutoComplete
                                 style={{ width: 250, height: 35, marginRight: 100 }}
