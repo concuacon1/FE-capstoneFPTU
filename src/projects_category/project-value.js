@@ -8,7 +8,6 @@ import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
 import { formatDate } from '../helper/formatDate';
 import AvatarCustomer from '../images/avatar-customer.png';
-import ProjectValueBannerImage from '../images/project-screen-banner.png';
 import AIchatBoxIcon from '../images/support.png';
 import './project-value.css';
 
@@ -78,18 +77,18 @@ const ProjectValue = () => {
             <HeaderComponent />
             <ToastContainer />
 
-            <div className="project-value-screen" style={{ backgroundColor: '#DED49F' }}>
+            <div className="project-value-screen" style={{ backgroundColor: '#FFFFFF' }}>
                 <div className='project-value-screen__image-banner'>
-                    <Image
+                    {/* <Image
                         style={{ width: "100vw", height: "auto" }}
                         src={ProjectValueBannerImage}
                         className='bg-white'
                         preview={false}
-                    />
+                    /> */}
                 </div>
                 <div className='project-value-screen__content'>
                     <div className='project-feedback'>
-                        <div className='feedback-title'>FEEDBACK</div>
+                        <div className='feedback-title'>Phản hồi</div>
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
                                 {
@@ -114,7 +113,7 @@ const ProjectValue = () => {
                             <a href={listCategoris?.catalog}>
                                 <Button className='catalog'>Catalog</Button>
                             </a>
-                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Delete</Button>
+                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Xoá dự án</Button>
                         </div>
                         <div className='second-values'>
                             <div className='project-values'>
