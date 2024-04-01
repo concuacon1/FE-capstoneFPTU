@@ -134,9 +134,9 @@ const ProjectValue = () => {
                                     </div>
                                     <div className='date'>
                                         <label className='design-date'>
-                                            Design date : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
+                                            Ngày thi công : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
                                         <label className='construction-date'>
-                                            Construction date: <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
+                                            Ngày hoàn thành : <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
                                     </div>
                                 </div>
                                 <div className='middle-line'>
@@ -169,7 +169,7 @@ const ProjectValue = () => {
                                 <hr />
                             </div>
                             <div className='designer-info'>
-                                Design by <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
+                                Thiết kế - <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
                             </div>
                         </div>
                     </div>
