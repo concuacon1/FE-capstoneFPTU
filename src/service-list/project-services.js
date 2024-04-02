@@ -10,7 +10,9 @@ import ScreenCustomerImage02 from "../images/ScreenCustomer2.png";
 import ScreenCustomerImage03 from "../images/ScreenCustomer3.png";
 import ScreenCustomerImage04 from "../images/ScreenCustomer4.png";
 import ScreenCustomerImage05 from "../images/ScreenCustomer5.png";
-import ProjectListBannerImage from "../images/list-project-screen-banner.png";
+import Thietke20 from "../images/Thietke20.png";
+import Thietke21 from "../images/Thietke21.png";
+import Thietke22 from "../images/Thietke22.png";
 import './SlideShow.css';
 import './project-services.css';
 
@@ -142,7 +144,7 @@ const ProjectServices = () => {
                      >
                         <Image
                            style={{ width: "100vw", height: "auto" }}
-                           src={ProjectListBannerImage}
+                           src={Thietke20}
                            className='bg-white'
                            preview={false} />
                      </motion.div>
@@ -187,7 +189,7 @@ const ProjectServices = () => {
                      >
                         <Image
                            style={{ width: "100vw", height: "auto" }}
-                           src={ProjectListBannerImage}
+                           src={Thietke21}
                            className='bg-white'
                            preview={false} />
                      </motion.div>
@@ -232,7 +234,7 @@ const ProjectServices = () => {
                      >
                         <Image
                            style={{ width: "100vw", height: "auto" }}
-                           src={ProjectListBannerImage}
+                           src={Thietke22}
                            className='bg-white'
                            preview={false} />
                      </motion.div>
