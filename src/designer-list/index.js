@@ -32,6 +32,8 @@ const DesignerList = () => {
         userCode: "",
         fullName: "",
         role: "DESIGNER",
+        address: "",
+        projectType: "",
         startDate: "",
         endDate: "",
     });
@@ -58,8 +60,8 @@ const DesignerList = () => {
         { id: 'userCode', label: 'Mã kiến trúc sư', minWidth: 170, fontWeight: 600, fontSize: 20 },
         { id: 'fullName', label: 'Tên kiến trúc sư', minWidth: 100, fontWeight: 600, fontSize: 20 },
         {
-            id: 'district',
-            label: 'Quận',
+            id: 'address',
+            label: 'Quận - Huyện',
             minWidth: 170, fontWeight: 600, fontSize: 20,
         },
         {
@@ -93,9 +95,7 @@ const DesignerList = () => {
     }
 
     const showInfo = (data) => {
-        console.log('====================================');
         console.log("data == ", data);
-        console.log('====================================');
         setFormShow(data);
         setOpenShowInfo(true);
     }
@@ -172,6 +172,7 @@ const DesignerList = () => {
             const dataSeachForm = {
                 userCode: formSearch.userCode,
                 fullName: formSearch.fullName,
+                address: formSearch.address,
                 flagGetUser: "DESIGNER"
             }
             const dataSearch = await instance.post("/list-user", dataSeachForm);
@@ -184,14 +185,13 @@ const DesignerList = () => {
                         'email': item_data.email,
                         'phoneNumber': item_data.phoneNumber,
                         'dob': item_data.dob,
-                        'isActive': item_data.isActive,
-                        'accountcode': item_data.userCode,
-                        'username': item_data.fullName,
+                        'address': item_data.address,
+                        'userCode': item_data.userCode,
+                        'fullName': item_data.fullName,
                         'permission': item_data.role,
                         'created_date': formatDate(item_data?.createdAt),
-                        'action': <div >
-                            <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
-                            <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
+                        'information': <div >
+                            <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
                         </div>
                     };
                     item.push(objectPush); // Push the object to the array
@@ -231,7 +231,7 @@ const DesignerList = () => {
                             'email': item_data.email,
                             'phoneNumber': item_data.phoneNumber,
                             'dob': item_data.dob,
-                            'isActive': item_data.isActive,
+                            'address': item_data.address,
                             'userCode': item_data.userCode,
                             'fullName': item_data.fullName,
                             'permission': item_data.role,
@@ -559,7 +559,7 @@ const DesignerList = () => {
                                         style={{ borderRadius: '50%' }}
                                         height={250}
                                         width={250}
-                                        src={VuGia}
+                                        src={`http://localhost:8000/img/${formShow?.dataDesigner?.imageDesigner}`}
                                         preview={true}
                                     />
                                     <div>{formShow?.fullName}</div>
@@ -578,7 +578,7 @@ const DesignerList = () => {
                                                         <Image
                                                             key={index}
                                                             style={{ minWidth: 365, height: 'auto', padding: 5 }}
-                                                            src={image}
+                                                            src={`http://localhost:8000/img/${image}`}
                                                             preview={true}
                                                         />
                                                     </ImageListItem>
@@ -599,12 +599,7 @@ const DesignerList = () => {
                                         <List>
                                             <ListItem disablePadding>
                                                 <ListItemButton>
-                                                    <ListItemText primary="Việc đi vòng quanh thế giới đã mở rộng tầm nhìn của tôi về nghệ thuật và văn hóa từ mọi nơi trên thế giới. Những trải nghiệm đó đã truyền cảm hứng cho tôi trong việc thiết kế nội thất, từ việc chọn lựa các vật liệu và phong cách thiết kế cho đến cách bố trí không gian. Tôi có thể thấy sự đa dạng và sự độc đáo của các nền văn hóa trên toàn thế giới, và điều đó đã thúc đẩy tôi phát triển những ý tưởng mới và sáng tạo trong các dự án thiết kế của mình." />
-                                                </ListItemButton>
-                                            </ListItem>
-                                            <ListItem disablePadding>
-                                                <ListItemButton>
-                                                    <ListItemText primary="Tôi có thể lấy cảm hứng từ kiến trúc truyền thống của Nhật Bản để tạo ra một không gian nội thất yên bình và tối giản, hoặc từ các màu sắc tươi sáng của các thị trấn ven biển ở Ý để tạo ra một không gian sống sôi động và năng động. Quan trọng nhất là, những trải nghiệm du lịch đã giúp tôi hiểu rõ hơn về sự quan trọng của việc tạo ra một không gian sống phản ánh cá nhân và đáp ứng được nhu cầu và phong cách sống của từng khách hàng." />
+                                                    <ListItemText primary={formShow?.description} />
                                                 </ListItemButton>
                                             </ListItem>
                                         </List>
@@ -618,7 +613,7 @@ const DesignerList = () => {
                                             formShow?.dataDesigner?.skill?.map((ski, index) => (
                                                 <div className="flex" key={index}>
                                                     <DoneIcon />
-                                                    {ski?.name}
+                                                    {ski}
                                                 </div>
                                             ))
                                         }
@@ -627,9 +622,9 @@ const DesignerList = () => {
                                     <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
                                         {
                                             formShow?.dataDesigner?.experience?.map((exp, index) => (
-                                                <div className="flex" key={index}>
+                                                <div className="flex" style={{ alignItems: 'center' }} key={index}>
                                                     <DoneIcon />
-                                                    {exp?.name}
+                                                    {exp}
                                                 </div>
                                             ))
                                         }
@@ -670,14 +665,14 @@ const DesignerList = () => {
 
                                     <div className="flex items-center justify-center pl-10">
                                         <div className="text-2xl pr-5">
-                                            Quận{" "}
+                                            Quận - Huyện{" "}
                                         </div>
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="fullName"
+                                            name="address"
                                             onChange={onChangeInput}
-                                            value={formSearch.fullName}
+                                            value={formSearch.address}
                                             sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
@@ -710,9 +705,9 @@ const DesignerList = () => {
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="userCode"
+                                            name="fullName"
                                             onChange={onChangeInput}
-                                            value={formSearch.userCode}
+                                            value={formSearch.fullName}
                                             sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
@@ -729,9 +724,9 @@ const DesignerList = () => {
                                         <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="fullName"
+                                            name="projectType"
                                             onChange={onChangeInput}
-                                            value={formSearch.fullName}
+                                            value={formSearch.projectType}
                                             sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (

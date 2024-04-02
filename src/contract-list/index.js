@@ -59,21 +59,21 @@ const ContractList = () => {
     }
 
     const columns = [
-        { id: 'contractcode', label: 'Contract Code', minWidth: 170 },
-        { id: 'customername', label: 'Customer name', minWidth: 100 },
+        { id: 'contractcode', label: 'Mã hợp đồng', minWidth: 170 },
+        { id: 'customername', label: 'Tên khách hàng', minWidth: 100 },
         {
             id: 'signername',
-            label: 'Singer Name',
+            label: 'Tên người ký',
             minWidth: 170,
         },
         {
             id: 'signeddate',
-            label: 'Signed Date',
+            label: 'Ngày kí kết',
             minWidth: 170,
         },
         {
             id: 'detail',
-            label: 'Detail',
+            label: 'Chi tiết',
             minWidth: 170,
         },
     ];
@@ -306,7 +306,7 @@ const ContractList = () => {
                         src={VuGia}
                         preview={false}
                     />
-                    <div style={{ marginLeft: '40px' }}>Contracts List</div>
+                    <div style={{ marginLeft: '40px' }}>Danh sách hợp đồng</div>
                 </div>
 
                 <Modal
@@ -453,17 +453,17 @@ const ContractList = () => {
                         <div className="flex mt-5 items-center justify-center">
                             <div className="flex items-center justify-around">
                                 <div className="flex items-center justify-around">
-                                    <div className="text-2xl font-semibold pr-5">Permission</div>
+                                    <div className="text-2xl font-semibold pr-5">Chức vụ</div>
                                     <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
                                         <InputLabel id="demo-select-small-label">
-                                            --Choose--
+                                            --Chọn--
                                         </InputLabel>
                                         <Select
                                             labelId="demo-select-small-label"
                                             defaultValue="All"
                                             id="demo-select-small"
                                             value={formSearch.role}
-                                            label="--Choose--"
+                                            label="--Chọn--"
                                             onChange={onChangeInput}
                                             name="role"
                                         >
@@ -477,7 +477,7 @@ const ContractList = () => {
                                 <div className="date_time_search flex items-center justify-center pl-10">
                                     <div className="text-2xl font-semibold pr-5">
                                         {" "}
-                                        Created Date{" "}
+                                        Ngày tạo{" "}
                                     </div>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer
@@ -501,6 +501,16 @@ const ContractList = () => {
                                         </DemoContainer>
                                     </LocalizationProvider>
                                 </div>
+                                <div className="pl-10">
+                                    <button
+                                        className="custombutton-register-designer"
+                                        style={{ width: "150px", marginTop: "5" }}
+                                        type="submit"
+                                        onClick={apiSearch}
+                                    >
+                                        Tìm kiếm
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="flex mt-5 items-center justify-around">
@@ -508,10 +518,10 @@ const ContractList = () => {
                                 <div className="flex mt-5 items-center justify-around">
                                     <div className="flex items-center justify-around ">
                                         <div className="text-2xl font-semibold pr-5">
-                                            Account code{" "}
+                                            Mã tài khoản{" "}
                                         </div>
                                         <TextField
-                                            label="Account code "
+                                            label="Mã tài khoản"
                                             id="outlined-start-adornment"
                                             name="userCode"
                                             onChange={onChangeInput}
@@ -527,10 +537,10 @@ const ContractList = () => {
 
                                     <div className="flex items-center justify-center pl-10">
                                         <div className="text-2xl font-semibold pr-5">
-                                            User name{" "}
+                                            Tên tài khoản{" "}
                                         </div>
                                         <TextField
-                                            label="User name"
+                                            label="Tên tài khoản"
                                             id="outlined-start-adornment"
                                             name="fullName"
                                             onChange={onChangeInput}
@@ -543,30 +553,17 @@ const ContractList = () => {
                                             }}
                                         />
                                     </div>
+                                    <div className="flex items-center justify-center pl-10 pt-2">
+                                        <button
+                                            className="button-add"
+                                            style={{ width: "150px", marginTop: "5" }}
+                                            type="submit"
+                                        >
+                                            Thêm mới <AddIcon></AddIcon>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="flex items-center justify-center pl-10 pt-2">
-                            <button
-                                className="custombutton-register-designer"
-                                style={{ width: "150px", marginTop: "5" }}
-                                type="submit"
-                                onClick={apiSearch}
-                            >
-                                Search
-                            </button>
-                        </div>
-                        <div className="flex items-center justify-center pl-10 pt-2">
-                            <button
-                                className="custombutton-register-designer"
-                                style={{ width: "150px", marginTop: "5" }}
-                                type="submit"
-                            >
-                                Add new <AddIcon></AddIcon>
-                            </button>
                         </div>
                     </div>
                 </div>

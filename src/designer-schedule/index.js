@@ -70,11 +70,13 @@ const DesignerSchedule = () => {
         if (isBooked && workOnDate.length > 0) {
             const scheduleInfo = await instance.get('/schedule/user-info', {
                 params: {
-                    timeWork: workOnDate[0]
+                    timeWork: formattedDateString
                 }
             });
-            setScheduleBooked(scheduleInfo.data.data[0]);
-            setConfirmBookModalVisible(true);
+            if (scheduleInfo.data.data.length > 0) {
+                setScheduleBooked(scheduleInfo.data.data[0]);
+                setConfirmBookModalVisible(true);
+            }
             return;
         }
         setSelectedDateModalVisible(true);

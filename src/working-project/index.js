@@ -27,8 +27,7 @@ const WorkingProject = () => {
 
     const handleCVChange = (event) => {
         const filesList = event.target.files;
-
-        const filesArray = Array.from(filesList);
+        const filesArray = Array.from(filesList).slice(0, 3);
 
         for (let i = 0; i < filesArray.length; i++) {
             console.log(`file${i + 1}`, filesArray[i]);
@@ -36,6 +35,9 @@ const WorkingProject = () => {
 
         // Cập nhật listCategory với danh sách các files mới
         const newListCategory = [...listCategory];
+        newListCategory.push({
+            images: [],
+        })
         newListCategory[isActive].images = filesArray;
         setListCategory(newListCategory);
     };
@@ -207,23 +209,24 @@ const WorkingProject = () => {
                                 />
                             </div>
                         </div>
-                        <ImageList sx={{ width: 500, height: 450 }} cols={2} rowHeight={164}>
-                            {listCategory[isActive]?.images?.length > 0 &&
-                                listCategory[isActive].images.map((image, imageIndex) => {
+                        <ImageList sx={{ width: '100%', height: 450 }} cols={2} rowHeight={400} className="custom-image-list">
+                            {listCategory.map((category, categoryIndex) => (
+                                category.images.length > 0 &&
+                                category.images.map((image, imageIndex) => {
                                     const imageUrl = typeof image === 'string' && image.startsWith('http') ? image : URL.createObjectURL(image);
                                     return (
-                                        <ImageListItem key={`${isActive}-${imageIndex}`}>
+                                        <ImageListItem key={`${categoryIndex}-${imageIndex}`}>
                                             <img
                                                 src={imageUrl}
-                                                style={{ width: 200, height: 200, padding: 5 }}
+                                                style={{ height: 400, padding: 5 }}
                                                 loading="lazy"
                                                 alt={`Image ${imageIndex}`}
                                             />
                                         </ImageListItem>
                                     );
-                                })}
+                                })
+                            ))}
                         </ImageList>
-
                     </div>
                 </div>
                 <div className="flex" style={{ width: '100%' }}>
@@ -262,7 +265,8 @@ const WorkingProject = () => {
                         <TextareaAutosize
                             name="description"
                             aria-label="minimum height"
-                            minRows={3}
+                            minRows={10}
+                            style={{ width: '100%' }}
                             placeholder="Minimum 3 rows"
                             value={editData.description}
                             onChange={handleDescriptionChange}
