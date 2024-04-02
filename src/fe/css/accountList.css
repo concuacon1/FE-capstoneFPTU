@@ -26,6 +26,7 @@
     top: 100px;
     left: 0px;
     overflow: hidden;
+    scroll-snap-align: 5px;
   }
   .v759_4503 {
     width: 100%;
