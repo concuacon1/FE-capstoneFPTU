@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Video from '../../src/videos/noithatvugia.mp4';
+import { fadeIn } from '../Animation/variants';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
@@ -161,7 +162,12 @@ const HomePage = () => {
                 <div className="manufactoring-process">
                     <div className="design-and-build">
                         <div className="design">
-                            <div className="service-image">
+                            <motion.div className="service-image"
+                            variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                            >
                                 <Image
                                     width={"100%"}
                                     height={"auto"}
@@ -170,18 +176,33 @@ const HomePage = () => {
                                     className="bg-white"
                                     preview={false}
                                 />
-                            </div>
+                            </motion.div>
                             <div className="bg-text">
-                                <div className="text">Design</div>
-                                <div className="button-view-service">
+                                <motion.div className="text"
+                                variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                                >Design</motion.div>
+                                <motion.div className="button-view-service"
+                                variants={fadeIn('down', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                                >
                                     <Link to="/service/02">Xem dịch vụ</Link>
-                                </div>
+                                </motion.div>
                             </div>
 
                         </div>
                         <div className="and">&</div>
                         <div className="build">
-                            <div className="service-image">
+                            <motion.div className="service-image"
+                            variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                            >
                                 <Image
                                     width={"100%"}
                                     height={"auto"}
@@ -190,12 +211,22 @@ const HomePage = () => {
                                     className="bg-white"
                                     preview={false}
                                 />
-                            </div>
+                            </motion.div>
                             <div className="bg-text">
-                                <div className="text">Build</div>
-                                <div className="button-view-service">
+                                <motion.div className="text"
+                                variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                                >Build</motion.div>
+                                <motion.div className="button-view-service"
+                                variants={fadeIn('down', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                                >
                                     <Link to="/service/03">Xem dịch vụ</Link>
-                                </div>
+                                </motion.div>
                             </div>
                         </div>
                     </div>
