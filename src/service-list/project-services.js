@@ -27,11 +27,13 @@ const ProjectServices = () => {
    const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % 5); // 5 là số lượng slide
-    }, 5000); // Thời gian chuyển slide
-    return () => clearInterval(interval);
-  }, []);
+    }, 4000); // Thời gian chuyển slide
+
+    return () => clearTimeout(timeout);
+  }, [currentSlide]); // Thêm currentSlide vào dependency để hiệu ứng chuyển slide được kích hoạt khi currentSlide thay đổi
+
 
   const manualNav = (manual) => {
     setCurrentSlide(manual);
