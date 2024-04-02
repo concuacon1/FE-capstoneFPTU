@@ -4,7 +4,7 @@ import { Image } from "antd";
 import { motion } from "framer-motion";
 import { default as React, useState } from "react";
 import { Link } from "react-router-dom";
-import Video from '../../src/videos/noithatvugia.mp4';
+import Video from '../../src/videos/VideoXuong1.mp4';
 import { fadeIn } from "../Animation/variants";
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
