@@ -156,7 +156,7 @@ const HeaderComponent = () => {
 
 
                     }
-                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
+                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" )&&
                         <motion.div className='cursor-pointer'
                     whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào

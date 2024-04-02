@@ -10,15 +10,10 @@ const { Option } = Select;
 
 const CreateSchedule = () => {
     const [userId, setUserId] = useState('');
-    const [value, setValue] = useState(() => dayjs('2017-01-25'));
     const [selectedDate, setSelectedDate] = useState(null);
-    const [timeOfDay, setTimeOfDay] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
-    const [note, setNote] = useState('');
     const [emailEdit, setEmailEdit] = useState('');
     const [noteEdit, setNoteEdit] = useState('');
-    const [selectedValue, setSelectedValue] = useState(() => dayjs('2017-01-25'));
     const [scheduleId, setScheduleId] = useState('');
 
     const [busyDate, setBusyDate] = useState([]);
@@ -31,8 +26,8 @@ const CreateSchedule = () => {
     const [selectedDateModalVisible, setSelectedDateModalVisible] = useState(false);
     const [selectedDateModalValue, setSelectedDateModalValue] = useState(null);
     const [confirmChecked, setConfirmChecked] = useState(false);
-    const [waitingForApprovalModalVisible, setWaitingForApprovalModalVisible] = useState(false);
     const [isBooked, setIsBooked] = useState(false)
+    const [scheduleBooked, setScheduleBooked] = useState({});
 
     useEffect(() => {
         async function fetchData() {
@@ -56,11 +51,7 @@ const CreateSchedule = () => {
     };
 
     const handleOk = () => {
-        // setBusyDate([...busyDate, ...selectedDates]);
-        // setModalVisible(false);
-        // setSelectedDates([]);
         if (confirmChecked) {
-            // Show confirmation alert
             Modal.confirm({
                 title: 'Xác nhận',
                 content: 'Bạn có chắc chắn muốn xác nhận thời gian làm việc?',
@@ -93,7 +84,7 @@ const CreateSchedule = () => {
     const handleCancel = () => {
         setModalVisible(false);
         setSelectedDates([]);
-        setConfirmChecked(false); // Reset checkbox
+        setConfirmChecked(false);
     };
 
     const handleDateSelectEdit = (date) => {
@@ -108,19 +99,25 @@ const CreateSchedule = () => {
         setSelectedDates(prevSelectedDates => [...prevSelectedDates, formattedDateString]);
     };
 
-    const handleDateSelect = (date) => {
-        const formattedDate = dayjs(date);
-        const formattedDateString = formattedDate.format('YYYY-MM-DD');
-
-        if (busyDate && busyDate.includes(formattedDateString) || workOnDate && workOnDate.includes(formattedDateString)) {
+    const handleDateSelect = async (date) => {
+        try {
+            const formattedDate = dayjs(date);
+            const formattedDateString = formattedDate.format('YYYY-MM-DD');
+            if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
+                return;
+            }
+            const scheduleInfo = await instance.get('/schedule/designer-info', {
+                params: {
+                    timeWork: formattedDateString
+                }
+            });
+            setScheduleBooked(scheduleInfo.data.data);
+            setSelectedDateModalVisible(true);
+            setSelectedDate(date);
+        } catch (error) {
+            console.error("Error fetching schedule information:", error);
             return;
         }
-        if (isBooked) {
-            setWaitingForApprovalModalVisible(true);
-            return;
-        }
-        setSelectedDateModalVisible(true);
-        setSelectedDate(date);
     };
 
     const customDateCellRender = (date, busyDate, workOnDate) => {
@@ -134,15 +131,12 @@ const CreateSchedule = () => {
         const workOnDateObjects = workOnDate.map(dateString => dayjs(dateString));
         const isWorkOnDate = workOnDateObjects.find(d => d.isSame(date, 'day'));
 
-        // Màu mặc định nếu không phải ngày bận hoặc ngày làm việc
         let backgroundColor = 'transparent';
 
-        // Nếu là ngày bận, thì sử dụng màu xám
         if (isBusyDate) {
             backgroundColor = 'gray';
         }
 
-        // Nếu là ngày làm việc, sử dụng màu xanh
         if (isWorkOnDate) {
             backgroundColor = 'green';
         }
@@ -233,18 +227,41 @@ const CreateSchedule = () => {
                     </Form>
                 </Modal>
                 <Modal
-                    title="Đang chờ phê duyệt"
-                    visible={waitingForApprovalModalVisible}
-                    onCancel={() => setWaitingForApprovalModalVisible(false)}
+                    title="Thông báo lịch hẹn"
+                    visible={selectedDateModalVisible}
+                    onCancel={() => setSelectedDateModalVisible(false)}
                     footer={[
-                        <Button key="ok" type="primary" onClick={() => setWaitingForApprovalModalVisible(false)}>
+                        <Button key="ok" type="primary" onClick={() => setSelectedDateModalVisible(false)}>
                             OK
                         </Button>
                     ]}
                 >
-                    <p>Đang chờ phê duyệt</p>
+                    <Form>
+                        <Form.Item label="Tên khách hàng">
+                            <Input disabled value={scheduleBooked.user?.fullName} />
+                        </Form.Item>
+                        <Form.Item label="Ngày">
+                            <Input disabled value={scheduleBooked.schedule?.timeWork} />
+                        </Form.Item>
+                        <Form.Item label="Thời gian">
+                            <Select value={scheduleBooked.schedule?.timeOfDay}>
+                                {scheduleBooked.schedule?.timeOfDay === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại">
+                            <Input disabled value={scheduleBooked.schedule?.phoneNumber} />
+                        </Form.Item>
+                        <Form.Item label="Email">
+                            <Input disabled value={scheduleBooked.schedule?.email} />
+                        </Form.Item>
+                        <Form.Item label="Địa điểm">
+                            <Input disabled value={scheduleBooked.schedule?.place} />
+                        </Form.Item>
+                        <Form.Item disabled label="Ghi chú">
+                            <AntdInput.TextArea disabled value={scheduleBooked.schedule?.description_book} />
+                        </Form.Item>
+                    </Form>
                 </Modal>
-
             </div>
             <FooterComponent />
         </div >

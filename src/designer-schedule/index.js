@@ -17,9 +17,10 @@ const DesignerSchedule = () => {
     const [timeOfDay, setTimeOfDay] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [place, setPlace] = useState('');
     const [note, setNote] = useState('');
     const [scheduleId, setScheduleId] = useState('');
-
+    const [scheduleBooked, setScheduleBooked] = useState({});
     const [busyDate, setBusyDate] = useState([]);
     const [workOnDate, setWorkOnDate] = useState([]);
 
@@ -55,11 +56,11 @@ const DesignerSchedule = () => {
         setTimeOfDay(value);
     };
 
-    const handleDateSelect = (date) => {
+    const handleDateSelect = async (date) => {
         const formattedDate = dayjs(date);
         const formattedDateString = formattedDate.format('YYYY-MM-DD');
 
-        if (busyDate && busyDate.includes(formattedDateString) || workOnDate && workOnDate.includes(formattedDateString)) {
+        if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
             return;
         }
         if (isBooked && workOnDate.length === 0) {
@@ -67,6 +68,12 @@ const DesignerSchedule = () => {
             return;
         }
         if (isBooked && workOnDate.length > 0) {
+            const scheduleInfo = await instance.get('/schedule/user-info', {
+                params: {
+                    timeWork: workOnDate[0]
+                }
+            });
+            setScheduleBooked(scheduleInfo.data.data[0]);
             setConfirmBookModalVisible(true);
             return;
         }
@@ -206,6 +213,9 @@ const DesignerSchedule = () => {
                         <Form.Item label="Email">
                             <Input value={email} onChange={(e) => setEmail(e.target.value)} />
                         </Form.Item>
+                        <Form.Item label="Địa điểm">
+                            <Input value={place} onChange={(e) => setPlace(e.target.value)} />
+                        </Form.Item>
                         <Form.Item label="Ghi chú">
                             <AntdInput.TextArea value={note} onChange={(e) => setNote(e.target.value)} />
                         </Form.Item>
@@ -224,7 +234,7 @@ const DesignerSchedule = () => {
                     <p>Đang chờ phê duyệt</p>
                 </Modal>
                 <Modal
-                    title="Thông báo"
+                    title="Thông báo lịch hẹn"
                     visible={confirmBookModalVisible}
                     onCancel={() => setConfirmBookModalVisible(false)}
                     footer={[
@@ -233,7 +243,31 @@ const DesignerSchedule = () => {
                         </Button>
                     ]}
                 >
-                    <p>Bạn đã đặt lịch thành công. Vui lòng thực hiện lịch trình trước khi đặt lịch mới</p>
+                    <Form>
+                        <Form.Item label="Tên nhà thiết kế">
+                            <Input disabled value={designerInfo?.fullName} />
+                        </Form.Item>
+                        <Form.Item label="Ngày">
+                            <Input disabled value={scheduleBooked?.timeWork} />
+                        </Form.Item>
+                        <Form.Item label="Thời gian">
+                            <Select value={scheduleBooked?.timeOfDay}>
+                                {scheduleBooked?.timeOfDay === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
+                            </Select>
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại">
+                            <Input disabled value={scheduleBooked?.phoneNumber} />
+                        </Form.Item>
+                        <Form.Item label="Email">
+                            <Input disabled value={scheduleBooked?.email} />
+                        </Form.Item>
+                        <Form.Item label="Địa điểm">
+                            <Input disabled value={scheduleBooked?.place} />
+                        </Form.Item>
+                        <Form.Item disabled label="Ghi chú">
+                            <AntdInput.TextArea disabled value={scheduleBooked?.description_book} />
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </div>
             <FooterComponent />
