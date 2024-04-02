@@ -12,7 +12,8 @@ import { fadeIn } from '../Animation/variants';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import { default as BuildImage, default as DesignImage } from "../images/list-project-screen-banner.png";
+import  BuildImage from "../images/manhome1.png";
+import  DesignImage  from "../images/Manhome.png";
 import './index.css';
 
 const HomePage = () => {
