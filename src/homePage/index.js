@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Video from '../../src/images/noithatvugia.mp4';
+import Video from '../../src/videos/noithatvugia.mp4';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
@@ -22,36 +22,36 @@ const HomePage = () => {
     const openNotipushBool = Boolean(openNotipush);
     const openListAvatarBool = Boolean(openListInAvatar);
     const [showModal, setShowModal] = useState(false);
-    
+
     const [formData, setFormData] = useState({
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
-      note: ''
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        note: ''
     });
-  
+
     const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
-  
+
     const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log(formData);
-      // Do something with formData
-      handleCloseModal(); // Close modal after submission
+        e.preventDefault();
+        console.log(formData);
+        // Do something with formData
+        handleCloseModal(); // Close modal after submission
     };
-  
+
     const handleOpenModal = () => {
-      setShowModal(true);
+        setShowModal(true);
     };
-  
+
     const handleCloseModal = () => {
-      setShowModal(false);
+        setShowModal(false);
     };
 
     const handleClick = (event) => {
@@ -135,30 +135,29 @@ const HomePage = () => {
         <>
             <HeaderComponent />
             <div style={{ backgroundColor: '#FFFFFF' }}>
-
-            <div className='about-screen video'>
-            <video autoPlay loop muted style={{ width: '100vw' }}>
-               <source src={Video} type='video/mp4'></source>
-            </video>
-         </div>
-         <div className='about-screen slogan' style={{
-            display: 'flex',
-        backgroundImage: 'linear-gradient(to left, #e89f71, #000000)',
-        height: '250px',
-        color: 'white',
-        fontSize: '60px',
-        fontFamily: 'Gabriela',
-        fontWeight: 400,
-        lineHeight: '54px',
-        letterSpacing: '10px',
-        flexWrap: 'wrap',
-        padding: '3% 10%',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-         }}>
-            <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
-            <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
-         </div>
+                <div className='about-screen video'>
+                    <video autoPlay loop muted style={{ width: '100vw' }}>
+                        <source src={Video} type='video/mp4'></source>
+                    </video>
+                </div>
+                <div className='about-screen slogan' style={{
+                    display: 'flex',
+                    backgroundImage: 'linear-gradient(to left, #e89f71, #000000)',
+                    height: '250px',
+                    color: 'white',
+                    fontSize: '60px',
+                    fontFamily: 'Gabriela',
+                    fontWeight: 400,
+                    lineHeight: '54px',
+                    letterSpacing: '10px',
+                    flexWrap: 'wrap',
+                    padding: '3% 10%',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                }}>
+                    <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
+                    <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
+                </div>
                 <div className="manufactoring-process">
                     <div className="design-and-build">
                         <div className="design">
@@ -197,103 +196,103 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div>
-      {/* Nút để mở modal */}
-      <motion.Button variant="contained" onClick={handleOpenModal} className="get-price"
-      variants={waveVariants}
-      animate="wave"
-      >
-        Nhận tư vấn báo giá
-      </motion.Button>
-      
-      {/* Lớp overlay */}
-      {showModal && <div className="overlay" onClick={handleCloseModal}></div>}
-      
-      {/* Modal */}
-      <BaseModal
-        open={showModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-        className="modal-container"
-      >
-        {/* Nội dung modal */}
-        <div className="modal">
-        <h2 id="modal-title" className="modal-title">Nhận tư vấn báo giá</h2>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              id="name"
-              label="Họ và tên"
-              variant="outlined"
-              fullWidth
-              size="small"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              id="email"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              size="small"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              id="phone"
-              label="Số điện thoại"
-              variant="outlined"
-              fullWidth
-              size="small"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              id="address"
-              label="Địa chỉ"
-              variant="outlined"
-              fullWidth
-              size="small"
-              multiline
-              rows={2}
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              id="note"
-              label="Ghi chú"
-              variant="outlined"
-              fullWidth
-              size="small"
-              multiline
-              rows={4}
-              name="note"
-              value={formData.note}
-              onChange={handleChange}
-              sx={{ mb: 2 }}
-            />
-            <motion.button
-  className="button"
-  type="button"
-  initial="hidden"
-  whileInView={"show"}
-  viewport={{ once: false, amount: 0.7 }}
->
-  <>Gửi yêu cầu</>
-</motion.button>
-          </form>
-        </div>
-      </BaseModal>
-    </div>
+                        {/* Nút để mở modal */}
+                        <motion.Button variant="contained" onClick={handleOpenModal} className="get-price"
+                            variants={waveVariants}
+                            animate="wave"
+                        >
+                            Nhận tư vấn báo giá
+                        </motion.Button>
+
+                        {/* Lớp overlay */}
+                        {showModal && <div className="overlay" onClick={handleCloseModal}></div>}
+
+                        {/* Modal */}
+                        <BaseModal
+                            open={showModal}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-title"
+                            aria-describedby="modal-description"
+                            className="modal-container"
+                        >
+                            {/* Nội dung modal */}
+                            <div className="modal">
+                                <h2 id="modal-title" className="modal-title">Nhận tư vấn báo giá</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <TextField
+                                        id="name"
+                                        label="Họ và tên"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="phone"
+                                        label="Số điện thoại"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="address"
+                                        label="Địa chỉ"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={2}
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="note"
+                                        label="Ghi chú"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={4}
+                                        name="note"
+                                        value={formData.note}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <motion.button
+                                        className="button"
+                                        type="button"
+                                        initial="hidden"
+                                        whileInView={"show"}
+                                        viewport={{ once: false, amount: 0.7 }}
+                                    >
+                                        <>Gửi yêu cầu</>
+                                    </motion.button>
+                                </form>
+                            </div>
+                        </BaseModal>
+                    </div>
                 </div>
-                
+
             </div>
             <FooterComponent />
         </>
