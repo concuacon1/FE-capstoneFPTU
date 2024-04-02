@@ -54,9 +54,8 @@
     display: grid;
     align-content: center;
     position: absolute;
-    top: 40%;
-    left: 80%;
-    transform: translate(-7px, 5px);
+    top: 105px;
+    right: -105px;
     cursor: pointer;
 }
 
@@ -128,9 +127,8 @@
     display: grid;
     align-content: center;
     position: absolute;
-    top: 40%;
-    left: -10%;
-    transform: translate(7px, -20px);
+    top: 105px;
+    left: -105px;
     cursor: pointer;
 }
 
