@@ -1,6 +1,8 @@
+import { Modal as BaseModal } from '@mui/base/Modal';
+import { TextField } from '@mui/material';
 import { Image } from "antd";
 import { motion } from "framer-motion";
-import React from "react";
+import { default as React, useState } from "react";
 import { Link } from "react-router-dom";
 import { fadeIn } from "../Animation/variants";
 import { waveVariants } from "../Animation/waveVariants";
@@ -9,13 +11,44 @@ import HeaderComponent from "../header";
 import CT1SV2Image from "../images/content-img1.png";
 import CT2SV2Image from "../images/ct2-sv2-image.png";
 import CT3SV2Image from "../images/ct3-sv2-image.png";
-import ProjectListBannerImage from "../images/list-project-screen-banner.png";
 import Service1Image from "../images/service1-image.png";
 import Service3Image from "../images/service3-image.png";
 import ImageTitle from "../images/sv2-image-title.png";
 import './service-info.css';
 
 const Service = () => {
+   const [showModal, setShowModal] = useState(false);
+   const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      note: ''
+  });
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+      }));
+  };
+
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(formData);
+      // Do something with formData
+      handleCloseModal(); // Close modal after submission
+  };
+
+  const handleOpenModal = () => {
+      setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+      setShowModal(false);
+  };
+
    return (
       <>
          <HeaderComponent />
@@ -25,20 +58,23 @@ const Service = () => {
             exit={{ scaleX: 0, originX: 1 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
          >
-            <div className='service image-banner'>
-               <Image
-                  style={{ width: "100vw", height: "auto" }}
-                  src={ProjectListBannerImage}
-                  className='bg-white'
-                  preview={false}
-               />
-            </div>
+            
             <div className='service__container'>
                <div className='header'>
-                  <div className='title'>
+                  <motion.div className='title'
+                  variants={fadeIn('down', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  
                      GÓI DỊCH VỤ
-                  </div>
-                  <p className='description'>Tư vấn thiết kế sang trọng, đẹp mắt và nhanh chóng ...</p>
+                  </motion.div>
+                  <motion.p className='description'
+                  variants={fadeIn('down', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  Tư vấn thiết kế sang trọng, đẹp mắt và nhanh chóng ...</motion.p>
                   <hr />
                </div>
                <div className="body">
@@ -226,12 +262,103 @@ const Service = () => {
                            Hãy để chúng tôi giúp bạn biến ước mơ về không gian sống lý tưởng thành hiện thực! <br />
                            Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tìm kiếm sự hoàn hảo và phong cách cho ngôi nhà của bạn!
                         </div>
-                        <motion.button className="button" type="button"
-                           variants={waveVariants}
-                           animate="wave"
+                        <div>
+                        {/* Nút để mở modal */}
+                       
+                        <motion.Button variant="contained" onClick={handleOpenModal} className="button" type="button"
+                            variants={waveVariants}
+                            animate="wave"
                         >
-                           ĐẶT LỊCH TƯ VẤN
-                        </motion.button>
+                            Nhận tư vấn báo giá
+                        </motion.Button>
+
+                        {/* Lớp overlay */}
+                        {showModal && <div className="overlay" onClick={handleCloseModal}></div>}
+
+                        {/* Modal */}
+                        <BaseModal
+                            open={showModal}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-title"
+                            aria-describedby="modal-description"
+                            className="modal-container"
+                        >
+                            {/* Nội dung modal */}
+                            <div className="modal">
+                                <h2 id="modal-title" className="modal-title">Đặt lịch tư vấn</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <TextField
+                                        id="name"
+                                        label="Họ và tên"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="phone"
+                                        label="Số điện thoại"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="address"
+                                        label="Địa chỉ"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={2}
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="note"
+                                        label="Ghi chú"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={4}
+                                        name="note"
+                                        value={formData.note}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <motion.button
+                                        className="button"
+                                        type="button"
+                                        initial="hidden"
+                                        whileInView={"show"}
+                                        viewport={{ once: false, amount: 0.7 }}
+                                    >
+                                        <>Gửi yêu cầu</>
+                                    </motion.button>
+                                </form>
+                            </div>
+                        </BaseModal>
+                    </div>
                      </div>
                   </div>
                </div>

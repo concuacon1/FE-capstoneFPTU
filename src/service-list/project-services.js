@@ -1,13 +1,17 @@
-import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { Image } from "antd";
 import { motion } from 'framer-motion';
-import React, { useEffect } from "react";
+import { default as React, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { fadeIn } from '../Animation/variants';
 import FooterComponent from '../footer';
 import HeaderComponent from '../header';
+import ScreenCustomerImage01 from "../images/ScreenCustomer1.png";
+import ScreenCustomerImage02 from "../images/ScreenCustomer2.png";
+import ScreenCustomerImage03 from "../images/ScreenCustomer3.png";
+import ScreenCustomerImage04 from "../images/ScreenCustomer4.png";
+import ScreenCustomerImage05 from "../images/ScreenCustomer5.png";
 import ProjectListBannerImage from "../images/list-project-screen-banner.png";
+import './SlideShow.css';
 import './project-services.css';
 
 
@@ -18,6 +22,19 @@ const ProjectServices = () => {
       marginTop: 50,
       cursor: 'pointer',
    };
+   const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % 5); // 5 là số lượng slide
+    }, 5000); // Thời gian chuyển slide
+    return () => clearInterval(interval);
+  }, []);
+
+  const manualNav = (manual) => {
+    setCurrentSlide(manual);
+  };
+
 
    useEffect(() => {
       const arrButton = document.querySelectorAll(".project-type-scroll-bar i");
@@ -48,65 +65,48 @@ const ProjectServices = () => {
                viewport={{ once: false, amount: 0.7 }}
             >
 
-               <motion.div className='list-project-screen image-banner'
+<div className="custom-image-slider">
+    {/* Slide 1 */}
+    <div className={`custom-slide ${currentSlide === 0 ? 'active' : ''}`}>
+        <Image className="CustomerImage" src={ScreenCustomerImage01} />
+        
+    </div>
 
-               >
-                  {/* <Image
-                     style={{ width: "100vw", height: "auto" }}
-                     src={ProjectListBannerImage}
-                     className='bg-white'
-                     preview={false} /> */}
-               </motion.div>
-               <motion.div className="project-type-scroll-bar"
-                  variants={fadeIn('up', 0.2)}
-                  initial="hidden"
-                  whileInView={"show"}
-                  viewport={{ once: false, amount: 0.7 }}>
-                  <i id="left">
-                     <ArrowCircleLeftOutlinedIcon style={iconStyle} />
-                  </i>
-                  <ul className="carousel">
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                     <li className="circle">
-                        <div className="img">
-                           <img src={ProjectListBannerImage} alt="img" />
-                        </div>
-                        <div className="bg-text">NỘI THẤT NHÀ PHỐ</div>
-                     </li>
-                  </ul>
-                  <i id="right">
-                     <ArrowCircleRightOutlinedIcon style={iconStyle} />
-                  </i>
-               </motion.div>
+    {/* Slide 2 */}
+    <div className={`custom-slide ${currentSlide === 1 ? 'active' : ''}`}>
+    <Image className="CustomerImage" src={ScreenCustomerImage02} />
+       
+    </div>
+
+    {/* Slide 3 */}
+    <div className={`custom-slide ${currentSlide === 2 ? 'active' : ''}`}>
+    <Image className="CustomerImage" src={ScreenCustomerImage03} />
+       
+    </div>
+
+    {/* Slide 4 */}
+    <div className={`custom-slide ${currentSlide === 3 ? 'active' : ''}`}>
+    <Image className="CustomerImage" src={ScreenCustomerImage04} />
+        
+    </div>
+
+    {/* Slide 5 */}
+    <div className={`custom-slide ${currentSlide === 4 ? 'active' : ''}`}>
+    <Image className="CustomerImage" src={ScreenCustomerImage05} />
+        
+    </div>
+
+    {/* Navigation buttons */}
+    <div className="custom-navigation">
+        <div className={`btn ${currentSlide === 0 ? 'active' : ''}`} onClick={() => manualNav(0)}></div>
+        <div className={`btn ${currentSlide === 1 ? 'active' : ''}`} onClick={() => manualNav(1)}></div>
+        <div className={`btn ${currentSlide === 2 ? 'active' : ''}`} onClick={() => manualNav(2)}></div>
+        <div className={`btn ${currentSlide === 3 ? 'active' : ''}`} onClick={() => manualNav(3)}></div>
+        <div className={`btn ${currentSlide === 4 ? 'active' : ''}`} onClick={() => manualNav(4)}></div>
+    </div>
+</div>
+
+               
                <motion.div className="title"
                   variants={fadeIn('down', 0.2)}
                   initial="hidden"

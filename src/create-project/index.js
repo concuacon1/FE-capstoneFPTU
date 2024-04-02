@@ -682,7 +682,7 @@ const CreateProject = () => {
             if (!formCreateProject.designerDate || !formCreateProject.constructionDate) {
                 return toast.error("Vui lòng chọn date")
             }
-            if (formCreateProject.designerDate > formCreateProject.constructionDate) {
+            if (formCreateProject.designerDate >= formCreateProject.constructionDate) {
                 return toast.error("Ngày thi công phải trước ngày hoàn thành")
             }
             if (!dataFind?.fullName) {

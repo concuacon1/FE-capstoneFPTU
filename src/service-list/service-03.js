@@ -1,18 +1,52 @@
+import { Modal as BaseModal } from '@mui/base/Modal';
+import { TextField } from '@mui/material';
 import { Image } from "antd";
 import { motion } from "framer-motion";
-import React from "react";
+import { default as React, useState } from "react";
 import { Link } from "react-router-dom";
+import Video from '../../src/videos/noithatvugia.mp4';
 import { fadeIn } from "../Animation/variants";
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import Video from '../../src/videos/noithatvugia.mp4';
 import ProjectListBannerImage from "../images/list-project-screen-banner.png";
 import Service1Image from "../images/service1-image.png";
 import Service3Image from "../images/service3-image.png";
 import './service-info.css';
 
 const Service = () => {
+   const [showModal, setShowModal] = useState(false);
+   const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      note: ''
+  });
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+      }));
+  };
+
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(formData);
+      // Do something with formData
+      handleCloseModal(); // Close modal after submission
+  };
+
+  const handleOpenModal = () => {
+      setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+      setShowModal(false);
+  };
+
    return (
       <>
          <HeaderComponent />
@@ -22,20 +56,30 @@ const Service = () => {
             exit={{ scaleX: 0, originX: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
          >
-            <div className='service image-banner'>
-               <Image
-                  style={{ width: "100vw", height: "auto" }}
-                  src={ProjectListBannerImage}
-                  className='bg-white'
-                  preview={false}
-               />
-            </div>
+           
             <div className='service__container'>
                <div className='header'>
-                  <div className='header title'>
+                  <motion.div className='header title'
+                  variants={fadeIn('down', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  
                      GÓI DỊCH VỤ
-                  </div>
-                  <p className='description'>Đăng ký báo giá xây dựng dựa trên các thiết kế tiêu chuẩn</p>
+                  </motion.div>
+                  <motion.p className='service3__content-head'
+                  style={{
+               textAlign: 'center',
+        fontSize: '30px',
+        fontWeight: 600,
+        marginTop: '20px'
+        
+            }}
+            variants={fadeIn('down', 0.2)}
+                  initial="hidden"
+                  whileInView={"show"}
+                  viewport={{ once: false, amount: 0.7 }}>
+                  🌟 Đăng ký báo giá xây dựng dựa trên các thiết kế tiêu chuẩn 🌟</motion.p>
                   <hr />
                </div>
                <div className="body">
@@ -65,31 +109,150 @@ const Service = () => {
                         - <b>Minh bạch và rõ ràng:</b> Hệ thống cung cấp báo giá chi tiết từng hạng mục thi công, giúp bạn nắm rõ chi phí cho công trình của mình.
                      </div>
                      <div className="images">
-                        <div className="img">
+                        <motion.div className="img"
+                        whileHover={{
+                                 scale: 1.1,
+                                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                                 border: "2px solid rgba(0, 0, 0, 0.1)",
+                                 filter: "brightness(100%)" // Tăng độ sáng khi trỏ chuột vào
+                              }}
+                              initial={{
+                                 scale: 1,
+                                 boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                                 border: "2px solid rgba(0, 0, 0, 0.05)",
+                                 filter: "brightness(50%)" // Đặt độ tối ban đầu của ảnh
+                              }}
+                              transition={{ duration: 0.3 }}
+                        >
                            <Image
                               style={{ width: "100vw", height: "auto" }}
                               src={ProjectListBannerImage}
                               className='bg-white'
                               preview={false}
                            />
-                        </div>
-                        <div className="img">
+                        </motion.div>
+                        <motion.div className="img"
+                        whileHover={{
+                                 scale: 1.1,
+                                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
+                                 border: "2px solid rgba(0, 0, 0, 0.1)",
+                                 filter: "brightness(100%)" // Tăng độ sáng khi trỏ chuột vào
+                              }}
+                              initial={{
+                                 scale: 1,
+                                 boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)",
+                                 border: "2px solid rgba(0, 0, 0, 0.05)",
+                                 filter: "brightness(50%)" // Đặt độ tối ban đầu của ảnh
+                              }}
+                              transition={{ duration: 0.3 }}
+                        >
                            <Image
                               style={{ width: "100vw", height: "auto" }}
                               src={ProjectListBannerImage}
                               className='bg-white'
                               preview={false}
                            />
-                        </div>
+                        </motion.div>
                      </div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                     <motion.button className="button" type="button"
-                        variants={waveVariants}
-                        animate="wave"
-                     >
-                        ĐẶT LỊCH TƯ VẤN
-                     </motion.button>
+                  <div>
+                        {/* Nút để mở modal */}
+                       
+                        <motion.Button variant="contained" onClick={handleOpenModal} className="button" type="button"
+                            variants={waveVariants}
+                            animate="wave"
+                        >
+                            Nhận tư vấn báo giá
+                        </motion.Button>
+
+                        {/* Lớp overlay */}
+                        {showModal && <div className="overlay" onClick={handleCloseModal}></div>}
+
+                        {/* Modal */}
+                        <BaseModal
+                            open={showModal}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-title"
+                            aria-describedby="modal-description"
+                            className="modal-container"
+                        >
+                            {/* Nội dung modal */}
+                            <div className="modal">
+                                <h2 id="modal-title" className="modal-title">Đặt lịch tư vấn</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <TextField
+                                        id="name"
+                                        label="Họ và tên"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="phone"
+                                        label="Số điện thoại"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="address"
+                                        label="Địa chỉ"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={2}
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <TextField
+                                        id="note"
+                                        label="Ghi chú"
+                                        variant="outlined"
+                                        fullWidth
+                                        size="small"
+                                        multiline
+                                        rows={4}
+                                        name="note"
+                                        value={formData.note}
+                                        onChange={handleChange}
+                                        sx={{ mb: 2 }}
+                                    />
+                                    <motion.button
+                                        className="button"
+                                        type="button"
+                                        initial="hidden"
+                                        whileInView={"show"}
+                                        viewport={{ once: false, amount: 0.7 }}
+                                    >
+                                        <>Gửi yêu cầu</>
+                                    </motion.button>
+                                </form>
+                            </div>
+                        </BaseModal>
+                    </div>
                   </div>
                </div>
                <div className="footer">
@@ -100,7 +263,7 @@ const Service = () => {
                      <hr />
                      <div className="list-services">
                         <div className="service-child">
-                           <div
+                           <motion.div
                               variants={fadeIn('right', 0.2)}
                               initial="hidden"
                               whileInView={"show"}
@@ -112,7 +275,7 @@ const Service = () => {
                                  className='bg-white'
                                  preview={false}
                               />
-                           </div>
+                           </motion.div>
                            <div className="info">
                               <motion.div className="text"
                                  variants={fadeIn('down', 0.2)}
@@ -133,7 +296,7 @@ const Service = () => {
                            </div>
                         </div>
                         <div className="service-child">
-                           <div
+                           <motion.div
                               variants={fadeIn('right', 0.2)}
                               initial="hidden"
                               whileInView={"show"}
@@ -145,7 +308,7 @@ const Service = () => {
                                  className='bg-white'
                                  preview={false}
                               />
-                           </div>
+                           </motion.div>
                            <div className="info">
                               <motion.div className="text"
                                  variants={fadeIn('down', 0.2)}

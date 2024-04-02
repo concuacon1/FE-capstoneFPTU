@@ -6,7 +6,7 @@ import { Image } from "antd";
 import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Video from '../../src/videos/noithatvugia.mp4';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
@@ -173,7 +173,9 @@ const HomePage = () => {
                             </div>
                             <div className="bg-text">
                                 <div className="text">Design</div>
-                                <div className="button-view-service">Xem dịch vụ</div>
+                                <div className="button-view-service">
+                                    <Link to="/service/02">Xem dịch vụ</Link>
+                                </div>
                             </div>
 
                         </div>
@@ -191,7 +193,9 @@ const HomePage = () => {
                             </div>
                             <div className="bg-text">
                                 <div className="text">Build</div>
-                                <div className="button-view-service">Xem dịch vụ</div>
+                                <div className="button-view-service">
+                                    <Link to="/service/03">Xem dịch vụ</Link>
+                                </div>
                             </div>
                         </div>
                     </div>
