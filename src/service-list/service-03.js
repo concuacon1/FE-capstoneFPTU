@@ -9,7 +9,8 @@ import { fadeIn } from "../Animation/variants";
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import ProjectListBannerImage from "../images/list-project-screen-banner.png";
+import Service3K from "../images/Service3.0.png";
+import Service3kh from "../images/Service3.1.png";
 import Service1Image from "../images/service1-image.png";
 import Service3Image from "../images/service3-image.png";
 import './service-info.css';
@@ -126,7 +127,7 @@ const Service = () => {
                         >
                            <Image
                               style={{ width: "100vw", height: "auto" }}
-                              src={ProjectListBannerImage}
+                              src={Service3K}
                               className='bg-white'
                               preview={false}
                            />
@@ -148,7 +149,7 @@ const Service = () => {
                         >
                            <Image
                               style={{ width: "100vw", height: "auto" }}
-                              src={ProjectListBannerImage}
+                              src={Service3kh}
                               className='bg-white'
                               preview={false}
                            />
