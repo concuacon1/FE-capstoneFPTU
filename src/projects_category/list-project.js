@@ -17,9 +17,10 @@ const ListProject = () => {
     };
     const dividerStyle = {
         fontSize: '40px',
-        color: '#B91616',
+        color: '#000000',
         marginTop: '2%',
         fontFamily: 'Gabriela'
+        
     }
     const projectNameStyle = {
         display: 'block',
@@ -92,7 +93,7 @@ const ListProject = () => {
                 <Divider orientation="center" style={dividerStyle}>{listAll.nameProjectType}</Divider>
                 <hr style={{
                     border: 'none',
-                    borderTop: '2px solid #B91616',
+                    borderTop: '2px solid #000000',
                     margin: 'auto',
                     width: '50%'
                 }} />

@@ -334,7 +334,7 @@ const RegisterDesigner = () => {
                                             <MenuItem value="Quần Đống Đa">Huyện Ứng Hòa</MenuItem>
                                             <MenuItem value="Quận Hai Bà Trưng">Quận Hai Bà Trưng</MenuItem>
                                             <MenuItem value="Quận Hoàn Kiếm">Quận Hoàn Kiếm</MenuItem>
-                                            <MenuItem value="Quận Hoang Mai">Quận Hoang Mai</MenuItem>
+                                            <MenuItem value="Quận Hoang Mai">Quận Hoàng Mai</MenuItem>
                                             <MenuItem value="Quận Long Biên">Quận Long Biên</MenuItem>
                                             <MenuItem value="Quận Tây Hồ">Quận Tây Hồ</MenuItem>
                                             <MenuItem value="Quận Thanh Xuân">Quận Thanh Xuân</MenuItem>

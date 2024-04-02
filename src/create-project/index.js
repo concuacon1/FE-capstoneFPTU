@@ -289,7 +289,7 @@ const CreateProject = () => {
             }
             console.log("listData == ", listData);
             await instance.post("/create_project", listData);
-            toast.success("Tao thanh cong")
+            toast.success("Tạo thành công")
             // return navigate('/home-page')
         } catch (error) {
             if (error.response.status === 402) {
@@ -320,14 +320,14 @@ const CreateProject = () => {
                 
                     <div className="py-10">
                    
-               />
+               
 
                         <div className="flex items-center ">
                             <AutoComplete
                                 style={{ width: 250, height: 35, marginRight: 100 }}
                                 onChange={(data) => onChangeValueInput(data, "name")}
                                 value={formCreateProject.name}
-                                placeholder="Project Name"
+                                placeholder="Tên dự án"
                                 name="name"
                             />
 
@@ -347,7 +347,7 @@ const CreateProject = () => {
 
                         <div className="flex mt-10">
                             <Checkbox onChange={onChangeCheckBox} checked={checkNewProject}>
-                                Thêm mới Project Type
+                                Thêm mới loại dự án
                             </Checkbox>
                         </div>
 
@@ -367,7 +367,7 @@ const CreateProject = () => {
                                     onChange={(data) => onChangeValueInput(data, "projectTypeNew")}
                                     name="projectTypeNew"
                                     value={formCreateProject.projectTypeNew}
-                                    placeholder="Project Type New"
+                                    placeholder="Loại dự án mới"
                                     disabled={!checkNewProject}
                                 />
                             </div>
@@ -377,7 +377,7 @@ const CreateProject = () => {
                             <DatePicker
                                 onChange={(data) => onChangeDate(data, "designerDate")}
                                 value={formCreateProject.designerDate}
-                                placeholder="Design date"
+                                placeholder="Ngày thi công"
                             />
                         </div>
 
@@ -385,7 +385,7 @@ const CreateProject = () => {
                             <DatePicker
                                 onChange={(data) => onChangeDate(data, "constructionDate")}
                                 value={formCreateProject.constructionDate}
-                                placeholder="Construction date"
+                                placeholder="Ngày hoàn thành"
                             />
                         </div>
 
@@ -394,14 +394,14 @@ const CreateProject = () => {
                                 style={{ width: 250, height: 35, marginRight: 100 }}
                                 onChange={(data) => onChangeValueInput(data, "userCode")}
                                 value={formCreateProject.userCode}
-                                placeholder="Design by"
+                                placeholder="Thiết kế"
                             />
                             <div>
                                 <button
                                     className="button-upload-images"
                                     onClick={checkCode}
                                 >
-                                    Check
+                                    Kiểm tra
                                 </button>
                             </div>
                         </div>
@@ -454,7 +454,7 @@ const CreateProject = () => {
                                         onChange={(value) => onChangeValueInput(value, "categoriesAdd")}
                                         name="categoriesAdd"
                                         value={formCreateProject.categoriesAdd}
-                                        placeholder="Thêm Categories​"
+                                        placeholder="Thêm thể loại​"
                                     />
                                 </div>
                                 <div className="flex">
@@ -469,7 +469,7 @@ const CreateProject = () => {
                                             className="button-upload-images add-images"
                                             onClick={handleButtonClick}
                                         >
-                                            Add Images
+                                            Thêm ảnh
                                         </button>
                                     }
 
@@ -500,7 +500,7 @@ const CreateProject = () => {
                                         })}
                                 </ImageList>
                                 {
-                                    listCategory[0]?.images.length > 0 && <button className="button-upload-images" onClick={handleButtonClickClearImage}>Clear All Images</button>
+                                    listCategory[0]?.images.length > 0 && <button className="button-upload-images" onClick={handleButtonClickClearImage}>Xóa tất cả ảnh</button>
                                 }
                             </div>
                         </div>
@@ -593,12 +593,12 @@ const CreateProject = () => {
                                     </div>
 
                                     <div className="flex justify-between">
-                                        <div className="text-black "> Design date : </div>
+                                        <div className="text-black "> Ngày thi công : </div>
                                         <div className="text-black ">  {dayjs(formCreateProject.designerDate).format('DD/MM/YYYY')}   </div>
 
                                     </div>
                                     <div className="flex justify-between mt-10">
-                                        <div className="text-black ">  Construction date : </div>
+                                        <div className="text-black ">  Ngày hoàn thành : </div>
                                         <div className="text-black ">   {dayjs(formCreateProject.constructionDate).format('DD/MM/YYYY')}</div>
                                     </div>
 
@@ -645,7 +645,7 @@ const CreateProject = () => {
                             </div>
                         </div>
 
-                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Design by {formCreateProject.designerName} </div>
+                        <div className="text-2xl  mb-10 mt-7 text-black font-bold"> Thiết kế - {formCreateProject.designerName} </div>
 
                     </div>
                 </div>
@@ -666,27 +666,27 @@ const CreateProject = () => {
             const dataRes = await instance.post("/check_design", dataCheck);
             const dataFind = dataRes.data.data.data;
             if (!formCreateProject.name) {
-                return toast.error("Chưa có Project name")
+                return toast.error("Chưa có tên dự án")
             }
             if (formCreateProject.projectIdType.length < 1) {
                 if (formCreateProject.projectTypeNew.length < 1) {
-                    return toast.error("Project Type chưa có")
+                    return toast.error("Thể loại dự án chưa có")
                 }
             }
 
             if (formCreateProject.projectTypeNew.length < 1) {
                 if (formCreateProject.projectIdType.length < 1) {
-                    return toast.error("Project Type chưa có")
+                    return toast.error("Thể loại dự án chưa có")
                 }
             }
             if (!formCreateProject.designerDate || !formCreateProject.constructionDate) {
                 return toast.error("Vui lòng chọn date")
             }
             if (formCreateProject.designerDate > formCreateProject.constructionDate) {
-                return toast.error("Design date phải trước Construction date")
+                return toast.error("Ngày thi công phải trước ngày hoàn thành")
             }
             if (!dataFind?.fullName) {
-                return toast.error("Khong ton tai design ")
+                return toast.error("Không tồn tại thiết kế")
             } else {
                 const dataOle = {
                     ...formCreateProject,
@@ -696,12 +696,12 @@ const CreateProject = () => {
                 setFormCretaeProject(dataOle)
             }
             if (dataFind?.fullName < 1) {
-                return toast.error("Khong ton tai design")
+                return toast.error("Không tồn tại thiết kế")
             }
             setTitleStep("Add Category")
         } else if (check === 2) {
             if (!formCreateProject.categoriesAdd) {
-                return toast.error("Vui lòng thêm Category")
+                return toast.error("Vui lòng thêm thể loại")
             }
             if (listCategory[0].images.length == 0) {
                 return toast.error("Vui lòng thêm ảnh")
@@ -757,7 +757,7 @@ const CreateProject = () => {
             >
                 {current < steps.length - 1 && (
                     <Button onClick={() => next()} className="buttonNext" style={{ color: '#fff' }}>
-                        Next
+                        Tiếp
                     </Button>
                 )}
 
@@ -767,12 +767,12 @@ const CreateProject = () => {
 
                         onClick={uploadDataCreateProject}
                     >
-                        Confirm
+                        Xác nhận
                     </Button>
                 )}
                 {current > 0 && (
                     <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
-                        Back
+                        Quay lại
                     </Button>
                 )}
             </div>

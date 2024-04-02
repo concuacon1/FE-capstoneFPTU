@@ -25,6 +25,7 @@ import Service1 from './service-list/service-01';
 import Service2 from './service-list/service-02';
 import Service3 from './service-list/service-03';
 import StaffList from './staff-list';
+import UserSchedule from './user-schedule/UserSchedule';
 import WorkingProject from './working-project';
 
 function App() {
@@ -49,12 +50,13 @@ function App() {
         <Route path="/project-list/:project_type" element={<ListProject />} />
         <Route path="/project/:project_id" element={<ProjectValue />} />
         <Route path="/service" element={<ProjectServices />} />
-        <Route path="/working-profile" element={<WorkingProject />} />
-        <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         <Route path="/service/01" element={<Service1 />} />
         <Route path="/service/02" element={<Service2 />} />
         <Route path="/service/03" element={<Service3 />} />
+        <Route path="/working-profile" element={<WorkingProject />} />
+        <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         <Route path="/create-schedule" element={<CreateSchedule />} />
+        <Route path="/user-schedule" element={<UserSchedule />} />
       </Routes>
     </BrowserRouter>
   );

@@ -118,9 +118,9 @@ const ProjectServices = () => {
                      initial="hidden"
                      whileInView={"show"}
                      viewport={{ once: false, amount: 0.7 }}>
-                     Từ những thiết kế nổi bật, thi công chính xác, chất liệu tốt nhất, ... VU GIA hứa hẹn mang đến những trải nghiệm đáng có cho khách hàng.
+                     Từ những thiết kế nổi bật, thi công chính xác, chất liệu tốt nhất, ... VŨ GIA hứa hẹn mang đến những trải nghiệm đáng có cho khách hàng.
                      <br />
-                     Đến và cảm nhận sự đẳng cấp và tận hưởng dịch vụ chăm sóc khách hàng tốt nhất ở VU GIA.
+                     Đến và cảm nhận sự đẳng cấp và tận hưởng dịch vụ chăm sóc khách hàng tốt nhất ở VŨ GIA.
                   </motion.div>
                </motion.div>
                <div className="content-container">

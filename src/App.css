@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+.pending {
+  background-color: #FFF500;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.approved {
+  background-color: #18AA00;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.reject {
+  background-color: #FF0000;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+}

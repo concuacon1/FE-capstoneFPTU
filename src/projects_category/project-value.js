@@ -8,7 +8,6 @@ import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
 import { formatDate } from '../helper/formatDate';
 import AvatarCustomer from '../images/avatar-customer.png';
-import ProjectValueBannerImage from '../images/project-screen-banner.png';
 import AIchatBoxIcon from '../images/support.png';
 import './project-value.css';
 
@@ -78,18 +77,18 @@ const ProjectValue = () => {
             <HeaderComponent />
             <ToastContainer />
 
-            <div className="project-value-screen" style={{ backgroundColor: '#DED49F' }}>
+            <div className="project-value-screen" style={{ backgroundColor: '#FFFFFF' }}>
                 <div className='project-value-screen__image-banner'>
-                    <Image
+                    {/* <Image
                         style={{ width: "100vw", height: "auto" }}
                         src={ProjectValueBannerImage}
                         className='bg-white'
                         preview={false}
-                    />
+                    /> */}
                 </div>
                 <div className='project-value-screen__content'>
                     <div className='project-feedback'>
-                        <div className='feedback-title'>FEEDBACK</div>
+                        <div className='feedback-title'>Phản hồi</div>
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
                                 {
@@ -114,7 +113,7 @@ const ProjectValue = () => {
                             <a href={listCategoris?.catalog}>
                                 <Button className='catalog'>Catalog</Button>
                             </a>
-                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Delete</Button>
+                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Xoá dự án</Button>
                         </div>
                         <div className='second-values'>
                             <div className='project-values'>
@@ -135,9 +134,9 @@ const ProjectValue = () => {
                                     </div>
                                     <div className='date'>
                                         <label className='design-date'>
-                                            Design date : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
+                                            Ngày thi công : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
                                         <label className='construction-date'>
-                                            Construction date: <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
+                                            Ngày hoàn thành : <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
                                     </div>
                                 </div>
                                 <div className='middle-line'>
@@ -170,7 +169,7 @@ const ProjectValue = () => {
                                 <hr />
                             </div>
                             <div className='designer-info'>
-                                Design by <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
+                                Thiết kế - <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
                             </div>
                         </div>
                     </div>
