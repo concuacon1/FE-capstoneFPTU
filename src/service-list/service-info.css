@@ -34,9 +34,10 @@
 
 .body .title {
 	text-align: center;
-	margin: auto;
+	margin: 2% auto;
 	width: 80%;
-	font-size: 30px;
+	font-size: 40px;
+	font-weight: 700;
 }
 
 .body .content {
@@ -243,7 +244,33 @@
 }
 
 /* service3 */
+.service-intro .content {
+	display: flex;
+	margin-top: 3%;
+	font-size: 36px;
+	text-align: justify;
+	padding: 0 10%;
+}
 
-.service3 {
-	background-color: #DED49F;
+.service-video .video {
+	width: 80%;
+	margin: auto;
+}
+
+.service-benefit .text {
+	font-size: 36px;
+	width: 80%;
+	margin: auto;
+	text-align: justify;
+}
+
+.service-benefit .images {
+	display: flex;
+	justify-content: space-between;
+	margin: 5% auto;
+	width: 80%;
+}
+
+.images .img {
+	width: 48%;
 }

@@ -34,6 +34,7 @@
     border-bottom-right-radius: 30px;
     top: 20%;
     left: 0;
+    display: grid;
     align-content: center;
     font-size: 80px;
     text-align: center;
@@ -50,6 +51,7 @@
     color: white;
     font-size: 2.5rem;
     text-align: center;
+    display: grid;
     align-content: center;
     position: absolute;
     top: 40%;
@@ -106,6 +108,7 @@
     border-bottom-left-radius: 30px;
     top: 20%;
     right: 0;
+    display: grid;
     align-content: center;
     font-size: 80px;
     text-align: center;
@@ -122,6 +125,7 @@
     color: white;
     font-size: 2.5rem;
     text-align: center;
+    display: grid;
     align-content: center;
     position: absolute;
     top: 40%;

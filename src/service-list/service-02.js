@@ -171,12 +171,10 @@ const Service = () => {
                      </div>
                      <div className="content-child">
                         <motion.div className="content-title"
-
                            variants={fadeIn('down', 0.2)}
                            initial="hidden"
                            whileInView={"show"}
                            viewport={{ once: false, amount: 0.7 }}
-
                         >
                            Hỗ trợ tận tâm và toàn diện
                         </motion.div>
@@ -229,10 +227,8 @@ const Service = () => {
                            Liên hệ với chúng tôi ngay hôm nay để bắt đầu hành trình tìm kiếm sự hoàn hảo và phong cách cho ngôi nhà của bạn!
                         </div>
                         <motion.button className="button" type="button"
-                         variants={waveVariants}
-      animate="wave"
-      
-      
+                           variants={waveVariants}
+                           animate="wave"
                         >
                            ĐẶT LỊCH TƯ VẤN
                         </motion.button>

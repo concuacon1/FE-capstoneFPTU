@@ -4,7 +4,7 @@ import { Image } from "antd";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Video from '../../src/images/noithatvugia.mp4';
+import Video from '../../src/videos/noithatvugia.mp4';
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
 import { default as BuildImage, default as DesignImage } from "../images/list-project-screen-banner.png";
@@ -99,30 +99,29 @@ const HomePage = () => {
         <>
             <HeaderComponent />
             <div style={{ backgroundColor: '#FFFFFF' }}>
-
-            <div className='about-screen video'>
-            <video autoPlay loop muted style={{ width: '100vw' }}>
-               <source src={Video} type='video/mp4'></source>
-            </video>
-         </div>
-         <div className='about-screen slogan' style={{
-            display: 'flex',
-        backgroundImage: 'linear-gradient(to left, #e89f71, #000000)',
-        height: '250px',
-        color: 'white',
-        fontSize: '60px',
-        fontFamily: 'Gabriela',
-        fontWeight: 400,
-        lineHeight: '54px',
-        letterSpacing: '10px',
-        flexWrap: 'wrap',
-        padding: '3% 10%',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-         }}>
-            <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
-            <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
-         </div>
+                <div className='about-screen video'>
+                    <video autoPlay loop muted style={{ width: '100vw' }}>
+                        <source src={Video} type='video/mp4'></source>
+                    </video>
+                </div>
+                <div className='about-screen slogan' style={{
+                    display: 'flex',
+                    backgroundImage: 'linear-gradient(to left, #e89f71, #000000)',
+                    height: '250px',
+                    color: 'white',
+                    fontSize: '60px',
+                    fontFamily: 'Gabriela',
+                    fontWeight: 400,
+                    lineHeight: '54px',
+                    letterSpacing: '10px',
+                    flexWrap: 'wrap',
+                    padding: '3% 10%',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                }}>
+                    <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
+                    <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
+                </div>
                 <div className="manufactoring-process">
                     <div className="design-and-build">
                         <div className="design">
@@ -162,7 +161,7 @@ const HomePage = () => {
                     </div>
                     <div className="get-price">Nhận tư vấn báo giá</div>
                 </div>
-                
+
             </div>
             <FooterComponent />
         </>

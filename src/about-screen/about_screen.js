@@ -1,7 +1,7 @@
 import { Image } from 'antd';
 import { motion } from 'framer-motion';
 import React from 'react';
-import Video from '../../src/images/noithatvugia.mp4';
+import Video from '../../src/videos/noithatvugia.mp4';
 import { fadeIn } from '../Animation/variants';
 import FooterComponent from '../footer';
 import HeaderComponent from "../header/index";
