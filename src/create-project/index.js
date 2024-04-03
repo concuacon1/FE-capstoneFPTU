@@ -683,7 +683,7 @@ const CreateProject = () => {
                 return toast.error("Vui lòng chọn date")
             }
             if (formCreateProject.designerDate >= formCreateProject.constructionDate) {
-                return toast.error("Ngày thi công phải trước ngày hoàn thành")
+                return toast.error("Ngày thi công không được trùng ngày và không được sau ngày hoàn thành")
             }
             if (!dataFind?.fullName) {
                 return toast.error("Không tồn tại thiết kế")
