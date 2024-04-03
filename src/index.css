@@ -275,13 +275,38 @@
   .custom_step div:first-child {
     line-height: 0px !important;
   }
+  .px-56 {
+    background-color: #F5F5F5;
+      width: 70%;
+      height: auto;
+      margin: 100px auto;
+      padding: 70px;
+  }
+  .custom_step .ant-steps-item-icon {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom_step .ant-steps-icon {
+    line-height: 40px;
+  }
+
+  .custom_step .ant-steps-item-active .ant-steps-item-icon {
+    font-size: 32px;
+    width: 60px;
+    height: 60px;
+  }
 
   .item_categorys {
     background-image: linear-gradient(to left, #e89f71, #a8653b);
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
-    width: 300px;
+    width: 250px;
     word-wrap: break-word;
     color: white;
   }
@@ -290,13 +315,13 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
-    width: 300px;
+    width: 250px;
     word-wrap: break-word;
     color: black;
   }
 
   .block_left_category {
-    width: 400px;
+    width: 40%;
   }
   .MuiImageListItemBar-root.MuiImageListItemBar-positionBottom.css-ztrqiq-MuiImageListItemBar-root {
     background: none !important;

@@ -158,13 +158,84 @@
         bottom: 10px;
     }
 }
-:where(.css-dev-only-do-not-override-11xg00t).ant-image .ant-image-mask {
 
-    display: none;
-}
 .ant-image:has(> .CustomerImage)
 {
     width: 100%;
     height: 100%;
+}
+.new-navigation {
+    z-index: 2;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px);
+    max-width: 400px;
+}
+
+.new-navigation .nav-button-left,
+.new-navigation .nav-button-right {
+    background: rgba(255, 255, 255, 0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: -220px; /* Lùi lên trên khoảng 150px */
+}
+
+.new-navigation .nav-button-left {
+    left: -61%; /* Di chuyển nút bên trái sang trái 50% */
+   
+}
+
+.new-navigation .nav-button-right {
+    right: -136%; 
+}
+
+.new-navigation .nav-button-left::before,
+.new-navigation .nav-button-right::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-top: 2px solid #fff;
+    border-right: 2px solid #fff;
+    position: absolute;
+    top: 50%;
+}
+
+.new-navigation .nav-button-left::before {
+    left: 15px;
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+.new-navigation .nav-button-right::after {
+    right: 15px;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.new-navigation .nav-button-left:hover,
+.new-navigation .nav-button-right:hover {
+    background: #2696e9;
+}
+
+.new-navigation .nav-button-left:focus,
+.new-navigation .nav-button-right:focus {
+    outline: none;
+}
+
+@media (max-width: 420px) {
+    .new-navigation .nav-button-left,
+    .new-navigation .nav-button-right {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+
+.ant-image .ant-image-mask {
+    display: none;
 }
 
