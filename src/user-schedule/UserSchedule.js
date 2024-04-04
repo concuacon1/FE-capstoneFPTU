@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from 'antd'; // Import Ant Design Card component
-import dayjs from 'dayjs'; // Import dayjs for date formatting
-import instance from "../configApi/axiosConfig";
-import HeaderComponent from '../header';
+import { Card } from 'antd';
+import dayjs from 'dayjs';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
+import instance from "../configApi/axiosConfig";
 import FooterComponent from '../footer';
+import HeaderComponent from '../header';
 
-const { Meta } = Card; // Destructure Meta component from Card
+const { Meta } = Card;
 
 const ScheduleCard = ({ key, designerName, scheduleInfo }) => {
     const currentDate = dayjs();
@@ -39,7 +39,15 @@ const ScheduleCard = ({ key, designerName, scheduleInfo }) => {
                         scheduleInfo.timeSelect === "AFTERNOON" ? <p>- Chiều : 14h00 – 17h30</p> : <p>- Sáng : 8h30 - 11h00</p>
                     }
                     <p>- Tên kiến trúc sư: {designerName.fullName}</p>
-                    <p>- Còn {daysUntilBooked} ngày ...</p>
+                    {
+                        daysUntilBooked > 0 && <p>- Còn {daysUntilBooked} ngày ...</p>
+                    }
+                    {
+                        daysUntilBooked == 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy :))</p>
+                    }
+                    {
+                        daysUntilBooked < 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy :))</p>
+                    }
                 </div>
             </div>
         </Card >
@@ -62,16 +70,18 @@ const UserSchedule = () => {
     }, []);
 
     return (
-        <div className="h-screen">
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <HeaderComponent />
             <ToastContainer />
-            {scheduleData.map((item, index) => (
-                <ScheduleCard
-                    key={index}
-                    designerName={item.designerInfo}
-                    scheduleInfo={item.scheduleInfo}
-                />
-            ))}
+            <main style={{ flex: 1 }}>
+                {scheduleData.map((item, index) => (
+                    <ScheduleCard
+                        key={index}
+                        designerName={item.designerInfo}
+                        scheduleInfo={item.scheduleInfo}
+                    />
+                ))}
+            </main>
             <FooterComponent />
         </div>
     );

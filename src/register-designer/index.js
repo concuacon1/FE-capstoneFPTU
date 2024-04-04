@@ -349,7 +349,7 @@ const RegisterDesigner = () => {
 
                             <div>
                                 <div className="flex">
-                                    <p className="pr-3">Tải lên :</p>
+                                    <p className="pr-3">Tải lên CV :</p>
                                     <Button variant="contained" onClick={handleButtonClick}>
                                         Chọn file...
                                     </Button>

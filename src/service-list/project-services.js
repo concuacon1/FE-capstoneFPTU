@@ -108,10 +108,10 @@ const ProjectServices = () => {
         <div className={`btn ${currentSlide === 3 ? 'active' : ''}`} onClick={() => manualNav(3)}></div>
         <div className={`btn ${currentSlide === 4 ? 'active' : ''}`} onClick={() => manualNav(4)}></div>
     </div>
-    <div className="new-navigation">
+    
     <button className="nav-button-left" onClick={() => manualNav((currentSlide - 1 + 5) % 5)}></button>
     <button className="nav-button-right" onClick={() => manualNav((currentSlide + 1) % 5)}></button>
-</div>
+
 
 </div>
 

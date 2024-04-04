@@ -6,7 +6,7 @@ import VuGia from "../images/Vu_gia.png";
 import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import DoneIcon from '@mui/icons-material/Done';
-import { Divider, ImageList, ImageListItem, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Divider, Grid, ImageList, ImageListItem, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -606,18 +606,18 @@ const DesignerList = () => {
                                     </nav>
                                 </div>
                                 <Divider type="vertical" style={{ height: "auto", backgroundColor: 'black', width: '1px' }} />
-                                <div style={{ width: '700px' }}>
+                                <div style={{ width: '700px', padding: '0 20px' }}>
                                     <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
-                                    <div className="flex" style={{ flexWrap: 'wrap', gap: '12px', padding: '0 30px' }}>
-                                        {
-                                            formShow?.dataDesigner?.skill?.map((ski, index) => (
+                                    <Grid container spacing={2}>
+                                        {formShow?.dataDesigner?.skill.map((skill, index) => (
+                                            <Grid item xs={6} key={index}>
                                                 <div className="flex" key={index}>
                                                     <DoneIcon />
-                                                    {ski}
+                                                    {skill}
                                                 </div>
-                                            ))
-                                        }
-                                    </div>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
                                     <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                                     <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
                                         {

@@ -243,8 +243,8 @@ const WorkingProject = () => {
                             />
                         </div>
                         <div className="font-bold mb-3 flex items-center" style={{ fontSize: '20px', gap: 20 }}>
-                            Lĩnh vực
-                            <FormControl fullWidth>
+                            Lĩnh vực nổi bật
+                            <FormControl >
                                 <Select
                                     style={{ width: 280 }}
                                     labelId="demo-select-small-label"
@@ -267,7 +267,7 @@ const WorkingProject = () => {
                             aria-label="minimum height"
                             minRows={10}
                             style={{ width: '100%' }}
-                            placeholder="Minimum 3 rows"
+                            placeholder="Hãy viết ngắn gọn về bản thân "
                             value={editData.description}
                             onChange={handleDescriptionChange}
                         />

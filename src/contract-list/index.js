@@ -24,12 +24,24 @@ import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { Image, Switch } from "antd";
+import { useRef } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { formatDate } from "../helper/formatDate";
+
+const generateRandomString = (length) => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 const ContractList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -47,6 +59,30 @@ const ContractList = () => {
         permission: ""
     })
 
+    const [formAdd, setFormAdd] = useState({
+        contractCode: generateRandomString(8),
+        contractName: "",
+        customerCode: "",
+        signName: "",
+        contractDate: "",
+        contractPdf: ""
+    })
+
+    const filePdfRef = useRef(null);
+
+    const handlePdfChange = (event) => {
+        const file = event.target.files[0];
+        if (file && file.type === 'application/pdf') {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormAdd({ ...formAdd, contractPdf: reader.result });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select a PDF file.');
+            event.target.value = null;
+        }
+    }
 
     const onChangeEditForm = (event, nameProps) => {
         const formEditOld = { ...formEdit };
@@ -84,6 +120,7 @@ const ContractList = () => {
     const [dateEditSelect, setDataEditSelect] = useState()
 
     const [openDelete, setOpenDelete] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
     const [idDeleteAccount, setIdDeleteAccount] = useState();
 
     const [openEdit, setOpenEdit] = useState(false);
@@ -102,7 +139,9 @@ const ContractList = () => {
         setOpenEdit(false);
     };
 
-
+    const handleCloseAdd = () => {
+        setOpenAdd(false);
+    };
 
     const [callApiReset, setCallApiReset] = useState(false)
 
@@ -156,6 +195,13 @@ const ContractList = () => {
         }
     }
 
+    const handleButtonClick = () => {
+        filePdfRef.current.click();
+    };
+
+    const addContract = () => {
+        setOpenAdd(true);
+    }
 
     const apiSearch = async () => {
         try {
@@ -435,8 +481,6 @@ const ContractList = () => {
                                 </FormControl>
                             </div>
 
-
-
                         </div>
 
                         <div className="flex justify-end">
@@ -445,6 +489,125 @@ const ContractList = () => {
                         </div>
 
 
+                    </ModalContent>
+                </Modal>
+
+                <Modal
+                    open={openAdd}
+                    onClose={handleCloseAdd}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: StyledBackdrop }}
+                >
+                    <ModalContent
+                        sx={{ maxHeight: '900px', overflow: 'auto' }}
+                    >
+                        <h1 id="parent-modal-title" className="modal-title" style={{ fontWeight: 600 }}>
+                            Hợp đồng mới
+                        </h1>
+                        <div style={{ padding: 20 }}>
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Mã hợp đồng: </div>
+                                <TextField
+                                    style={{ width: 242 }}
+                                    id="outlined-start-adornment"
+                                    name="contractCode"
+                                    value={formAdd?.contractCode}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                    disabled
+                                />
+                            </div>
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Tên hợp đồng: </div>
+                                <TextField
+                                    style={{ width: 242 }}
+                                    id="outlined-start-adornment"
+                                    name="contractName"
+                                    onChange={onChangeInput}
+                                    value={formAdd?.contractName}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                />
+                            </div>
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Mã khách hàng: </div>
+                                <TextField
+                                    style={{ width: 242 }}
+                                    id="outlined-start-adornment"
+                                    name="customerCode"
+                                    onChange={onChangeInput}
+                                    value={formAdd?.customerCode}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                />
+                            </div>
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Tên người ký: </div>
+                                <TextField
+                                    style={{ width: 242 }}
+                                    id="outlined-start-adornment"
+                                    name="signName"
+                                    onChange={onChangeInput}
+                                    value={formAdd?.signName}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                />
+                            </div>
+
+                            <div className="item flex justify-center items-center">
+                                <div style={{ width: 200 }}>Ngày kí kết: </div>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer
+                                        components={[
+                                            "DatePicker",
+                                            "TimePicker",
+                                            "DateTimePicker",
+                                            "DateRangePicker",
+                                        ]}
+                                    >
+                                        <DemoItem component="DateRangePicker">
+                                            <DatePicker
+                                                value={formAdd.contractDate}
+                                                onChange={(date) => setFormAdd({ ...formAdd, contractDate: date })}
+                                                renderInput={(params) => <TextField {...params} fullWidth />}
+                                                sx={{ width: '100%' }}
+                                            />
+                                        </DemoItem>
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </div>
+                            <div className="item flex justify-center items-center" style={{ padding: '8px 0' }}>
+                                <div style={{ width: 200 }}>Chi tiết: </div>
+                                <button
+                                    className="custombutton-register-designer"
+                                    style={{ width: "242px" }}
+                                    type="submit"
+                                    onClick={handleButtonClick}
+                                >
+                                    Tải lên file
+                                </button>
+                                <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    ref={filePdfRef}
+                                    style={{ display: 'none' }}
+                                    onChange={handlePdfChange}
+                                />
+                            </div>
+                            {formAdd.contractPdf && (
+                                <embed
+                                    src={formAdd.contractPdf}
+                                    type="application/pdf"
+                                    width="100%"
+                                    height="600px"
+                                />
+                            )}
+                        </div>
+                        <div className="flex justify-end">
+                            <button className="pr-5" onClick={handleCloseAdd}>Hủy</button>
+                            <button onClick={deleteAccountAsync}>Ok</button>
+                        </div>
                     </ModalContent>
                 </Modal>
 
@@ -558,6 +721,7 @@ const ContractList = () => {
                                             className="button-add"
                                             style={{ width: "150px", marginTop: "5" }}
                                             type="submit"
+                                            onClick={addContract}
                                         >
                                             Thêm mới <AddIcon></AddIcon>
                                         </button>

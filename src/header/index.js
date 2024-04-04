@@ -33,6 +33,14 @@ const HeaderComponent = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    const [formShow, setFormShow] = useState({});
+    const [openShowInfo, setOpenShowInfo] = useState(false);
+
+    const showInfo = (data) => {
+        console.log("data == ", data);
+        setFormShow(data);
+        setOpenShowInfo(true);
+    }
 
     const handleClickOpenNotiPush = (event) => {
         setOpenNotipush(event.currentTarget);
@@ -156,7 +164,7 @@ const HeaderComponent = () => {
 
 
                     }
-                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" )&&
+                    {(checkRole === "ADMIN" || checkRole === "STAFF" )&&
                         <motion.div className='cursor-pointer'
                     whileHover={{ 
                     backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
@@ -164,8 +172,41 @@ const HeaderComponent = () => {
                     padding: "5px 10px"
                 }} 
                 transition={{ duration: 0.2 }} // Thời gian chuyển đổi
-                        >Lịch hẹn</motion.div>
+                        >
+                       <Link to="/list-schedule" >Lịch hẹn</Link>
+                        
+                        </motion.div>
                     }
+
+                    {checkRole === "DESIGNER" && (
+        <motion.div
+          className='cursor-pointer'
+          whileHover={{ 
+            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+            scale: 1.5, // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+            padding: "5px 10px"
+          }} 
+          transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+        >
+          <Link to="/create-schedule" >Lịch hẹn</Link>
+        </motion.div>
+      )}
+                    
+
+                    {checkRole === "CUSTOMER" && (
+        <motion.div
+          className='cursor-pointer'
+          whileHover={{ 
+            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+            scale: 1.5, // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+            padding: "5px 10px"
+          }} 
+          transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+        >
+          <Link to="/user-schedule">Lịch hẹn</Link>
+        </motion.div>
+      )}
+                    
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div className='cursor-pointer'
                         whileHover={{ 
@@ -424,8 +465,8 @@ const HeaderComponent = () => {
                             Thông tin cá nhân
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Hò sơ & Công việc
+                        <MenuItem >
+                        <Link to="/working-profile"> Hồ sơ & Công việc</Link>  
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
