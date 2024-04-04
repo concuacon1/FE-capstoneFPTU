@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from '../footer';
@@ -56,11 +57,15 @@ const ScheduleCard = ({ key, designerName, scheduleInfo }) => {
 
 const UserSchedule = () => {
     const [scheduleData, setScheduleData] = useState([]);
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const calendarRes = await instance.get('/schedule/user-list-schedule');
+                if (calendarRes.data.data.length === 0) {
+                    setMessage('Vui lòng liên hệ với nhân viên chúng tôi hoặc đặt lịch với Kiến Trúc Sư ')
+                }
                 setScheduleData(calendarRes.data.data);
             } catch (error) {
                 console.log(error);
@@ -74,13 +79,24 @@ const UserSchedule = () => {
             <HeaderComponent />
             <ToastContainer />
             <main style={{ flex: 1 }}>
-                {scheduleData.map((item, index) => (
+                {scheduleData.length > 0 ? scheduleData.map((item, index) => (
                     <ScheduleCard
                         key={index}
                         designerName={item.designerInfo}
                         scheduleInfo={item.scheduleInfo}
                     />
-                ))}
+                )) : <div style={{
+                    position: 'absolute',
+                    top: '30%',
+                    left: '50%',
+                    fontSize: '25px',
+                    textAlign: 'center',
+                    transform: 'translate(-50%, -50%)',
+                    width: '780px'
+                }}>
+                    {message}
+                    <Link to="/list-user-designer"><span style={{ textDecoration: 'underline' }}>tại đây </span>!</Link>
+                </div>}
             </main>
             <FooterComponent />
         </div>

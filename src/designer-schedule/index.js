@@ -97,7 +97,8 @@ const DesignerSchedule = () => {
                         description_book: note,
                         timeWork: selectedDate,
                         phoneNumber: phoneNumber,
-                        email: email
+                        email: email,
+                        place: place
                     }).then(response => {
                         window.location.reload();
                     }).catch(error => {

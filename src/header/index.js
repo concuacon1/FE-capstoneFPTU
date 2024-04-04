@@ -376,13 +376,13 @@ const HeaderComponent = () => {
             >
                 {checkRole == "" && (
                     <>
-                        <MenuItem onClick={logout} disableRipple>
+                        <div onClick={logout} disableRipple>
                             Đăng Nhập
-                        </MenuItem>
+                        </div>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
+                        <div onClick={logout} disableRipple>
                             Đăng Ký
-                        </MenuItem>
+                        </div>
                     </>
 
                 )}

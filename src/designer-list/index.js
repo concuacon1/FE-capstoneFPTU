@@ -113,8 +113,6 @@ const DesignerList = () => {
         setOpenEdit(false);
     };
 
-
-
     const [callApiReset, setCallApiReset] = useState(false)
 
     const deleteAccountAsync = async () => {

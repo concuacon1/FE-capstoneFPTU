@@ -243,8 +243,8 @@ const WorkingProject = () => {
                             />
                         </div>
                         <div className="font-bold mb-3 flex items-center" style={{ fontSize: '20px', gap: 20 }}>
-                            Lĩnh vực nổi bật
-                            <FormControl >
+                            Lĩnh vực
+                            <FormControl fullWidth>
                                 <Select
                                     style={{ width: 280 }}
                                     labelId="demo-select-small-label"
@@ -267,7 +267,7 @@ const WorkingProject = () => {
                             aria-label="minimum height"
                             minRows={10}
                             style={{ width: '100%' }}
-                            placeholder="Hãy viết ngắn gọn về bản thân "
+                            placeholder="Hãy viết ngắn gọn về bản thân"
                             value={editData.description}
                             onChange={handleDescriptionChange}
                         />
@@ -276,41 +276,79 @@ const WorkingProject = () => {
                     <div style={{ padding: '50px' }}>
                         <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
                         <Grid container spacing={2}>
-                            {editData.skill.map((skill, index) => (
-                                <Grid item xs={6} key={index}>
-                                    <TextField
-                                        fullWidth
-                                        label={`Kỹ năng ${index + 1}`}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            style: {
-                                                borderBottom: '1px solid #000',
-                                            },
-                                        }}
-                                        value={skill}
-                                        onChange={(e) => handleSkillChange(index, e.target.value)}
-                                    />
-                                </Grid>
-                            ))}
+                            {editData.skill.length > 0 ? (
+                                editData.skill.map((skill, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kỹ năng ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={skill}
+                                            onChange={(e) => handleSkillChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            ) : (
+                                skills.map((skill, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kỹ năng ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={skill}
+                                            onChange={(e) => handleSkillChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            )}
                         </Grid>
                         <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                         <Grid container spacing={2}>
-                            {editData.experiences.map((experience, index) => (
-                                <Grid item xs={12} key={index}>
-                                    <TextField
-                                        fullWidth
-                                        label={`Kinh nghiệm ${index + 1}`}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            style: {
-                                                borderBottom: '1px solid #000',
-                                            },
-                                        }}
-                                        value={experience}
-                                        onChange={(e) => handleExperienceChange(index, e.target.value)}
-                                    />
-                                </Grid>
-                            ))}
+                            {editData.experiences.length > 0 ? (
+                                editData.experiences.map((experience, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kinh nghiệm ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={experience}
+                                            onChange={(e) => handleExperienceChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            ) : (
+                                experiences.map((experience, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kinh nghiệm ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={experience}
+                                            onChange={(e) => handleExperienceChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            )}
                         </Grid>
                         <div className="flex mt-3" style={{ float: 'right' }}>
                             <button className="bg_book_schedule mr-5" onClick={makeBrief}>Tạo hồ sơ</button>

@@ -71,10 +71,7 @@ const ScheduleList = () => {
         },
     ];
 
-
     const [rowsData, setRowsData] = useState([])
-
-    const [callApiReset, setCallApiReset] = useState(false)
 
     const handleTimeClick = (id) => {
         const index = rowsData.findIndex(row => row.id === id);
@@ -167,7 +164,7 @@ const ScheduleList = () => {
                 const dataDB = dataRes.data.data;
                 const rowData = dataDB.map(item_data => {
                     const statusOptions = {
-                        PENDING: 'Đang đợi',
+                        PENDDING: 'Đang đợi',
                         APPROVED: 'Đồng ý',
                         REJECT: 'Từ chối'
                     };
@@ -225,6 +222,10 @@ const ScheduleList = () => {
 
         console.log(value, id, rowsData);
     }
+
+    useEffect(() => {
+        console.log("rowsData updated:", rowsData);
+    }, [rowsData]);
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -409,7 +410,6 @@ const ScheduleList = () => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                 {columns.map((column) => {
-                                                    // Nếu là cột thời gian, thêm hàm xử lý sự kiện khi click vào
                                                     if (column.id === "time") {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} onClick={() => handleTimeClick(row.id)}>
@@ -417,7 +417,6 @@ const ScheduleList = () => {
                                                             </TableCell>
                                                         );
                                                     }
-                                                    // Nếu không phải là cột thời gian, hiển thị giá trị bình thường
                                                     return (
                                                         <TableCell key={column.id} align={column.align}>
                                                             {column.format && typeof row[column.id] === 'number'
