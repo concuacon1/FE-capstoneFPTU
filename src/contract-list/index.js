@@ -27,8 +27,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { Image, Switch } from "antd";
+import { Image } from "antd";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { formatDate } from "../helper/formatDate";
@@ -52,20 +53,15 @@ const ContractList = () => {
         endDate: "",
     });
 
-    const [formEdit, setFormEdit] = useState({
-        email: "",
-        passwordNew: "",
-        activeAccount: true,
-        permission: ""
-    })
-
     const [formAdd, setFormAdd] = useState({
-        contractCode: generateRandomString(8),
-        contractName: "",
+        codeContract: generateRandomString(8),
+        nameContract: "",
         customerCode: "",
-        signName: "",
-        contractDate: "",
-        contractPdf: ""
+        nameSignature: "",
+        timeSigned: "",
+        imageContract: "",
+        customerName: "",
+        custormerId: ""
     })
 
     const filePdfRef = useRef(null);
@@ -75,7 +71,7 @@ const ContractList = () => {
         if (file && file.type === 'application/pdf') {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormAdd({ ...formAdd, contractPdf: reader.result });
+                setFormAdd({ ...formAdd, imageContract: reader.result });
             };
             reader.readAsDataURL(file);
         } else {
@@ -84,60 +80,51 @@ const ContractList = () => {
         }
     }
 
-    const onChangeEditForm = (event, nameProps) => {
-        const formEditOld = { ...formEdit };
-        if (nameProps === "activeAccount") {
-            formEditOld.activeAccount = event.target.checked;
-        } else {
-            formEditOld[event.target.name] = event.target.value
-        }
-        setFormEdit(formEditOld);
+    const onChangeAddForm = (event, nameProps) => {
+        const formAddOld = { ...formAdd };
+        formAddOld[event.target.name] = event.target.value
+        setFormAdd(formAddOld);
     }
 
     const columns = [
-        { id: 'contractcode', label: 'Mã hợp đồng', minWidth: 170 },
-        { id: 'customername', label: 'Tên khách hàng', minWidth: 100 },
+        { id: 'codeContract', label: 'Mã hợp đồng', minWidth: 170 },
+        { id: 'customerName', label: 'Tên khách hàng', minWidth: 100 },
         {
-            id: 'signername',
+            id: 'nameSignature',
             label: 'Tên người ký',
             minWidth: 170,
         },
         {
-            id: 'signeddate',
+            id: 'timeSigned',
             label: 'Ngày kí kết',
             minWidth: 170,
         },
         {
-            id: 'detail',
+            id: 'action',
             label: 'Chi tiết',
             minWidth: 170,
-        },
+        }
     ];
 
 
     const [rowsData, setRowData] = useState([])
 
-    const [dateEditSelect, setDataEditSelect] = useState()
-
     const [openDelete, setOpenDelete] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
-    const [idDeleteAccount, setIdDeleteAccount] = useState();
-
-    const [openEdit, setOpenEdit] = useState(false);
-    const [idEditAccount, setIdEditAccount] = useState();
+    const [idDeleteContract, setIdDeleteContract] = useState();
 
     const handleCloseDelete = () => {
         setOpenDelete(false);
     };
 
-    const deleteAccount = (id) => {
+    const deleteContract = (id) => {
         setOpenDelete(true);
-        setIdDeleteAccount(id)
+        setIdDeleteContract(id)
     }
 
-    const handleCloseEdit = () => {
-        setOpenEdit(false);
-    };
+    const showContract = (item) => {
+        console.log(item);
+    }
 
     const handleCloseAdd = () => {
         setOpenAdd(false);
@@ -145,9 +132,9 @@ const ContractList = () => {
 
     const [callApiReset, setCallApiReset] = useState(false)
 
-    const deleteAccountAsync = async () => {
+    const deleteContractAsync = async () => {
         try {
-            await instance.delete(`/delete_user/${idDeleteAccount}`);
+            await instance.delete(`/delete_user/${idDeleteContract}`);
             setCallApiReset(prev => !prev);
             toast.success("Xóa thành công");
             setOpenDelete(false)
@@ -164,24 +151,11 @@ const ContractList = () => {
         }
     }
 
-    const editAccountAsync = async () => {
+    const createContract = async () => {
+        console.log(formAdd);
         try {
-
-            if (formEdit.passwordNew.length < 1) {
-                return toast.error("Vui lòng nhập password mới")
-            }
-
-            const formDataEdit = {
-                email: formEdit.email,
-                password: formEdit.passwordNew,
-                isActive: formEdit.activeAccount,
-                role: formEdit.role
-            }
-            await instance.post(`/update-user`, formDataEdit);
-            console.log(formDataEdit)
-            setCallApiReset(prev => !prev);
-            toast.success("Sửa  thành công");
-            setOpenEdit(false)
+            const dataSearch = await instance.post("/create_contract", formAdd);
+            console.log("dataSearch == ", dataSearch);
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -193,6 +167,7 @@ const ContractList = () => {
                 return toast.error("Server error")
             }
         }
+
     }
 
     const handleButtonClick = () => {
@@ -219,27 +194,23 @@ const ContractList = () => {
                 dataDB.map(item_data => {
                     const objectPush = {
                         'id': item_data._id,
-                        'email': item_data.email,
-                        'phoneNumber': item_data.phoneNumber,
-                        'dob': item_data.dob,
-                        'isActive': item_data.isActive,
-                        'accountcode': item_data.userCode,
-                        'username': item_data.fullName,
-                        'permission': item_data.role,
-                        'created_date': formatDate(item_data?.createdAt),
+                        'codeContract': item_data.codeContract,
+                        'nameContract': item_data.nameContract,
+                        'customerCode': item_data.customerCode,
+                        'nameSignature': item_data.nameSignature,
+                        'timeSigned': formatDate(item_data.timeSigned),
+                        'customerName': item_data.customerName,
                         'action': <div >
-                            <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data._id)}>Edit</button>
-                            <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
+                            <button className="bg_edit_account mr-5">
+                                <Link to={`/contract/${item_data._id}`}>Xem</Link>
+                            </button>
+                            <button className="bg_delete_account" onClick={() => deleteContract(item_data._id)}>Xoá</button>
                         </div>
                     };
-                    item.push(objectPush); // Push the object to the array
+                    item.push(objectPush);
                 });
                 setRowData(item);
-            } else {
-                setRowData([]);
             }
-
-
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -256,25 +227,25 @@ const ContractList = () => {
     useEffect(() => {
         async function getAllUser() {
             try {
-                const dataRes = await instance.get(`/list_user_role_admin`);
-                const dataDB = dataRes.data.data;
+                const dataRes = await instance.get('/list_contract');
+                const dataDB = dataRes.data.data.listContract;
                 const item = [];
                 if (dataDB.length > 0) {
                     dataDB.map(item_data => {
                         const objectPush = {
                             'id': item_data._id,
-                            'email': item_data.email,
-                            'phoneNumber': item_data.phoneNumber,
-                            'dob': item_data.dob,
-                            'isActive': item_data.isActive,
-                            'accountcode': item_data.userCode,
-                            'username': item_data.fullName,
-                            'permission': item_data.role,
-                            'created_date': formatDate(item_data?.createdAt),
+                            'codeContract': item_data.codeContract,
+                            'nameContract': item_data.nameContract,
+                            'customerCode': item_data.customerCode,
+                            'nameSignature': item_data.nameSignature,
+                            'timeSigned': formatDate(item_data.timeSigned),
+                            'customerName': item_data.customerName,
                             'action': <div >
-                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Edit</button>
-                                <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Delete</button>
-                            </div>
+                            <button className="bg_edit_account mr-5">
+                                <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
+                            </button>
+                            <button className="bg_delete_account" onClick={() => deleteContract(item_data._id)}>Xoá</button>
+                        </div>
                         };
                         item.push(objectPush); // Push the object to the array
                     });
@@ -299,16 +270,6 @@ const ContractList = () => {
         getAllUser()
     }, [callApiReset])
 
-
-    const editAccount = (data) => {
-        const formData = { ...formEdit, role: data.role, activeAccount: data.isActive, email: data.email };
-        setDataEditSelect(data)
-        setIdEditAccount(data._id)
-        setOpenEdit(true);
-        setFormEdit(formData)
-    }
-
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -320,7 +281,6 @@ const ContractList = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
 
     const onChangeInput = (event) => {
         const data = {
@@ -340,6 +300,37 @@ const ContractList = () => {
         setFormSearch(data);
     };
 
+    const checkCode = async () => {
+        const dataCheck = {
+            params: {
+                userCode: formAdd.customerCode
+            }
+        }
+        try {
+            const dataRes = await instance.get("/check_contract", dataCheck);
+            const dataFind = dataRes.data.data.dataCustomer;
+            if (!dataFind?.fullName) {
+                return toast.error("Khong ton tai design code")
+            } else {
+                const dataOle = {
+                    ...formAdd,
+                    "customerName": dataFind.fullName,
+                    "custormerId": dataFind._id
+                };
+                setFormAdd(dataOle)
+            }
+        } catch (error) {
+            if (error.response.status === 402) {
+                return toast.error(error.response.data.errors[0].msg)
+            } else if (error.response.status === 400) {
+                return toast.error(error.response.data.message)
+            } else if (error.response.status === 403) {
+                return toast.error(error.response.data.message)
+            } else {
+                return toast.error("Server error")
+            }
+        }
+    }
 
     return (
         <div className="h-screen">
@@ -373,119 +364,7 @@ const ContractList = () => {
 
                         <div className="flex justify-end">
                             <button className="pr-5" onClick={handleCloseDelete}>Hủy</button>
-                            <button onClick={deleteAccountAsync}>Ok</button>
-                        </div>
-
-
-                    </ModalContent>
-                </Modal>
-
-                <Modal
-                    open={openEdit}
-                    onClose={handleCloseEdit}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                    closeAfterTransition
-                    slots={{ backdrop: StyledBackdrop }}
-
-                >
-                    <ModalContent >
-                        <h2 id="parent-modal-title" className="modal-title">
-                            Edit Account
-                        </h2>
-
-                        <div>
-                            <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Full Name : </div>
-                                <TextField
-                                    style={{ width: 300 }}
-                                    id="outlined-start-adornment"
-                                    name="fullName"
-
-                                    value={dateEditSelect?.fullName}
-                                    sx={{ m: 1, width: "280px", height: "50px" }}
-                                    disabled
-                                />
-
-                            </div>
-
-                            <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Email : </div>
-                                <TextField
-                                    style={{ width: 300 }}
-                                    id="outlined-start-adornment"
-                                    name="email"
-                                    onChange={onChangeInput}
-                                    value={dateEditSelect?.email}
-                                    sx={{ m: 1, width: "280px", height: "50px" }}
-                                    disabled
-                                />
-                            </div>
-
-
-                            <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Phone Number : </div>
-                                <TextField
-                                    style={{ width: 300 }}
-                                    id="outlined-start-adornment"
-                                    name="phoneNumber"
-                                    onChange={onChangeInput}
-                                    value={dateEditSelect?.phoneNumber}
-                                    sx={{ m: 1, width: "280px", height: "50px" }}
-                                    disabled
-                                />
-                            </div>
-
-
-                            <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Password : </div>
-                                <TextField
-                                    style={{ width: 300 }}
-                                    id="outlined-start-adornment"
-                                    name="passwordNew"
-                                    onChange={(event) => onChangeEditForm(event, "passwordNew")}
-                                    value={formEdit.passwordNew}
-                                    sx={{ m: 1, width: "280px", height: "50px" }}
-                                />
-                            </div>
-
-
-                            <div className="item flex justify-start items-center" style={{ height: '56px' }}>
-                                <div style={{ width: 200 }}>Active account : </div>
-                                <Switch
-                                    style={{ marginLeft: '10px' }}
-                                    checked={formEdit.activeAccount}
-                                    onChange={(data) => onChangeEditForm(data, "activeAccount")}
-
-                                />
-                            </div>
-
-
-                            <div className="flex justify-center items-center">
-                                <div className="" style={{ width: 200 }}>Permission :</div>
-                                <FormControl sx={{ m: 1, minWidth: 300 }} size="small">
-
-                                    <Select
-                                        style={{ width: 300 }}
-                                        labelId="demo-select-small-label"
-                                        id="demo-select-small"
-                                        value={formEdit.role}
-                                        label="--Choose--"
-                                        onChange={(data) => onChangeEditForm(data, "role")}
-                                        name="role"
-                                    >
-                                        <MenuItem value={"DESIGNER"}>DESIGNER</MenuItem>
-                                        <MenuItem value={"STAFF"}>STAFF</MenuItem>
-                                        <MenuItem value={"CUSTOMER"}>CUSTOMER</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-
-                        </div>
-
-                        <div className="flex justify-end">
-                            <button className="pr-5" onClick={handleCloseEdit}>Hủy</button>
-                            <button onClick={editAccountAsync}>Ok</button>
+                            <button onClick={deleteContractAsync}>Ok</button>
                         </div>
 
 
@@ -506,56 +385,78 @@ const ContractList = () => {
                         <h1 id="parent-modal-title" className="modal-title" style={{ fontWeight: 600 }}>
                             Hợp đồng mới
                         </h1>
-                        <div style={{ padding: 20 }}>
-                            <div className="item flex justify-center items-center">
+                        <div style={{ padding: 20, display: 'flex', gap: 12, flexDirection: 'column' }}>
+                            <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Mã hợp đồng: </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
-                                    name="contractCode"
-                                    value={formAdd?.contractCode}
+                                    name="codeContract"
+                                    value={formAdd?.codeContract}
                                     sx={{ m: 1, width: "280px", height: "50px" }}
                                     disabled
                                 />
                             </div>
 
-                            <div className="item flex justify-center items-center">
+                            <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Tên hợp đồng: </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
-                                    name="contractName"
-                                    onChange={onChangeInput}
-                                    value={formAdd?.contractName}
+                                    name="nameContract"
+                                    onChange={(event) => onChangeAddForm(event, "nameContract")}
+                                    value={formAdd?.nameContract}
                                     sx={{ m: 1, width: "280px", height: "50px" }}
                                 />
                             </div>
 
-                            <div className="item flex justify-center items-center">
+                            <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Mã khách hàng: </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
                                     name="customerCode"
-                                    onChange={onChangeInput}
+                                    onChange={(event) => onChangeAddForm(event, "customerCode")}
                                     value={formAdd?.customerCode}
                                     sx={{ m: 1, width: "280px", height: "50px" }}
                                 />
+                                <button
+                                    className="custombutton-register-designer"
+                                    style={{ width: "100px", marginLeft: '10px' }}
+                                    onClick={checkCode}
+                                >Kiểm tra</button>
+                            </div>
+                            <div className="item flex items-center">
+                                {
+                                    formAdd.customerName && (
+                                        <>
+                                <div style={{ width: 200 }}>Tên khách hàng: </div>
+                                        <TextField
+                                        style={{ width: 242 }}
+                                        id="outlined-start-adornment"
+                                        name="customerCode"
+                                        value={formAdd.customerName}
+                                        sx={{ m: 1, width: "280px", height: "50px" }}
+                                        disabled
+                                    />
+                                        </>
+                                    )
+                                }
                             </div>
 
-                            <div className="item flex justify-center items-center">
+                            <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Tên người ký: </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
-                                    name="signName"
-                                    onChange={onChangeInput}
-                                    value={formAdd?.signName}
+                                    name="nameSignature"
+                                    onChange={(event) => onChangeAddForm(event, "nameSignature")}
+                                    value={formAdd?.nameSignature}
                                     sx={{ m: 1, width: "280px", height: "50px" }}
                                 />
                             </div>
 
-                            <div className="item flex justify-center items-center">
+                            <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Ngày kí kết: </div>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer
@@ -568,8 +469,8 @@ const ContractList = () => {
                                     >
                                         <DemoItem component="DateRangePicker">
                                             <DatePicker
-                                                value={formAdd.contractDate}
-                                                onChange={(date) => setFormAdd({ ...formAdd, contractDate: date })}
+                                                value={formAdd.timeSigned}
+                                                onChange={(date) => setFormAdd({ ...formAdd, timeSigned: date })}
                                                 renderInput={(params) => <TextField {...params} fullWidth />}
                                                 sx={{ width: '100%' }}
                                             />
@@ -577,11 +478,11 @@ const ContractList = () => {
                                     </DemoContainer>
                                 </LocalizationProvider>
                             </div>
-                            <div className="item flex justify-center items-center" style={{ padding: '8px 0' }}>
+                            <div className="item flex items-center" style={{ padding: '8px 0' }}>
                                 <div style={{ width: 200 }}>Chi tiết: </div>
                                 <button
                                     className="custombutton-register-designer"
-                                    style={{ width: "242px" }}
+                                    style={{ width: "120px" }}
                                     type="submit"
                                     onClick={handleButtonClick}
                                 >
@@ -595,9 +496,9 @@ const ContractList = () => {
                                     onChange={handlePdfChange}
                                 />
                             </div>
-                            {formAdd.contractPdf && (
+                            {formAdd.imageContract && (
                                 <embed
-                                    src={formAdd.contractPdf}
+                                    src={formAdd.imageContract}
                                     type="application/pdf"
                                     width="100%"
                                     height="600px"
@@ -606,7 +507,7 @@ const ContractList = () => {
                         </div>
                         <div className="flex justify-end">
                             <button className="pr-5" onClick={handleCloseAdd}>Hủy</button>
-                            <button onClick={deleteAccountAsync}>Ok</button>
+                            <button onClick={createContract}>Tạo</button>
                         </div>
                     </ModalContent>
                 </Modal>

@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
+import ContractDetail from './contract-detail';
 import ContractList from './contract-list';
 import CreateProject from "./create-project/index";
 import CreateSchedule from './create-schedule';
@@ -14,6 +15,7 @@ import EditPasswordOtp from './edit-password-otp';
 import HomePage from "./homePage/index";
 import './index.css';
 import Login from "./login/index";
+import UserProfileForm from './profile';
 import ListProject from "./projects_category/list-project";
 import ProjectValue from "./projects_category/project-value";
 import RegisterCustomer from "./register-customer/index";
@@ -57,6 +59,9 @@ function App() {
         <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         <Route path="/create-schedule" element={<CreateSchedule />} />
         <Route path="/user-schedule" element={<UserSchedule />} />
+        <Route path="/user-profile-form" element={<UserProfileForm />} />
+        <Route path="/contract/:contract_id" element={<ContractDetail />} />
+
       </Routes>
     </BrowserRouter>
   );

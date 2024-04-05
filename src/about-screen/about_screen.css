@@ -94,3 +94,56 @@
    opacity: 0.5;
    /* Điều chỉnh mức độ mờ */
 }
+
+/* about_screen.css */
+
+/* about_screen.css */
+
+/* Style chung cho container của feature */
+.features-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   background-color: #ffffff; /* hoặc màu nền bạn chọn */
+ }
+ 
+ /* Style cho từng feature */
+ .feature {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+   margin-bottom: 50px; /* khoảng cách giữa các mục */
+   max-width: 360px; /* hoặc chiều rộng bạn chọn */
+ }
+ 
+ /* Style cho icon của feature */
+ .feature-icon img {
+   width: 80px; /* kích thước icon */
+   height: auto;
+   margin-bottom: 20px; /* khoảng cách từ icon đến tiêu đề */
+ }
+ 
+ /* Style cho hình ảnh minh họa của feature */
+ .feature-image img {
+   width: 100%; /* chiều rộng của hình ảnh */
+   border-radius: 10px; /* làm tròn góc nếu cần */
+   margin-bottom: 20px; /* khoảng cách từ hình ảnh đến tiêu đề */
+ }
+ 
+ /* Style cho tiêu đề của feature */
+ .feature-title {
+   font-size: 24px; /* cỡ chữ tiêu đề */
+   color: #333; /* màu chữ tiêu đề */
+   font-weight: bold; /* độ đậm của chữ */
+   margin-bottom: 10px; /* khoảng cách từ tiêu đề đến mô tả */
+ }
+ 
+ /* Style cho mô tả của feature */
+ .feature-description {
+   font-size: 16px; /* cỡ chữ mô tả */
+   color: #666; /* màu chữ mô tả */
+   line-height: 1.5; /* khoảng cách giữa các dòng */
+ }
+ 

@@ -26,18 +26,19 @@ const ProjectServices = () => {
    };
    const [currentSlide, setCurrentSlide] = useState(0);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % 5); // 5 là số lượng slide
-    }, 4000); // Thời gian chuyển slide
+   useEffect(() => {
+      const timeout = setTimeout(() => {
+         setCurrentSlide((prevSlide) => (prevSlide + 1) % 5); // 5 là số lượng slide
+      }, 4000); // Thời gian chuyển slide
 
-    return () => clearTimeout(timeout);
-  }, [currentSlide]); // Thêm currentSlide vào dependency để hiệu ứng chuyển slide được kích hoạt khi currentSlide thay đổi
+      return () => clearTimeout(timeout);
+   }, [currentSlide]); // Thêm currentSlide vào dependency để hiệu ứng chuyển slide được kích hoạt khi currentSlide thay đổi
 
 
-  const manualNav = (manual) => {
-    setCurrentSlide(manual);
-  };
+   const manualNav = (manual) => {
+      console.log("manual == ", manual);
+      setCurrentSlide(manual);
+   };
 
 
    useEffect(() => {
@@ -54,7 +55,7 @@ const ProjectServices = () => {
          <HeaderComponent />
          <motion.div
             className="project-service-screen " style={{
-               transform:"none"
+               transform: "none"
             }}
 
             initial={{ scaleY: 0 }}
@@ -69,53 +70,53 @@ const ProjectServices = () => {
                viewport={{ once: false, amount: 0.7 }}
             >
 
-<div className="custom-image-slider">
-    {/* Slide 1 */}
-    <div className={`custom-slide ${currentSlide === 0 ? 'active' : ''}`}>
-        <Image className="CustomerImage" src={ScreenCustomerImage01} />
-        
-    </div>
+               <div className="custom-image-slider">
+                  {/* Slide 1 */}
+                  <div className={`custom-slide ${currentSlide === 0 ? 'active' : ''}`}>
+                     <Image className="CustomerImage" src={ScreenCustomerImage01} />
 
-    {/* Slide 2 */}
-    <div className={`custom-slide ${currentSlide === 1 ? 'active' : ''}`}>
-    <Image className="CustomerImage" src={ScreenCustomerImage02} />
-       
-    </div>
+                  </div>
 
-    {/* Slide 3 */}
-    <div className={`custom-slide ${currentSlide === 2 ? 'active' : ''}`}>
-    <Image className="CustomerImage" src={ScreenCustomerImage03} />
-       
-    </div>
+                  {/* Slide 2 */}
+                  <div className={`custom-slide ${currentSlide === 1 ? 'active' : ''}`}>
+                     <Image className="CustomerImage" src={ScreenCustomerImage02} />
 
-    {/* Slide 4 */}
-    <div className={`custom-slide ${currentSlide === 3 ? 'active' : ''}`}>
-    <Image className="CustomerImage" src={ScreenCustomerImage04} />
-        
-    </div>
+                  </div>
 
-    {/* Slide 5 */}
-    <div className={`custom-slide ${currentSlide === 4 ? 'active' : ''}`}>
-    <Image className="CustomerImage" src={ScreenCustomerImage05} />
-        
-    </div>
+                  {/* Slide 3 */}
+                  <div className={`custom-slide ${currentSlide === 2 ? 'active' : ''}`}>
+                     <Image className="CustomerImage" src={ScreenCustomerImage03} />
 
-    {/* Navigation buttons */}
-    <div className="custom-navigation">
-        <div className={`btn ${currentSlide === 0 ? 'active' : ''}`} onClick={() => manualNav(0)}></div>
-        <div className={`btn ${currentSlide === 1 ? 'active' : ''}`} onClick={() => manualNav(1)}></div>
-        <div className={`btn ${currentSlide === 2 ? 'active' : ''}`} onClick={() => manualNav(2)}></div>
-        <div className={`btn ${currentSlide === 3 ? 'active' : ''}`} onClick={() => manualNav(3)}></div>
-        <div className={`btn ${currentSlide === 4 ? 'active' : ''}`} onClick={() => manualNav(4)}></div>
-    </div>
-    
-    <button className="nav-button-left" onClick={() => manualNav((currentSlide - 1 + 5) % 5)}></button>
-    <button className="nav-button-right" onClick={() => manualNav((currentSlide + 1) % 5)}></button>
+                  </div>
+
+                  {/* Slide 4 */}
+                  <div className={`custom-slide ${currentSlide === 3 ? 'active' : ''}`}>
+                     <Image className="CustomerImage" src={ScreenCustomerImage04} />
+
+                  </div>
+
+                  {/* Slide 5 */}
+                  <div className={`custom-slide ${currentSlide === 4 ? 'active' : ''}`}>
+                     <Image className="CustomerImage" src={ScreenCustomerImage05} />
+
+                  </div>
+
+                  {/* Navigation buttons */}
+                  <div className="custom-navigation">
+                     <div className={`btn ${currentSlide === 0 ? 'active' : ''}`} onClick={() => manualNav(0)}></div>
+                     <div className={`btn ${currentSlide === 1 ? 'active' : ''}`} onClick={() => manualNav(1)}></div>
+                     <div className={`btn ${currentSlide === 2 ? 'active' : ''}`} onClick={() => manualNav(2)}></div>
+                     <div className={`btn ${currentSlide === 3 ? 'active' : ''}`} onClick={() => manualNav(3)}></div>
+                     <div className={`btn ${currentSlide === 4 ? 'active' : ''}`} onClick={() => manualNav(4)}></div>
+                  </div>
 
 
-</div>
+                  <div className="custom-slide-navigation">
+                     <button className="nav-button-left" onClick={() => manualNav((currentSlide - 1 + 5) % 5)}></button>
+                     <button className="nav-button-right" onClick={() => manualNav((currentSlide + 1) % 5)}></button>
+                  </div>
+               </div>
 
-               
                <motion.div className="title"
                   variants={fadeIn('down', 0.2)}
                   initial="hidden"

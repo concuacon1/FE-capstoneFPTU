@@ -1,13 +1,12 @@
 .custom-image-slider {
     position: relative;
-   
     height: 500px;
     margin: 10px;
     background: #fff;
 }
 
 .custom-slide {
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -15,8 +14,8 @@
 }
 
 .custom-slide.active {
-    clip-path: circle(150.0% at 0 50%);
-    transition: 2s;
+    clip-path: circle(100% at 50% 50%);
+    transition: 1s;
     transition-property: clip-path;
 }
 
@@ -53,7 +52,7 @@
 }
 
 .custom-navigation {
-    z-index: 2;
+    z-index: 3;
     position: absolute;
     display: flex;
     bottom: 30px;
@@ -77,7 +76,6 @@
 
 @media (max-width: 820px) {
     .custom-image-slider {
-       
         height: 375px;
     }
 
@@ -95,7 +93,7 @@
     }
 
     .custom-navigation {
-        bottom: 25px;
+      
     }
 
     .custom-navigation .btn {
@@ -107,7 +105,6 @@
 
 @media (max-width: 620px) {
     .custom-image-slider {
-      
         height: 250px;
     }
 
@@ -137,7 +134,6 @@
 
 @media (max-width: 420px) {
     .custom-image-slider {
-       
         height: 200px;
     }
 
@@ -159,12 +155,12 @@
     }
 }
 
-.ant-image:has(> .CustomerImage)
-{
+.ant-image:has(> .CustomerImage) {
     width: 100%;
     height: 100%;
 }
-.new-navigation {
+
+.custom-slide-navigation {
     z-index: 2;
     position: absolute;
     bottom: 30px;
@@ -174,28 +170,27 @@
     max-width: 400px;
 }
 
-.new-navigation .nav-button-left,
-.new-navigation .nav-button-right {
+.custom-slide-navigation .nav-button-left,
+.custom-slide-navigation .nav-button-right {
     background: rgba(255, 255, 255, 0.5);
     width: 50px;
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    top: -220px; /* Lùi lên trên khoảng 150px */
+    top: -200px; /* Lùi lên trên khoảng 150px */
 }
 
-.new-navigation .nav-button-left {
+.custom-slide-navigation .nav-button-left {
     left: -61%; /* Di chuyển nút bên trái sang trái 50% */
-   
 }
 
-.new-navigation .nav-button-right {
+.custom-slide-navigation .nav-button-right {
     right: -136%; 
 }
 
-.new-navigation .nav-button-left::before,
-.new-navigation .nav-button-right::after {
+.custom-slide-navigation .nav-button-left::before,
+.custom-slide-navigation .nav-button-right::after {
     content: '';
     display: inline-block;
     width: 20px;
@@ -206,36 +201,34 @@
     top: 50%;
 }
 
-.new-navigation .nav-button-left::before {
+.custom-slide-navigation .nav-button-left::before {
     left: 15px;
     transform: translateY(-50%) rotate(-135deg);
 }
 
-.new-navigation .nav-button-right::after {
+.custom-slide-navigation .nav-button-right::after {
     right: 15px;
     transform: translateY(-50%) rotate(45deg);
 }
 
-.new-navigation .nav-button-left:hover,
-.new-navigation .nav-button-right:hover {
+.custom-slide-navigation .nav-button-left:hover,
+.custom-slide-navigation .nav-button-right:hover {
     background: #2696e9;
 }
 
-.new-navigation .nav-button-left:focus,
-.new-navigation .nav-button-right:focus {
+.custom-slide-navigation .nav-button-left:focus,
+.custom-slide-navigation .nav-button-right:focus {
     outline: none;
 }
 
 @media (max-width: 420px) {
-    .new-navigation .nav-button-left,
-    .new-navigation .nav-button-right {
+    .custom-slide-navigation .nav-button-left,
+    .custom-slide-navigation .nav-button-right {
         width: 40px;
         height: 40px;
     }
 }
 
-
 .ant-image .ant-image-mask {
     display: none;
 }
-
