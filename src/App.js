@@ -9,6 +9,7 @@ import ContractList from './contract-list';
 import CreateProject from "./create-project/index";
 import CreateSchedule from './create-schedule';
 import CustomerList from './customer-list';
+import CustomerTour from './customer-tour';
 import DesignerList from './designer-list';
 import DesignerSchedule from './designer-schedule';
 import EditPasswordOtp from './edit-password-otp';
@@ -61,6 +62,7 @@ function App() {
         <Route path="/user-schedule" element={<UserSchedule />} />
         <Route path="/user-profile-form" element={<UserProfileForm />} />
         <Route path="/contract/:contract_id" element={<ContractDetail />} />
+        <Route path="/user-tour" element={<CustomerTour />} />
 
       </Routes>
     </BrowserRouter>
