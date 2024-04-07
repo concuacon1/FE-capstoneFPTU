@@ -73,6 +73,50 @@ const ScheduleList = () => {
 
     const [rowsData, setRowsData] = useState([])
 
+    useEffect(() => {
+        async function getAllUser() {
+            try {
+                const dataRes = await instance.get(`/list-all-schedule`);
+                const dataDB = dataRes.data.data;
+                const rowData = dataDB.map((item_data, index) => {
+                    return {
+                        id: item_data.scheduleInfo._id,
+                        customerName: item_data.customerInfo?.fullName,
+                        designerName: item_data.designerInfo.fullName,
+                        date: item_data.scheduleInfo.timeWork,
+                        time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
+                        status: item_data.scheduleInfo.status,
+                        action: (
+                            <div>
+                                <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
+                            </div>
+                        )
+                    };
+                });
+
+                setRowsData(rowData);
+                rowsDataRef.current = rowData;
+            } catch (error) {
+                console.log(error);
+                switch (error?.response?.status) {
+                    case 402:
+                        toast.error(error.response.data.errors[0].msg);
+                        break;
+                    case 400:
+                    case 403:
+                        toast.error(error.response.data.message);
+                        break;
+                }
+            }
+        }
+
+        getAllUser();
+    }, []);
+
+    useEffect(() => {
+        console.log(rowsData);
+    }, [rowsData]);
+
     const handleTimeClick = (id) => {
         const index = rowsData.findIndex(row => row.id === id);
         if (index !== -1) {
@@ -100,7 +144,7 @@ const ScheduleList = () => {
             const rowData = dataDB.map((item_data, index) => {
                 return {
                     id: item_data.scheduleInfo._id,
-                    customerName: item_data.customerInfo.fullName,
+                    customerName: item_data.customerInfo?.fullName,
                     designerName: item_data.designerInfo.fullName,
                     date: item_data.scheduleInfo.timeWork,
                     time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
@@ -166,52 +210,6 @@ const ScheduleList = () => {
     }
 
     const rowsDataRef = useRef([]);
-
-    useEffect(() => {
-        async function getAllUser() {
-            try {
-                const dataRes = await instance.get(`/list-all-schedule`);
-                const dataDB = dataRes.data.data;
-                const rowData = dataDB.map((item_data, index) => {
-                    return {
-                        id: item_data.scheduleInfo._id,
-                        customerName: item_data.customerInfo.fullName,
-                        designerName: item_data.designerInfo.fullName,
-                        date: item_data.scheduleInfo.timeWork,
-                        time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
-                        status: item_data.scheduleInfo.status,
-                        action: (
-                            <div>
-                                <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
-                            </div>
-                        )
-                    };
-                });
-    
-                setRowsData(rowData);
-                rowsDataRef.current = rowData;
-            } catch (error) {
-                console.log(error);
-                switch (error?.response?.status) {
-                    case 402:
-                        toast.error(error.response.data.errors[0].msg);
-                        break;
-                    case 400:
-                    case 403:
-                        toast.error(error.response.data.message);
-                        break;
-                    default:
-                        toast.error("Server error");
-                }
-            }
-        }
-    
-        getAllUser();
-    }, []);
-
-    useEffect(() => {
-        console.log(rowsData);
-    }, [rowsData]);
 
     const renderStatusSelect = (status, id) => {
         const statusOptions = {

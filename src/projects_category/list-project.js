@@ -78,10 +78,10 @@ const ListProject = () => {
     }, [project_type])
 
     return (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <HeaderComponent />
             <ToastContainer />
-            <div className='list-project-screen' style={{ backgroundColor: '#FFFFFF' }}>
+            <div className='list-project-screen' style={{ backgroundColor: '#FFFFFF', flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div className='list-project-screen__image-banner'>
                     {/* <Image
                         style={{ width: "100vw", height: "auto" }}

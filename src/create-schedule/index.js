@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
+import { LoadingOverlay } from "../helper/loadingOverlay";
 
 const { Option } = Select;
 
@@ -30,10 +31,13 @@ const CreateSchedule = () => {
     const [isBooked, setIsBooked] = useState(false)
     const [scheduleBooked, setScheduleBooked] = useState({});
     const [userData, setUserData] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
+
 
     useEffect(() => {
         async function fetchData() {
             try {
+                setIsLoading(true);
                 const calendarRes = await instance.get('/create-schedule');
                 setBusyDate(calendarRes.data.busyDates);
                 setWorkOnDate(calendarRes.data.workOnDates);
@@ -42,6 +46,7 @@ const CreateSchedule = () => {
                 setIsBooked(calendarRes.data?.isSelectBook);
                 const userData = await instance.post(`/update-designer/${calendarRes.data.designerId}`);
                 setUserData(userData.data.message[0].dataDesigner[0])
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
             }
@@ -55,6 +60,9 @@ const CreateSchedule = () => {
     };
 
     const handleOk = () => {
+        if (!noteEdit) {
+            return toast.error('Vui lòng điền lí do nghỉ');
+        }
         if (confirmChecked) {
             Modal.confirm({
                 title: 'Xác nhận',
@@ -63,9 +71,10 @@ const CreateSchedule = () => {
                     // Handle OK button click
                     setBusyDate([...busyDate, ...selectedDates]);
                     setModalVisible(false);
+                    setIsLoading(true);
                     instance.post('/schedule/confirm', {
                         timeWorkOn: selectedDates,
-                        description_off: scheduleId,
+                        description_off: noteEdit,
                         email: email
                     }).then(response => {
                         console.log('Request thành công:', response.data);
@@ -75,6 +84,7 @@ const CreateSchedule = () => {
                     setSelectedDates([]);
                     setConfirmChecked(false); // Reset checkbox
                     setSelectedDateModalVisible(false);
+                    setIsLoading(false);
                 },
                 onCancel() {
                     // Handle Cancel button click
@@ -110,6 +120,7 @@ const CreateSchedule = () => {
             if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
                 return;
             }
+            setIsLoading(true);
             const scheduleInfo = await instance.get('/schedule/designer-info', {
                 params: {
                     timeWork: formattedDateString
@@ -118,6 +129,7 @@ const CreateSchedule = () => {
             setScheduleBooked(scheduleInfo.data.data);
             setSelectedDateModalVisible(true);
             setSelectedDate(date);
+            setIsLoading(false);
         } catch (error) {
             console.error("Error fetching schedule information:", error);
             return;
@@ -188,6 +200,9 @@ const CreateSchedule = () => {
                     )
                 }
                 <CustomCalendar busyDate={busyDate} />
+                {
+                    isLoading && <LoadingOverlay />
+                }
                 <Modal
                     title="Chọn ngày nghỉ"
                     open={modalVisible}

@@ -6,12 +6,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
+import { LoadingOverlay } from "../helper/loadingOverlay";
 
 const { Option } = Select;
 
 const DesignerSchedule = () => {
     const { designer_id } = useParams();
     const [designerInfo, setDesignerInfo] = useState({});
+    const [userInfo, setuserInfo] = useState({});
     const [userId, setUserId] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [timeOfDay, setTimeOfDay] = useState('');
@@ -30,10 +32,14 @@ const DesignerSchedule = () => {
     const [waitingForApprovalModalVisible, setWaitingForApprovalModalVisible] = useState(false);
     const [confirmBookModalVisible, setConfirmBookModalVisible] = useState(false);
     const [isBooked, setIsBooked] = useState(false)
+    const [isBookedBefore, setIsBookedBefore] = useState(false)
+    const [timeOwnPending, setTimeOwnPending] = useState('')
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
             try {
+                setIsLoading(true);
                 const [calendarRes, designerRes] = await Promise.all([
                     instance.get(`/schedule/${designer_id}/busy-dates`),
                     instance.post(`/update-designer/${designer_id}`)
@@ -43,7 +49,14 @@ const DesignerSchedule = () => {
                 setUserId(calendarRes.data.designerId)
                 setScheduleId(calendarRes.data.scheduleId);
                 setIsBooked(calendarRes.data?.isSelectBook);
+                setIsBookedBefore(calendarRes.data?.isSelectBefore)
                 setDesignerInfo(designerRes.data.message[0].dataDesigner[0]);
+                setuserInfo(designerRes.data.userInfo);
+                if (calendarRes.data.scheduleId) {
+                    const res = await instance.get(`/schedule/${calendarRes.data.scheduleId}`);
+                    setTimeOwnPending(res.data.data)
+                }
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
             }
@@ -68,6 +81,7 @@ const DesignerSchedule = () => {
             return;
         }
         if (isBooked && workOnDate.length > 0) {
+            setIsLoading(true);
             const scheduleInfo = await instance.get('/schedule/user-info', {
                 params: {
                     timeWork: formattedDateString
@@ -77,6 +91,7 @@ const DesignerSchedule = () => {
                 setScheduleBooked(scheduleInfo.data.data[0]);
                 setConfirmBookModalVisible(true);
             }
+            setIsLoading(false);
             return;
         }
         setSelectedDateModalVisible(true);
@@ -84,13 +99,19 @@ const DesignerSchedule = () => {
     };
 
     const handleDateModalOk = () => {
+        if (!timeOfDay) {
+            return toast.error('Vui lòng chọn thời gian đặt lịch');
+        }
+        if (!place) {
+            return toast.error('Vui lòng chọn địa điểm đặt lịch');
+        }
         Modal.confirm({
             title: 'Xác nhận đặt lịch',
             content: 'Bạn có chắc chắn muốn đặt lịch với nhà thiết kế này không?',
             okText: 'Xác nhận',
             cancelText: 'Hủy bỏ',
             onOk() {
-                if (scheduleId !== "") {
+                if (checkRole === 'ADMIN' || checkRole === 'STAFF') {
                     instance.post(`/schedule/${designer_id}/book`, {
                         timeSelect: timeOfDay,
                         id_schedule: scheduleId,
@@ -98,7 +119,8 @@ const DesignerSchedule = () => {
                         timeWork: selectedDate,
                         phoneNumber: phoneNumber,
                         email: email,
-                        place: place
+                        place: place,
+                        role: checkRole
                     }).then(response => {
                         window.location.reload();
                     }).catch(error => {
@@ -114,7 +136,33 @@ const DesignerSchedule = () => {
                     });
                     setSelectedDateModalVisible(false);
                 } else {
-                    toast.error('Bạn đã đặt lịch hẹn với giảng viên này');
+                    if (!isBookedBefore) {
+                        instance.post(`/schedule/${designer_id}/book`, {
+                            timeSelect: timeOfDay,
+                            id_schedule: scheduleId,
+                            description_book: note,
+                            timeWork: selectedDate,
+                            phoneNumber: phoneNumber,
+                            email: email,
+                            place: place,
+                            role: checkRole
+                        }).then(response => {
+                            window.location.reload();
+                        }).catch(error => {
+                            if (error.response.status === 402) {
+                                return toast.error(error.response.data.errors[0].msg)
+                            } else if (error.response.status === 400) {
+                                return toast.error(error.response.data.message)
+                            } else if (error.response.status === 403) {
+                                return toast.error(error.response.data.message)
+                            } else {
+                                return toast.error("Server error")
+                            }
+                        });
+                        setSelectedDateModalVisible(false);
+                    } else {
+                        toast.error('Bạn đã đặt lịch hẹn với giảng viên này');
+                    }
                 }
             },
             onCancel() {
@@ -157,8 +205,7 @@ const DesignerSchedule = () => {
 
         // Nếu workOnDate là một mảng rỗng và isBooked là true, đặt màu vàng cho ngày cuối cùng trong busyDate
         if (workOnDate.length === 0 && isBooked) {
-            const lastBusyDate = busyDateObjects[busyDateObjects.length - 1];
-            if (lastBusyDate && lastBusyDate.isSame(date, 'day')) {
+            if (dayjs(timeOwnPending).isSame(date, 'day')) {
                 backgroundColor = 'yellow';
             }
         }
@@ -198,6 +245,9 @@ const DesignerSchedule = () => {
             <div style={{ padding: '50px' }}>
                 <h1 style={{ fontWeight: 'bold' }}>Lịch trình của kiến trúc sư {designerInfo?.fullName}</h1>
                 <CustomCalendar busyDate={busyDate} workOnDate={workOnDate} />
+                {
+                    isLoading && <LoadingOverlay />
+                }
                 <Modal
                     title="Đặt lịch hẹn"
                     open={selectedDateModalVisible}
@@ -217,12 +267,26 @@ const DesignerSchedule = () => {
                                 <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>
                             </Select>
                         </Form.Item>
-                        <Form.Item label="Số điện thoại">
-                            <Input value={designerInfo.phoneNumber} disabled />
-                        </Form.Item>
-                        <Form.Item label="Email">
-                            <Input value={designerInfo.email} disabled />
-                        </Form.Item>
+                        {checkRole === 'DESIGNER' ? (
+                            <>
+                                <Form.Item label="Số điện thoại">
+                                    <Input value={designerInfo.phoneNumber} disabled />
+                                </Form.Item>
+                                <Form.Item label="Email">
+                                    <Input value={designerInfo.email} disabled />
+                                </Form.Item>
+                            </>
+                        ) : (
+                            <>
+                                <Form.Item label="Số điện thoại">
+                                    <Input value={userInfo.phoneNumber} disabled />
+                                </Form.Item>
+                                <Form.Item label="Email">
+                                    <Input value={userInfo.email} disabled />
+                                </Form.Item>
+                            </>
+                        )}
+
                         <Form.Item label="Địa điểm">
                             <Input value={place} onChange={(e) => setPlace(e.target.value)} />
                         </Form.Item>
@@ -261,15 +325,15 @@ const DesignerSchedule = () => {
                             <Input disabled value={scheduleBooked?.timeWork} />
                         </Form.Item>
                         <Form.Item label="Thời gian">
-                            <Select value={scheduleBooked?.timeOfDay}>
-                                {scheduleBooked?.timeOfDay === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
+                            <Select value={scheduleBooked?.timeSelect}>
+                                {scheduleBooked?.timeSelect === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
                             </Select>
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input disabled value={scheduleBooked?.phoneNumber} />
+                            <Input disabled value={userInfo?.phoneNumber} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input disabled value={scheduleBooked?.email} />
+                            <Input disabled value={userInfo?.email} />
                         </Form.Item>
                         <Form.Item label="Địa điểm">
                             <Input disabled value={scheduleBooked?.place} />

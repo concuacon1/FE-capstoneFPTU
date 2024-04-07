@@ -25,6 +25,44 @@ const WorkingProject = () => {
 
     const [listCategory, setListCategory] = useState([]);
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const baseImageUrl = "http://localhost:8000/img/";
+                const designerRes = await instance.post(`/update-designer/${userId}`);
+                const listImageProject = designerRes.data.message[0]?.listImageProject || [];
+
+                let newCategory;
+                if (listImageProject.length === 0) {
+                    newCategory = [{ images: [] }];
+                } else {
+                    newCategory = listImageProject.map(imageUrl => ({
+                        images: [baseImageUrl + imageUrl]
+                    }));
+                }
+                console.log("newCategory == ", newCategory);
+                setListCategory(newCategory);
+                const user = designerRes.data.message[0];
+                setEditData(prevData => ({
+                    ...prevData,
+                    imageDesigner: user?.imageDesigner || '',
+                    listImageProject: user?.listImageProject || [],
+                    skill: user?.skill || Array(6).fill(''),
+                    experiences: user?.experience || Array(4).fill(''),
+                    description: user?.dataDesigner[0]?.description || '',
+                    designfile: user?.designfile || ''
+                }));
+                setUserInfo(user)
+                const dataRes = await instance.get("/get_project_type");
+                setListProjectType(dataRes.data.data.listProjectType)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, [])
+
     const handleCVChange = (event) => {
         const filesList = event.target.files;
         const filesArray = Array.from(filesList).slice(0, 3);
@@ -86,45 +124,10 @@ const WorkingProject = () => {
         fileInputRef.current.click();
     };
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const baseImageUrl = "http://localhost:8000/img/";
-                const designerRes = await instance.post(`/update-designer/${userId}`);
-                const listImageProject = designerRes.data.message[0]?.listImageProject || [];
-
-                let newCategory;
-                if (listImageProject.length === 0) {
-                    newCategory = [{ images: [] }];
-                } else {
-                    newCategory = listImageProject.map(imageUrl => ({
-                        images: [baseImageUrl + imageUrl]
-                    }));
-                }
-                console.log("newCategory == ", newCategory);
-                setListCategory(newCategory);
-                const user = designerRes.data.message[0];
-                setEditData(prevData => ({
-                    ...prevData,
-                    imageDesigner: user?.imageDesigner || '',
-                    listImageProject: user?.listImageProject || [],
-                    skill: user?.skill || Array(6).fill(''),
-                    experiences: user?.experience || Array(4).fill(''),
-                    description: user?.dataDesigner[0]?.description || '',
-                    designfile: user?.designfile || ''
-                }));
-                setUserInfo(user)
-                const dataRes = await instance.get("/get_project_type");
-                setListProjectType(dataRes.data.data.listProjectType)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchData();
-    }, [])
-
     const makeBrief = async () => {
+        if (!editData.designfile) {
+            return toast.error('Lĩnh vực không được để trống')
+        }
         let dataImage = []
         for (let i = 0; i < listCategory.length; i++) {
             let imagesList = listCategory[i].images;
@@ -160,7 +163,7 @@ const WorkingProject = () => {
             designfile: editData.designfile
         });
         toast.success("Tao thanh cong")
-        return navigate('/home-page')
+        // return navigate('/home-page')
     }
 
     return (

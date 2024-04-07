@@ -413,12 +413,12 @@ const RegisterCustomer = () => {
                                     {touched.businessName && errors.businessName && <p className="errors-file">{errors.businessName}</p>}
                                 </div>
 
-                                <div>
-    <Checkbox checked={onChangeCheckBox} onChange={(event) => {
-        handleClickOnChangeCheckBox(event)
-    }} /> Tôi đã đọc, hiểu và <Link href="https://app.luminpdf.com/vi/viewer/guest/1D8gbvgnIHbwL-mBqhmy03TMjPUuc7Syw" className="link-color-register" target="_blank" rel="noopener noreferrer">đồng ý với các điều khoản và điều kiện của công ty</Link>
-    {messageCheckBox.length > 0 && <p className="errors-file">{messageCheckBox}</p>}
-</div>
+                                <div >
+                                    <Checkbox checked={onChangeCheckBox} onChange={(event) => {
+                                        handleClickOnChangeCheckBox(event)
+                                    }} />  Tôi đã đọc, hiểu và  <Link href="#" className="link-color-register"> đồng ý với các điều khoản và điều kiện của công ty</Link>
+                                    {messageCheckBox.length > 0 && <p className="errors-file">{messageCheckBox}</p>}
+                                </div>
 
                                 <button
                                     className="custombutton-register-designer"

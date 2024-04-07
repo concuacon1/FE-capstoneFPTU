@@ -1,10 +1,10 @@
 import { Card } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from '../footer';
+import { Link } from 'react-router-dom';
 import HeaderComponent from '../header';
 
 const { Meta } = Card;
