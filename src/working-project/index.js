@@ -25,6 +25,44 @@ const WorkingProject = () => {
 
     const [listCategory, setListCategory] = useState([]);
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const baseImageUrl = "http://localhost:8000/img/";
+                const designerRes = await instance.post(`/update-designer/${userId}`);
+                const listImageProject = designerRes.data.message[0]?.listImageProject || [];
+
+                let newCategory;
+                if (listImageProject.length === 0) {
+                    newCategory = [{ images: [] }];
+                } else {
+                    newCategory = listImageProject.map(imageUrl => ({
+                        images: [baseImageUrl + imageUrl]
+                    }));
+                }
+                console.log("newCategory == ", newCategory);
+                setListCategory(newCategory);
+                const user = designerRes.data.message[0];
+                setEditData(prevData => ({
+                    ...prevData,
+                    imageDesigner: user?.imageDesigner || '',
+                    listImageProject: user?.listImageProject || [],
+                    skill: user?.skill || Array(6).fill(''),
+                    experiences: user?.experience || Array(4).fill(''),
+                    description: user?.dataDesigner[0]?.description || '',
+                    designfile: user?.designfile || ''
+                }));
+                setUserInfo(user)
+                const dataRes = await instance.get("/get_project_type");
+                setListProjectType(dataRes.data.data.listProjectType)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchData();
+    }, [])
+
     const handleCVChange = (event) => {
         const filesList = event.target.files;
         const filesArray = Array.from(filesList).slice(0, 3);
@@ -85,44 +123,6 @@ const WorkingProject = () => {
     const handleButtonClick = () => {
         fileInputRef.current.click();
     };
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const baseImageUrl = "http://localhost:8000/img/";
-                const designerRes = await instance.post(`/update-designer/${userId}`);
-                const listImageProject = designerRes.data.message[0]?.listImageProject || [];
-
-                let newCategory;
-                if (listImageProject.length === 0) {
-                    newCategory = [{ images: [] }];
-                } else {
-                    newCategory = listImageProject.map(imageUrl => ({
-                        images: [baseImageUrl + imageUrl]
-                    }));
-                }
-                console.log("newCategory == ", newCategory);
-                setListCategory(newCategory);
-                const user = designerRes.data.message[0];
-                setEditData(prevData => ({
-                    ...prevData,
-                    imageDesigner: user?.imageDesigner || '',
-                    listImageProject: user?.listImageProject || [],
-                    skill: user?.skill || Array(6).fill(''),
-                    experiences: user?.experience || Array(4).fill(''),
-                    description: user?.dataDesigner[0]?.description || '',
-                    designfile: user?.designfile || ''
-                }));
-                setUserInfo(user)
-                const dataRes = await instance.get("/get_project_type");
-                setListProjectType(dataRes.data.data.listProjectType)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        fetchData();
-    }, [])
 
     const makeBrief = async () => {
         let dataImage = []
@@ -267,7 +267,7 @@ const WorkingProject = () => {
                             aria-label="minimum height"
                             minRows={10}
                             style={{ width: '100%' }}
-                            placeholder="Minimum 3 rows"
+                            placeholder="Hãy viết ngắn gọn về bản thân"
                             value={editData.description}
                             onChange={handleDescriptionChange}
                         />
@@ -276,41 +276,79 @@ const WorkingProject = () => {
                     <div style={{ padding: '50px' }}>
                         <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
                         <Grid container spacing={2}>
-                            {editData.skill.map((skill, index) => (
-                                <Grid item xs={6} key={index}>
-                                    <TextField
-                                        fullWidth
-                                        label={`Kỹ năng ${index + 1}`}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            style: {
-                                                borderBottom: '1px solid #000',
-                                            },
-                                        }}
-                                        value={skill}
-                                        onChange={(e) => handleSkillChange(index, e.target.value)}
-                                    />
-                                </Grid>
-                            ))}
+                            {editData.skill.length > 0 ? (
+                                editData.skill.map((skill, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kỹ năng ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={skill}
+                                            onChange={(e) => handleSkillChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            ) : (
+                                skills.map((skill, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kỹ năng ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={skill}
+                                            onChange={(e) => handleSkillChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            )}
                         </Grid>
                         <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                         <Grid container spacing={2}>
-                            {editData.experiences.map((experience, index) => (
-                                <Grid item xs={12} key={index}>
-                                    <TextField
-                                        fullWidth
-                                        label={`Kinh nghiệm ${index + 1}`}
-                                        InputProps={{
-                                            disableUnderline: true,
-                                            style: {
-                                                borderBottom: '1px solid #000',
-                                            },
-                                        }}
-                                        value={experience}
-                                        onChange={(e) => handleExperienceChange(index, e.target.value)}
-                                    />
-                                </Grid>
-                            ))}
+                            {editData.experiences.length > 0 ? (
+                                editData.experiences.map((experience, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kinh nghiệm ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={experience}
+                                            onChange={(e) => handleExperienceChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            ) : (
+                                experiences.map((experience, index) => (
+                                    <Grid item xs={6} key={index}>
+                                        <TextField
+                                            fullWidth
+                                            label={`Kinh nghiệm ${index + 1}`}
+                                            InputProps={{
+                                                disableUnderline: true,
+                                                style: {
+                                                    borderBottom: '1px solid #000',
+                                                },
+                                            }}
+                                            value={experience}
+                                            onChange={(e) => handleExperienceChange(index, e.target.value)}
+                                        />
+                                    </Grid>
+                                ))
+                            )}
                         </Grid>
                         <div className="flex mt-3" style={{ float: 'right' }}>
                             <button className="bg_book_schedule mr-5" onClick={makeBrief}>Tạo hồ sơ</button>

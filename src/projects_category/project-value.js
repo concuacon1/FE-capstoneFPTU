@@ -124,7 +124,7 @@ const ProjectValue = () => {
                                             {
                                                 listCategoris?.categoryData?.length > 0 && listCategoris?.categoryData.map((item, index) => {
                                                     return (
-                                                        <Button type="primary" key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item category-button" : "category-button item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
+                                                        <Button key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item category-button" : "category-button item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
                                                             {item.categoriesName}
                                                         </Button>
                                                     )

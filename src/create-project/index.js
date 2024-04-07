@@ -9,9 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 
-
-
-
 const CreateProject = () => {
     const navigate = useNavigate();
     const [formCreateProject, setFormCretaeProject] = useState({
@@ -36,6 +33,42 @@ const CreateProject = () => {
 
 
     const [checkNewProject, setCheckNewProject] = useState(false);
+    
+    useEffect(() => {
+        async function getAll() {
+            try {
+                const dataRes = await instance.get("/get_project_type");
+                const dataList = dataRes.data.data.listProjectType;
+                const dataSet = [];
+                for (let index = 0; index < dataList.length; index++) {
+                    const objectPush = {
+                        value: dataList[index]._id,
+                        label: dataList[index].nameProjectType
+                    }
+                    dataSet.push(objectPush);
+                }
+                setListProjectType(dataSet);
+                if (dataSet.length < 1) {
+                    setCheckNewProject(true)
+                }
+
+            } catch (error) {
+                if (error.response.status === 402) {
+                    return toast.error(error.response.data.errors[0].msg)
+                } else if (error.response.status === 400) {
+                    return toast.error(error.response.data.message)
+                } else if (error.response.status === 401) {
+                    return toast.error(error.response.data.message)
+                }
+                else if (error.response.status === 403) {
+                    return toast.error(error.response.data.message)
+                } else {
+                    return toast.error("Server error")
+                }
+            }
+        }
+        getAll()
+    }, [])
 
     const onChangeCheckBox = (e) => {
         const dataOld = { ...formCreateProject }
@@ -99,45 +132,6 @@ const CreateProject = () => {
 
 
     const [listProjectType, setListProjectType] = useState([])
-
-    useEffect(() => {
-        async function getAll() {
-            try {
-                const dataRes = await instance.get("/get_project_type");
-                const dataList = dataRes.data.data.listProjectType;
-                const dataSet = [];
-                for (let index = 0; index < dataList.length; index++) {
-                    const objectPush = {
-                        value: dataList[index]._id,
-                        label: dataList[index].nameProjectType
-                    }
-                    dataSet.push(objectPush);
-                }
-                setListProjectType(dataSet);
-                if (dataSet.length < 1) {
-                    setCheckNewProject(true)
-                }
-
-            } catch (error) {
-                if (error.response.status === 402) {
-                    return toast.error(error.response.data.errors[0].msg)
-                } else if (error.response.status === 400) {
-                    return toast.error(error.response.data.message)
-                } else if (error.response.status === 401) {
-                    return toast.error(error.response.data.message)
-                }
-                else if (error.response.status === 403) {
-                    return toast.error(error.response.data.message)
-                } else {
-                    return toast.error("Server error")
-                }
-
-            }
-
-        }
-
-        getAll()
-    }, [])
 
     const checkCode = async () => {
         const dataCheck = {
@@ -683,10 +677,10 @@ const CreateProject = () => {
                 return toast.error("Vui lòng chọn date")
             }
             if (formCreateProject.designerDate >= formCreateProject.constructionDate) {
-                return toast.error("Ngày thi công phải không trùng và không được sau ngày hoàn thành!")
+                return toast.error("Ngày thi công phải trước ngày hoàn thành")
             }
             if (!dataFind?.fullName) {
-                return toast.error("Không tồn tại thiết kế!")
+                return toast.error("Không tồn tại thiết kế")
             } else {
                 const dataOle = {
                     ...formCreateProject,

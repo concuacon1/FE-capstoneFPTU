@@ -97,12 +97,20 @@ const DesignerSchedule = () => {
                         description_book: note,
                         timeWork: selectedDate,
                         phoneNumber: phoneNumber,
-                        email: email
+                        email: email,
+                        place: place
                     }).then(response => {
-                        console.log('Request thành công:', response.data);
                         window.location.reload();
                     }).catch(error => {
-                        console.error('Đã xảy ra lỗi:', error);
+                        if (error.response.status === 402) {
+                            return toast.error(error.response.data.errors[0].msg)
+                        } else if (error.response.status === 400) {
+                            return toast.error(error.response.data.message)
+                        } else if (error.response.status === 403) {
+                            return toast.error(error.response.data.message)
+                        } else {
+                            return toast.error("Server error")
+                        }
                     });
                     setSelectedDateModalVisible(false);
                 } else {
@@ -210,10 +218,10 @@ const DesignerSchedule = () => {
                             </Select>
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                            <Input value={designerInfo.phoneNumber} disabled />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <Input value={designerInfo.email} disabled />
                         </Form.Item>
                         <Form.Item label="Địa điểm">
                             <Input value={place} onChange={(e) => setPlace(e.target.value)} />
@@ -228,7 +236,7 @@ const DesignerSchedule = () => {
                     visible={waitingForApprovalModalVisible}
                     onCancel={() => setWaitingForApprovalModalVisible(false)}
                     footer={[
-                        <Button key="ok" type="primary" onClick={() => setWaitingForApprovalModalVisible(false)}>
+                        <Button key="ok" onClick={() => setWaitingForApprovalModalVisible(false)}>
                             OK
                         </Button>
                     ]}
@@ -240,7 +248,7 @@ const DesignerSchedule = () => {
                     visible={confirmBookModalVisible}
                     onCancel={() => setConfirmBookModalVisible(false)}
                     footer={[
-                        <Button key="ok" type="primary" onClick={() => setConfirmBookModalVisible(false)}>
+                        <Button key="ok" onClick={() => setConfirmBookModalVisible(false)}>
                             OK
                         </Button>
                     ]}
