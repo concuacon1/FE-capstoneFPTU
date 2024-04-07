@@ -220,49 +220,49 @@ const RegisterCustomer = () => {
                                         {errors.dob && <p className="errors-file">{errors.dob}</p>}
                                     </div>
                                     <div className="flex">
-                                        <div className="text-base mt-1 mr-3 pl-2">Giới tính : </div>
-                                        <RadioGroup
-                                            aria-labelledby="demo-row-radio-buttons-group-label"
-                                            name="gender"
-                                            value={values.gender}
-                                            onChange={handleChange}
-                                        >
-                                            <FormControlLabel
-                                                value="Nam"
-                                                control={
-                                                    <Radio
-                                                        sx={{
-                                                            "& .MuiSvgIcon-root": {
-                                                                fontSize: 18,
-                                                            },
-                                                            "&.Mui-checked": {
-                                                                color: "#5B3000", // Change this to the desired checked color
-                                                            },
-                                                        }}
-                                                    />
-                                                }
-                                                label="Nam"
-                                            />
-                                            <FormControlLabel
-                                                value="Female"
-                                                control={
-                                                    <Radio
-                                                        sx={{
-                                                            "& .MuiSvgIcon-root": {
-                                                                fontSize: 18,
-                                                            },
-                                                            "&.Mui-checked": {
-                                                                color: "#5B3000", // Change this to the desired checked color
-                                                            },
-                                                        }}
-                                                    />
-                                                }
-                                                label="Nữ"
-                                            />
-                                        </RadioGroup>
+                                    <div className="text-base mt-1 mr-3 pl-2">Giới tính : </div>
+                                    <RadioGroup
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="gender"
+                                        value={values.gender}
+                                        onChange={handleChange}
+                                    >
+                                        <FormControlLabel
+                                            value="Male"
+                                            control={
+                                                <Radio
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            fontSize: 18,
+                                                        },
+                                                        "&.Mui-checked": {
+                                                            color: "#5B3000", // Change this to the desired checked color
+                                                        },
+                                                    }}
+                                                />
+                                            }
+                                            label="Nam"
+                                        />
+                                        <FormControlLabel
+                                            value="Nữ"
+                                            control={
+                                                <Radio
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            fontSize: 18,
+                                                        },
+                                                        "&.Mui-checked": {
+                                                            color: "#5B3000", // Change this to the desired checked color
+                                                        },
+                                                    }}
+                                                />
+                                            }
+                                            label="Nữ"
+                                        />
+                                    </RadioGroup>
 
-                                    </div>
                                 </div>
+                            </div>
 
                                 <div>
                                     <TextField

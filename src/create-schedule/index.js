@@ -13,6 +13,7 @@ const CreateSchedule = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [email, setEmail] = useState('');
     const [emailEdit, setEmailEdit] = useState('');
+    const [phoneNumberEdit, setPhoneNumberEdit] = useState('');
     const [noteEdit, setNoteEdit] = useState('');
     const [scheduleId, setScheduleId] = useState('');
 
@@ -28,6 +29,7 @@ const CreateSchedule = () => {
     const [confirmChecked, setConfirmChecked] = useState(false);
     const [isBooked, setIsBooked] = useState(false)
     const [scheduleBooked, setScheduleBooked] = useState({});
+    const [userData, setUserData] = useState([])
 
     useEffect(() => {
         async function fetchData() {
@@ -38,6 +40,8 @@ const CreateSchedule = () => {
                 setUserId(calendarRes.data.designerId)
                 setScheduleId(calendarRes.data.scheduleId);
                 setIsBooked(calendarRes.data?.isSelectBook);
+                const userData = await instance.post(`/update-designer/${calendarRes.data.designerId}`);
+                setUserData(userData.data.message[0].dataDesigner[0])
             } catch (error) {
                 console.log(error);
             }
@@ -216,7 +220,10 @@ const CreateSchedule = () => {
                     />
                     <Form>
                         <Form.Item label="Email">
-                            <Input value={emailEdit} onChange={(e) => setEmailEdit(e.target.value)} />
+                            <Input value={userData.email} disabled />
+                        </Form.Item>
+                        <Form.Item label="Số điện thoại">
+                            <Input value={userData.phoneNumber} disabled />
                         </Form.Item>
                         <Form.Item label="Ghi chú">
                             <AntdInput.TextArea value={noteEdit} onChange={(e) => setNoteEdit(e.target.value)} />
@@ -244,15 +251,15 @@ const CreateSchedule = () => {
                             <Input disabled value={scheduleBooked.schedule?.timeWork} />
                         </Form.Item>
                         <Form.Item label="Thời gian">
-                            <Select value={scheduleBooked.schedule?.timeOfDay}>
-                                {scheduleBooked.schedule?.timeOfDay === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
+                            <Select value={scheduleBooked.schedule?.timeSelect}>
+                                {scheduleBooked.schedule?.timeSelect === "BRIGHT" ? <Option value="BRIGHT">Sáng: 8h00 - 11h30</Option> : <Option value="AFTERNOON">Chiều: 14h00 - 17h30</Option>}
                             </Select>
                         </Form.Item>
                         <Form.Item label="Số điện thoại">
-                            <Input disabled value={scheduleBooked.schedule?.phoneNumber} />
+                            <Input disabled value={scheduleBooked.user?.phoneNumber} />
                         </Form.Item>
                         <Form.Item label="Email">
-                            <Input disabled value={scheduleBooked.schedule?.email} />
+                            <Input disabled value={scheduleBooked.user?.email} />
                         </Form.Item>
                         <Form.Item label="Địa điểm">
                             <Input disabled value={scheduleBooked.schedule?.place} />

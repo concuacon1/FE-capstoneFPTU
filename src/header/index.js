@@ -33,6 +33,27 @@ const HeaderComponent = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    const [formShow, setFormShow] = useState({});
+    const [openShowInfo, setOpenShowInfo] = useState(false);
+
+    useEffect(() => {
+        async function getListProjectType() {
+            try {
+                const resData = await instance.get("/get_project_type");
+                const dataRes = resData.data.data.listProjectType;
+                setListType(dataRes)
+            } catch (error) {
+
+            }
+        }
+        getListProjectType();
+    }, []);
+
+    const showInfo = (data) => {
+        console.log("data == ", data);
+        setFormShow(data);
+        setOpenShowInfo(true);
+    }
 
     const handleClickOpenNotiPush = (event) => {
         setOpenNotipush(event.currentTarget);
@@ -99,19 +120,6 @@ const HeaderComponent = () => {
         },
     }));
 
-    useEffect(() => {
-        async function getListProjectType() {
-            try {
-                const resData = await instance.get("/get_project_type");
-                const dataRes = resData.data.data.listProjectType;
-                setListType(dataRes)
-            } catch (error) {
-
-            }
-        }
-        getListProjectType();
-    }, []);
-
     const pushLink = useNavigate();
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
@@ -132,48 +140,81 @@ const HeaderComponent = () => {
             <div className='bg_header_custom'>
                 <motion.div className='flex header-custom'>
                     <motion.div
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        whileHover={{
+                            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                            scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                            padding: "5px 10px"// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                        }}
+                        transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                     ><Link to="/home-page" className="icon_home_header">
                             <HomeIcon />
                         </Link>
                     </motion.div>
                     {(checkRole === "ADMIN") &&
                         <motion.div className='cursor-pointer'
-                            whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
                             <a href='/list-user-admin'>Tài khoản</a>
                         </motion.div>
 
 
                     }
-                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" )&&
+                    {(checkRole === "ADMIN" || checkRole === "STAFF") &&
                         <motion.div className='cursor-pointer'
-                    whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
-                        >Lịch hẹn</motion.div>
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/list-schedule" >Lịch hẹn</Link>
+
+                        </motion.div>
                     }
+
+                    {checkRole === "DESIGNER" && (
+                        <motion.div
+                            className='cursor-pointer'
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5, // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/create-schedule" >Lịch hẹn</Link>
+                        </motion.div>
+                    )}
+
+
+                    {checkRole === "CUSTOMER" && (
+                        <motion.div
+                            className='cursor-pointer'
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5, // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                        >
+                            <Link to="/user-schedule">Lịch hẹn</Link>
+                        </motion.div>
+                    )}
+
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div className='cursor-pointer'
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổii
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5 // Tăng kích thước chữ lên 110% khi trỏ chuột vào
+
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổii
                         >
                             <Button
                                 id="demo-customized-button"
@@ -194,12 +235,12 @@ const HeaderComponent = () => {
                         <AnimatePresence>
                             <motion.a key="list-user-staff" onClick={() => setActiveElem('list-user-staff')}>
                                 <motion.div
-                                    whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                                    whileHover={{
+                                        backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                        scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                        padding: "5px 10px"
+                                    }}
+                                    transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                                 >
                                     <Link to="/list-user-staff" className="cursor-pointer">Nhân viên</Link>
                                 </motion.div>
@@ -208,50 +249,50 @@ const HeaderComponent = () => {
                     }
                     {(checkRole === "ADMIN" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
                         <motion.div
-                       whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
                             <Link to="/list-user-designer" className="cursor-pointer">Kiến trúc sư</Link>
                         </motion.div>
                     }
                     {(checkRole === "ADMIN" || checkRole === "STAFF") &&
                         <motion.div
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
                             <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
                         </motion.div>
                     }
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div className='cursor-pointer'
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >Blogs</motion.div>
                     }
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
 
                             <Link to="/about-screen" className='cursor-pointer'
-                            
+
                             >
                                 Doanh nghiệp
                             </Link>
@@ -259,12 +300,12 @@ const HeaderComponent = () => {
                     }
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div
-                        whileHover={{ 
-                    backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                    scale: 1.5 ,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                    padding: "5px 10px"
-                }} 
-                transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                            whileHover={{
+                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                                padding: "5px 10px"
+                            }}
+                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
                             <Link to="/service" className='cursor-pointer'>Dịch vụ </Link>
                         </motion.div>
@@ -335,13 +376,13 @@ const HeaderComponent = () => {
             >
                 {checkRole == "" && (
                     <>
-                        <MenuItem onClick={logout} disableRipple>
+                        <div onClick={logout} disableRipple>
                             Đăng Nhập
-                        </MenuItem>
+                        </div>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
+                        <div onClick={logout} disableRipple>
                             Đăng Ký
-                        </MenuItem>
+                        </div>
                     </>
 
                 )}
@@ -356,7 +397,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem>
-                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
+                            <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -379,7 +420,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
+                            <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -406,7 +447,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
+                            <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -424,8 +465,8 @@ const HeaderComponent = () => {
                             Thông tin cá nhân
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={logout} disableRipple>
-                            Hò sơ & Công việc
+                        <MenuItem >
+                            <Link to="/working-profile"> Hồ sơ & Công việc</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -433,7 +474,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
+                            <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>

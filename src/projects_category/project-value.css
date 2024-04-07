@@ -141,14 +141,9 @@
 
 /* CSS button category */
 .ant-btn-primary {
-  width: 80%;
-  height: 80px;
   background: white;
   color: black;
-  font-size: 26px;
   text-align: start;
-  padding: 0 10%;
-  border-radius: 30px;
   border: 1px #a8653b solid;
 }
 

@@ -97,6 +97,53 @@ const AccountList = () => {
     const [idDeleteAccount, setIdDeleteAccount] = useState();
     const [openEdit, setOpenEdit] = useState(false);
     const [idEditAccount, setIdEditAccount] = useState();
+    const [callApiReset, setCallApiReset] = useState(false)
+
+    useEffect(() => {
+        async function getAllUser() {
+            try {
+                const dataRes = await instance.get(`/list_user_role_admin`);
+                const dataDB = dataRes.data.data;
+                const item = [];
+                if (dataDB.length > 0) {
+                    dataDB.map(item_data => {
+                        const objectPush = {
+                            'id': item_data._id,
+                            'email': item_data.email,
+                            'phoneNumber': item_data.phoneNumber,
+                            'dob': item_data.dob,
+                            'isActive': item_data.isActive,
+                            'accountcode': item_data.userCode,
+                            'username': item_data.fullName,
+                            'permission': item_data.role,
+                            'created_date': formatDate(item_data?.createdAt),
+                            'action': <div >
+                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Sửa</button>
+                                <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>
+                            </div>
+                        };
+                        item.push(objectPush); // Push the object to the array
+                    });
+                    setRowData(item);
+                }
+            } catch (error) {
+
+                console.log(error)
+
+                if (error?.response?.status === 402) {
+                    return toast.error(error.response.data.errors[0].msg)
+                } else if (error.response.status === 400) {
+                    return toast.error(error.response.data.message)
+                } else if (error.response.status === 403) {
+                    return toast.error(error.response.data.message)
+                } else {
+                    return toast.error("Server error")
+                }
+            }
+        }
+
+        getAllUser()
+    }, [callApiReset])
 
     const handleCloseDelete = () => {
         setOpenDelete(false);
@@ -110,8 +157,6 @@ const AccountList = () => {
     const handleCloseEdit = () => {
         setOpenEdit(false);
     };
-
-    const [callApiReset, setCallApiReset] = useState(false)
 
     const deleteAccountAsync = async () => {
         try {
@@ -212,53 +257,6 @@ const AccountList = () => {
             }
         }
     }
-
-    useEffect(() => {
-        async function getAllUser() {
-            try {
-                const dataRes = await instance.get(`/list_user_role_admin`);
-                const dataDB = dataRes.data.data;
-                const item = [];
-                if (dataDB.length > 0) {
-                    dataDB.map(item_data => {
-                        const objectPush = {
-                            'id': item_data._id,
-                            'email': item_data.email,
-                            'phoneNumber': item_data.phoneNumber,
-                            'dob': item_data.dob,
-                            'isActive': item_data.isActive,
-                            'accountcode': item_data.userCode,
-                            'username': item_data.fullName,
-                            'permission': item_data.role,
-                            'created_date': formatDate(item_data?.createdAt),
-                            'action': <div >
-                                <button className="bg_edit_account mr-5" onClick={() => editAccount(item_data)}>Sửa</button>
-                                <button className="bg_delete_account" onClick={() => deleteAccount(item_data._id)}>Xóa</button>
-                            </div>
-                        };
-                        item.push(objectPush); // Push the object to the array
-                    });
-                    setRowData(item);
-                }
-            } catch (error) {
-
-                console.log(error)
-
-                if (error?.response?.status === 402) {
-                    return toast.error(error.response.data.errors[0].msg)
-                } else if (error.response.status === 400) {
-                    return toast.error(error.response.data.message)
-                } else if (error.response.status === 403) {
-                    return toast.error(error.response.data.message)
-                } else {
-                    return toast.error("Server error")
-                }
-            }
-        }
-
-        getAllUser()
-    }, [callApiReset])
-
 
     const editAccount = (data) => {
         const formData = { ...formEdit, role: data.role, activeAccount: data.isActive, email: data.email, dob: data.dob };

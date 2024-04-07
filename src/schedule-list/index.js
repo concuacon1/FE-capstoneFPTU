@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
 import VuGia from "../images/Vu_gia.png";
@@ -71,18 +71,61 @@ const ScheduleList = () => {
         },
     ];
 
-
     const [rowsData, setRowsData] = useState([])
 
-    const [callApiReset, setCallApiReset] = useState(false)
+    useEffect(() => {
+        async function getAllUser() {
+            try {
+                const dataRes = await instance.get(`/list-all-schedule`);
+                const dataDB = dataRes.data.data;
+                const rowData = dataDB.map((item_data, index) => {
+                    return {
+                        id: item_data.scheduleInfo._id,
+                        customerName: item_data.customerInfo.fullName,
+                        designerName: item_data.designerInfo.fullName,
+                        date: item_data.scheduleInfo.timeWork,
+                        time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
+                        status: item_data.scheduleInfo.status,
+                        action: (
+                            <div>
+                                <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
+                            </div>
+                        )
+                    };
+                });
+
+                setRowsData(rowData);
+                rowsDataRef.current = rowData;
+            } catch (error) {
+                console.log(error);
+                switch (error?.response?.status) {
+                    case 402:
+                        toast.error(error.response.data.errors[0].msg);
+                        break;
+                    case 400:
+                    case 403:
+                        toast.error(error.response.data.message);
+                        break;
+                    default:
+                        toast.error("Server error");
+                }
+            }
+        }
+
+        getAllUser();
+    }, []);
+
+    useEffect(() => {
+        console.log(rowsData);
+    }, [rowsData]);
 
     const handleTimeClick = (id) => {
         const index = rowsData.findIndex(row => row.id === id);
-        console.log(rowsData, index);
         if (index !== -1) {
             const updatedRowData = [...rowsData];
             updatedRowData[index].time = updatedRowData[index].time === "Sáng" ? "Chiều" : "Sáng";
             setRowsData(updatedRowData);
+            rowsDataRef.current = updatedRowData;
         } else {
             console.error('Record not found in rowData array');
         }
@@ -100,36 +143,24 @@ const ScheduleList = () => {
 
             const dataRes = await instance.post("/list-search-all-schedule", dataSeachForm);
             const dataDB = dataRes.data.data;
-            const rowData = dataDB.map(item_data => {
-                const statusOptions = {
-                    PENDING: 'Đang đợi',
-                    APPROVED: 'Đồng ý',
-                    REJECT: 'Từ chối'
-                };
-
+            const rowData = dataDB.map((item_data, index) => {
                 return {
                     id: item_data.scheduleInfo._id,
                     customerName: item_data.customerInfo.fullName,
                     designerName: item_data.designerInfo.fullName,
                     date: item_data.scheduleInfo.timeWork,
                     time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
-                    status: (
-                        <div>
-                            <select className={getStatusColorClass(item_data.scheduleInfo.status)}>
-                                {Object.entries(statusOptions).map(([key, value]) => (
-                                    <option key={key} value={value} selected={item_data.scheduleInfo.status === key}>{value}</option>
-                                ))}
-                            </select>
-                        </div>
-                    ),
+                    status: item_data.scheduleInfo.status,
                     action: (
                         <div>
-                            <button className="bg_confirm_schedule" onClick={() => confirm(item_data)}>Cập nhật</button>
+                            <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
                         </div>
                     )
                 };
             });
+
             setRowsData(rowData);
+            rowsDataRef.current = rowData;
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -156,75 +187,66 @@ const ScheduleList = () => {
         }
     };
 
-    const confirm = (item) => {
-        console.log(item);
-    }
-
-    useEffect(() => {
-        async function getAllUser() {
-            try {
-                const dataRes = await instance.get(`/list-all-schedule`);
-                const dataDB = dataRes.data.data;
-                const rowData = dataDB.map(item_data => {
-                    const statusOptions = {
-                        PENDING: 'Đang đợi',
-                        APPROVED: 'Đồng ý',
-                        REJECT: 'Từ chối'
-                    };
-
-                    return {
-                        id: item_data.scheduleInfo._id,
-                        customerName: item_data.customerInfo.fullName,
-                        designerName: item_data.designerInfo.fullName,
-                        date: item_data.scheduleInfo.timeWork,
-                        time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
-                        status: (
-                            <div>
-                                <select
-                                    className={getStatusColorClass(item_data.scheduleInfo.status)}
-                                    onChange={(e) => handleStatusChange(e, item_data.scheduleInfo._id)}
-                                    value={item_data.scheduleInfo.status}
-                                    name="status" // Thêm thuộc tính name
-                                >
-                                    {Object.entries(statusOptions).map(([key, value]) => (
-                                        <option key={key} value={key}>{value}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        ),
-                        action: (
-                            <div>
-                                <button className="bg_confirm_schedule" onClick={() => confirm(item_data)}>Cập nhật</button>
-                            </div>
-                        )
-                    };
-                });
-
-                setRowsData(rowData);
-            } catch (error) {
-                console.log(error);
-                switch (error?.response?.status) {
-                    case 402:
-                        toast.error(error.response.data.errors[0].msg);
-                        break;
-                    case 400:
-                    case 403:
-                        toast.error(error.response.data.message);
-                        break;
-                    default:
-                        toast.error("Server error");
-                }
+    const confirm = async (item, id) => {
+        try {
+            const dataUpdate = {
+                status: rowsDataRef.current[id].status,
+                timeSelect: rowsDataRef.current[id].time === "Sáng" ? "BRIGHT" : "AFTERNOON",
+            };
+            const dataRes = await instance.patch(`/schedule/${item.scheduleInfo._id}/update`, dataUpdate);
+            console.log(dataRes);
+            if (dataRes.status === 200) {
+                return toast.success(dataRes.data.message)
+            }
+        } catch (error) {
+            if (error.response.status === 402) {
+                return toast.error(error.response.data.errors[0].msg)
+            } else if (error.response.status === 400) {
+                return toast.error(error.response.data.message)
+            } else if (error.response.status === 403) {
+                return toast.error(error.response.data.message)
+            } else {
+                return toast.error("Server error")
             }
         }
+    }
 
-        getAllUser();
-    }, []);
+    const rowsDataRef = useRef([]);
+
+    const renderStatusSelect = (status, id) => {
+        const statusOptions = {
+            PENDDING: 'Đang đợi',
+            APPROVED: 'Đồng ý',
+            REJECT: 'Từ chối'
+        };
+
+        return (
+            <select
+                className={getStatusColorClass(status)}
+                onChange={(e) => handleStatusChange(e, id)}
+                value={status}
+                name="status"
+            >
+                {Object.entries(statusOptions).map(([key, value]) => (
+                    <option key={key} value={key}>{value}</option>
+                ))}
+            </select>
+        );
+    };
 
     const handleStatusChange = (e, id) => {
         const { value } = e.target;
 
-        console.log(value, id, rowsData);
-    }
+        setRowsData(prevRowsData =>
+            prevRowsData.map(row =>
+                row.id === id ? { ...row, status: value } : row
+            )
+        );
+
+        rowsDataRef.current = rowsDataRef.current.map(row =>
+            row.id === id ? { ...row, status: value } : row
+        );
+    };
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -405,30 +427,31 @@ const ScheduleList = () => {
                             <TableBody>
                                 {rowsData
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                {columns.map((column) => {
-                                                    // Nếu là cột thời gian, thêm hàm xử lý sự kiện khi click vào
-                                                    if (column.id === "time") {
-                                                        return (
-                                                            <TableCell key={column.id} align={column.align} onClick={() => handleTimeClick(row.id)}>
-                                                                {row[column.id]} <KeyboardArrowDownIcon />
-                                                            </TableCell>
-                                                        );
-                                                    }
-                                                    // Nếu không phải là cột thời gian, hiển thị giá trị bình thường
+                                    .map((row) => (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {columns.map((column) => {
+                                                if (column.id === "status") {
                                                     return (
                                                         <TableCell key={column.id} align={column.align}>
-                                                            {column.format && typeof row[column.id] === 'number'
-                                                                ? column.format(row[column.id])
-                                                                : row[column.id]}
+                                                            {renderStatusSelect(row.status, row.id)}
                                                         </TableCell>
                                                     );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
+                                                } else if (column.id === "time") {
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align} onClick={() => handleTimeClick(row.id)}>
+                                                            {row[column.id]} <KeyboardArrowDownIcon />
+                                                        </TableCell>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {row[column.id]}
+                                                        </TableCell>
+                                                    );
+                                                }
+                                            })}
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>

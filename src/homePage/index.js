@@ -12,8 +12,8 @@ import { fadeIn } from '../Animation/variants';
 import { waveVariants } from "../Animation/waveVariants";
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import  BuildImage from "../images/manhome1.png";
-import  DesignImage  from "../images/Manhome.png";
+import BuildImage from "../images/manhome1.png";
+import DesignImage from "../images/Manhome.png";
 import './index.css';
 
 const HomePage = () => {
@@ -164,10 +164,10 @@ const HomePage = () => {
                     <div className="design-and-build">
                         <div className="design">
                             <motion.div className="service-image"
-                            variants={fadeIn('right', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                variants={fadeIn('right', 0.2)}
+                                initial="hidden"
+                                whileInView={"show"}
+                                viewport={{ once: false, amount: 0.7 }}
                             >
                                 <Image
                                     width={"100%"}
@@ -180,16 +180,16 @@ const HomePage = () => {
                             </motion.div>
                             <div className="bg-text">
                                 <motion.div className="text"
-                                variants={fadeIn('left', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                    variants={fadeIn('left', 0.2)}
+                                    initial="hidden"
+                                    whileInView={"show"}
+                                    viewport={{ once: false, amount: 0.7 }}
                                 >Design</motion.div>
                                 <motion.div className="button-view-service"
-                                variants={fadeIn('down', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                    variants={fadeIn('down', 0.2)}
+                                    initial="hidden"
+                                    whileInView={"show"}
+                                    viewport={{ once: false, amount: 0.7 }}
                                 >
                                     <Link to="/service/02">Xem dịch vụ</Link>
                                 </motion.div>
@@ -199,10 +199,10 @@ const HomePage = () => {
                         <div className="and">&</div>
                         <div className="build">
                             <motion.div className="service-image"
-                            variants={fadeIn('left', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                variants={fadeIn('left', 0.2)}
+                                initial="hidden"
+                                whileInView={"show"}
+                                viewport={{ once: false, amount: 0.7 }}
                             >
                                 <Image
                                     width={"100%"}
@@ -215,16 +215,16 @@ const HomePage = () => {
                             </motion.div>
                             <div className="bg-text">
                                 <motion.div className="text"
-                                variants={fadeIn('right', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                    variants={fadeIn('right', 0.2)}
+                                    initial="hidden"
+                                    whileInView={"show"}
+                                    viewport={{ once: false, amount: 0.7 }}
                                 >Build</motion.div>
                                 <motion.div className="button-view-service"
-                                variants={fadeIn('down', 0.2)}
-                                 initial="hidden"
-                                 whileInView={"show"}
-                                 viewport={{ once: false, amount: 0.7 }}
+                                    variants={fadeIn('down', 0.2)}
+                                    initial="hidden"
+                                    whileInView={"show"}
+                                    viewport={{ once: false, amount: 0.7 }}
                                 >
                                     <Link to="/service/03">Xem dịch vụ</Link>
                                 </motion.div>

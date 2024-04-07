@@ -6,7 +6,7 @@ import VuGia from "../images/Vu_gia.png";
 import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import DoneIcon from '@mui/icons-material/Done';
-import { Divider, ImageList, ImageListItem, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Divider, Grid, ImageList, ImageListItem, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import Fade from '@mui/material/Fade';
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -88,7 +88,55 @@ const DesignerList = () => {
     const [openEdit, setOpenEdit] = useState(false);
     const [idEditAccount, setIdEditAccount] = useState();
     const [openShow, setOpenShow] = useState(false);
+    const [callApiReset, setCallApiReset] = useState(false)
     const [openShowInfo, setOpenShowInfo] = useState(false);
+
+    useEffect(() => {
+        async function getAllUser() {
+            try {
+                const dataRes = await instance.post(`/list-user`, {
+                    flagGetUser: 'DESIGNER'
+                });
+                const dataDB = dataRes.data.data;
+                const item = [];
+                if (dataDB.length > 0) {
+                    dataDB.map(item_data => {
+                        const objectPush = {
+                            'id': item_data._id,
+                            'email': item_data.email,
+                            'phoneNumber': item_data.phoneNumber,
+                            'dob': item_data.dob,
+                            'address': item_data.address,
+                            'userCode': item_data.userCode,
+                            'fullName': item_data.fullName,
+                            'permission': item_data.role,
+                            'created_date': formatDate(item_data?.createdAt),
+                            'information': <div >
+                                <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
+                            </div>
+                        };
+                        item.push(objectPush); // Push the object to the array
+                    });
+                    setRowData(item);
+                }
+            } catch (error) {
+
+                console.log(error)
+
+                if (error?.response?.status === 402) {
+                    return toast.error(error.response.data.errors[0].msg)
+                } else if (error.response.status === 400) {
+                    return toast.error(error.response.data.message)
+                } else if (error.response.status === 403) {
+                    return toast.error(error.response.data.message)
+                } else {
+                    return toast.error("Server error")
+                }
+            }
+        }
+
+        getAllUser()
+    }, [callApiReset])
 
     const handleCloseShow = () => {
         setOpenShowInfo(false);
@@ -112,11 +160,6 @@ const DesignerList = () => {
     const handleCloseEdit = () => {
         setOpenEdit(false);
     };
-
-
-
-    const [callApiReset, setCallApiReset] = useState(false)
-
     const deleteAccountAsync = async () => {
         try {
             await instance.delete(`/delete_user/${idDeleteAccount}`);
@@ -215,54 +258,6 @@ const DesignerList = () => {
             }
         }
     }
-
-    useEffect(() => {
-        async function getAllUser() {
-            try {
-                const dataRes = await instance.post(`/list-user`, {
-                    flagGetUser: 'DESIGNER'
-                });
-                const dataDB = dataRes.data.data;
-                const item = [];
-                if (dataDB.length > 0) {
-                    dataDB.map(item_data => {
-                        const objectPush = {
-                            'id': item_data._id,
-                            'email': item_data.email,
-                            'phoneNumber': item_data.phoneNumber,
-                            'dob': item_data.dob,
-                            'address': item_data.address,
-                            'userCode': item_data.userCode,
-                            'fullName': item_data.fullName,
-                            'permission': item_data.role,
-                            'created_date': formatDate(item_data?.createdAt),
-                            'information': <div >
-                                <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
-                            </div>
-                        };
-                        item.push(objectPush); // Push the object to the array
-                    });
-                    setRowData(item);
-                }
-            } catch (error) {
-
-                console.log(error)
-
-                if (error?.response?.status === 402) {
-                    return toast.error(error.response.data.errors[0].msg)
-                } else if (error.response.status === 400) {
-                    return toast.error(error.response.data.message)
-                } else if (error.response.status === 403) {
-                    return toast.error(error.response.data.message)
-                } else {
-                    return toast.error("Server error")
-                }
-            }
-        }
-
-        getAllUser()
-    }, [callApiReset])
-
 
     const editAccount = (data) => {
         const formData = { ...formEdit, role: data.role, activeAccount: data.isActive, email: data.email };
@@ -606,18 +601,18 @@ const DesignerList = () => {
                                     </nav>
                                 </div>
                                 <Divider type="vertical" style={{ height: "auto", backgroundColor: 'black', width: '1px' }} />
-                                <div style={{ width: '700px' }}>
+                                <div style={{ width: '700px', padding: '0 20px' }}>
                                     <div className="font-bold text-center" style={{ marginBottom: '20px', fontSize: '20px' }}>Kỹ năng</div>
-                                    <div className="flex" style={{ flexWrap: 'wrap', gap: '12px', padding: '0 30px' }}>
-                                        {
-                                            formShow?.dataDesigner?.skill?.map((ski, index) => (
+                                    <Grid container spacing={2}>
+                                        {formShow?.dataDesigner?.skill.map((skill, index) => (
+                                            <Grid item xs={6} key={index}>
                                                 <div className="flex" key={index}>
                                                     <DoneIcon />
-                                                    {ski}
+                                                    {skill}
                                                 </div>
-                                            ))
-                                        }
-                                    </div>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
                                     <div className="font-bold text-center" style={{ margin: '20px 0', fontSize: '20px' }}>Kinh nghiệm</div>
                                     <div className="flex" style={{ gap: '12px', flexDirection: 'column', padding: '0 30px' }}>
                                         {
