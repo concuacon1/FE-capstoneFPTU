@@ -92,9 +92,7 @@
         font-size: 15px;
     }
 
-    .custom-navigation {
-      
-    }
+    .custom-navigation {}
 
     .custom-navigation .btn {
         width: 10px;
@@ -178,15 +176,17 @@
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    top: -200px; /* Lùi lên trên khoảng 150px */
+    top: -200px;
+    /* Lùi lên trên khoảng 150px */
 }
 
 .custom-slide-navigation .nav-button-left {
-    left: -61%; /* Di chuyển nút bên trái sang trái 50% */
+    left: -61%;
+    /* Di chuyển nút bên trái sang trái 50% */
 }
 
 .custom-slide-navigation .nav-button-right {
-    right: -136%; 
+    right: -136%;
 }
 
 .custom-slide-navigation .nav-button-left::before,
@@ -222,6 +222,7 @@
 }
 
 @media (max-width: 420px) {
+
     .custom-slide-navigation .nav-button-left,
     .custom-slide-navigation .nav-button-right {
         width: 40px;

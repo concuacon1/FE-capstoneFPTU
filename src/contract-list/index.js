@@ -24,15 +24,15 @@ import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Image, Switch } from "antd";
+import { Image } from "antd";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { formatDate } from "../helper/formatDate";
-import { useRef } from "react";
-import { Link } from "react-router-dom";
 
 const generateRandomString = (length) => {
     let result = '';
@@ -65,53 +65,6 @@ const ContractList = () => {
     })
 
     const filePdfRef = useRef(null);
-    const [callApiReset, setCallApiReset] = useState(false)
-
-    useEffect(() => {
-        async function getAllUser() {
-            try {
-                const dataRes = await instance.get('/list_contract');
-                const dataDB = dataRes.data.data.listContract;
-                const item = [];
-                if (dataDB.length > 0) {
-                    dataDB.map(item_data => {
-                        const objectPush = {
-                            'id': item_data._id,
-                            'codeContract': item_data.codeContract,
-                            'nameContract': item_data.nameContract,
-                            'customerCode': item_data.customerCode,
-                            'nameSignature': item_data.nameSignature,
-                            'timeSigned': formatDate(item_data.timeSigned),
-                            'customerName': item_data.customerName,
-                            'action': <div >
-                                <button className="bg_edit_account mr-5">
-                                    <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
-                                </button>
-                                <button className="bg_delete_account" onClick={() => deleteContract(item_data._id)}>Xoá</button>
-                            </div>
-                        };
-                        item.push(objectPush); // Push the object to the array
-                    });
-                    setRowData(item);
-                }
-            } catch (error) {
-
-                console.log(error)
-
-                if (error?.response?.status === 402) {
-                    return toast.error(error.response.data.errors[0].msg)
-                } else if (error.response.status === 400) {
-                    return toast.error(error.response.data.message)
-                } else if (error.response.status === 403) {
-                    return toast.error(error.response.data.message)
-                } else {
-                    return toast.error("Server error")
-                }
-            }
-        }
-
-        getAllUser()
-    }, [callApiReset])
 
     const handlePdfChange = (event) => {
         const file = event.target.files[0];
@@ -176,6 +129,8 @@ const ContractList = () => {
     const handleCloseAdd = () => {
         setOpenAdd(false);
     };
+
+    const [callApiReset, setCallApiReset] = useState(false)
 
     const deleteContractAsync = async () => {
         try {
@@ -268,6 +223,52 @@ const ContractList = () => {
             }
         }
     }
+
+    useEffect(() => {
+        async function getAllUser() {
+            try {
+                const dataRes = await instance.get('/list_contract');
+                const dataDB = dataRes.data.data.listContract;
+                const item = [];
+                if (dataDB.length > 0) {
+                    dataDB.map(item_data => {
+                        const objectPush = {
+                            'id': item_data._id,
+                            'codeContract': item_data.codeContract,
+                            'nameContract': item_data.nameContract,
+                            'customerCode': item_data.customerCode,
+                            'nameSignature': item_data.nameSignature,
+                            'timeSigned': formatDate(item_data.timeSigned),
+                            'customerName': item_data.customerName,
+                            'action': <div >
+                                <button className="bg_edit_account mr-5">
+                                    <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
+                                </button>
+                                <button className="bg_delete_account" onClick={() => deleteContract(item_data._id)}>Xoá</button>
+                            </div>
+                        };
+                        item.push(objectPush); // Push the object to the array
+                    });
+                    setRowData(item);
+                }
+            } catch (error) {
+
+                console.log(error)
+
+                if (error?.response?.status === 402) {
+                    return toast.error(error.response.data.errors[0].msg)
+                } else if (error.response.status === 400) {
+                    return toast.error(error.response.data.message)
+                } else if (error.response.status === 403) {
+                    return toast.error(error.response.data.message)
+                } else {
+                    return toast.error("Server error")
+                }
+            }
+        }
+
+        getAllUser()
+    }, [callApiReset])
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
