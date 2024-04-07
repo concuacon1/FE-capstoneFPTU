@@ -34,6 +34,8 @@ const DesignerSchedule = () => {
     const [isBooked, setIsBooked] = useState(false)
     const [isBookedBefore, setIsBookedBefore] = useState(false)
     const [timeOwnPending, setTimeOwnPending] = useState('')
+    const [popupBusy, setPopupBusy] = useState(false);
+    const [mesBusy, setMesBusy] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -74,6 +76,18 @@ const DesignerSchedule = () => {
         const formattedDateString = formattedDate.format('YYYY-MM-DD');
 
         if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
+            const scheduleInfo = await instance.get(`/schedule/${designer_id}/graySchedule`, {
+                params: {
+                    timeWork: formattedDateString
+                }
+            });
+            if (scheduleInfo.data.data.length > 0 && scheduleInfo.data.data[0].description_off) {
+                setPopupBusy(true);
+                setMesBusy(scheduleInfo.data.data[0].description_off)
+            } else if (scheduleInfo.data.data.length === 0) {
+                setPopupBusy(true);
+                setMesBusy('Lịch này đã có người đặt')
+            }
             return;
         }
         if (isBooked && workOnDate.length === 0) {
@@ -306,6 +320,18 @@ const DesignerSchedule = () => {
                     ]}
                 >
                     <p>Đang chờ phê duyệt</p>
+                </Modal>
+                <Modal
+                    title="Thông báo"
+                    visible={popupBusy}
+                    onCancel={() => setPopupBusy(false)}
+                    footer={[
+                        <Button key="ok" onClick={() => setPopupBusy(false)}>
+                            OK
+                        </Button>
+                    ]}
+                >
+                    <p>{mesBusy}</p>
                 </Modal>
                 <Modal
                     title="Thông báo lịch hẹn"

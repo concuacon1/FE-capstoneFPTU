@@ -163,7 +163,7 @@ const WorkingProject = () => {
             designfile: editData.designfile
         });
         toast.success("Tao thanh cong")
-        return navigate('/home-page')
+        // return navigate('/home-page')
     }
 
     return (

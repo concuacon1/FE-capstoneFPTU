@@ -32,7 +32,8 @@ const CreateSchedule = () => {
     const [scheduleBooked, setScheduleBooked] = useState({});
     const [userData, setUserData] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-
+    const [popupBusy, setPopupBusy] = useState(false);
+    const [mesBusy, setMesBusy] = useState('');
 
     useEffect(() => {
         async function fetchData() {
@@ -118,6 +119,16 @@ const CreateSchedule = () => {
             const formattedDate = dayjs(date);
             const formattedDateString = formattedDate.format('YYYY-MM-DD');
             if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
+                console.log("userData == ", userData);
+                const scheduleInfo = await instance.get(`/schedule/${userId}/graySchedule`, {
+                    params: {
+                        timeWork: formattedDateString
+                    }
+                });
+                if (scheduleInfo.data.data.length > 0 && scheduleInfo.data.data[0].description_off) {
+                    setPopupBusy(true);
+                    setMesBusy(scheduleInfo.data.data[0].description_off)
+                }
                 return;
             }
             setIsLoading(true);
@@ -131,8 +142,8 @@ const CreateSchedule = () => {
             setSelectedDate(date);
             setIsLoading(false);
         } catch (error) {
-            console.error("Error fetching schedule information:", error);
-            return;
+            setIsLoading(false);
+            return toast.error('Bạn không thể đặt lịch cho chính mình')
         }
     };
 
@@ -247,6 +258,18 @@ const CreateSchedule = () => {
                             <Checkbox onChange={handleConfirmCheckboxChange}>Chắc chắn với thời gian làm việc</Checkbox>
                         </Form.Item>
                     </Form>
+                </Modal>
+                <Modal
+                    title="Thông báo"
+                    visible={popupBusy}
+                    onCancel={() => setPopupBusy(false)}
+                    footer={[
+                        <Button key="ok" onClick={() => setPopupBusy(false)}>
+                            OK
+                        </Button>
+                    ]}
+                >
+                    <p>{mesBusy}</p>
                 </Modal>
                 <Modal
                     title="Thông báo lịch hẹn"

@@ -278,7 +278,7 @@ const Login = () => {
                                     type="submit"
                                     onClick={value == 0 ? submitDataPhone : submitData}
                                 >
-                                    LOGIN
+                                    Đăng Nhập
                                 </button>
                             </div>
 
