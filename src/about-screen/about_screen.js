@@ -17,23 +17,11 @@ import './about_screen.css';
 
 const AboutScreen = () => {
    const ImageContentStyle = {
-      width: "470px",
-      height: "470px"
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
    }
-   const Feature = ({ icon, image, title, description }) => (
-      <div className="feature">
-         <div className="feature-icon">
-            <img src={icon} alt={title} />
-         </div>
-         <div className="feature-image">
-            <img src={image} alt={title} />
-         </div>
-         <div className="feature-text">
-            <h3>{title}</h3>
-            <p>{description}</p>
-         </div>
-      </div>
-   );
+
    return (
       <div>
          <HeaderComponent />
@@ -58,9 +46,7 @@ const AboutScreen = () => {
             </motion.div>
 
             <div className='about-screen container'>
-               <motion.div className='images'
-
-               >
+               <motion.div className='images'>
                   <Image
                      style={ImageContentStyle}
                      src={AnhQuyen}
@@ -68,11 +54,7 @@ const AboutScreen = () => {
                      preview={true}
                   />
                </motion.div>
-               <motion.div className="content"
-
-
-
-               >
+               <motion.div className="content">
                   Chúng ta đã có nhiều năm gia công cho các thương hiệu nội thất lớn trên thế giới. Các sản phẩm được sản xuất tại Việt Nam, gắn thương hiệu ngoại và quay trở lại bán cho người Việt với giá gấp nhiều lần giá trị sử dụng thực.
                   <br /><br />Xuất phát từ lòng tự hào dân tộc, khởi nguồn từ khao khát người Việt Nam được dùng hàng hiệu Việt với tiêu chuẩn châu Âu cùng mức chi phí tối ưu. Vũ Gia ra đời với đầy đủ phẩm chất của một thương hiệu gia công chế tác Nội thất cao cấp.
                   <br /><br />Vũ Gia Furniture nâng tầm phong cách sống sang trọng, đẳng cấp với những giá trị bền vững đi cùng mức chi phí hợp lý.
@@ -120,34 +102,124 @@ const AboutScreen = () => {
             </div>
 
             <div className="features-container">
-               <Feature
-                  icon={onedolaIcon}
-                  image={oneImage}
-                  title="TỐI ƯU
- CHI PHÍ"
-                  description="Chi phí gia công chế tác được tính toán cẩn thận sao cho tối ưu nhất với mục tiêu giúp khách hàng Việt có thể tiếp cận các sản phẩm Nội thất chất lượng cao với mức chi phí hợp lý nhất. "
-               />
-               <Feature
-                  icon={twodolaIcon}
-                  image={twoImage}
-                  title="TỐI ƯU
- THỜI GIAN"
-                  description="Tinh tốc hoàn thiện sản phẩm, tối ưu thời gian chế tác của từng khâu, xóa bỏ mọi bước vận chuyển, cung cấp giải pháp sản xuất đồng bộ cho tất cả đồ nội thất. "
-               />
-               <Feature
-                  icon={threedolaIcon}
-                  image={threeImage}
-                  title="TỐI ƯU
- LINH HOẠT"
-                  description="Với một nhà máy độc quyền riêng biệt chỉ dành cho Vũ Gia, khách hàng có nhiều lựa chọn tinh chỉnh nội thất theo style cá nhân của chính mình"
-               />
-               <Feature
-                  icon={fourdolaIcon}
-                  image={fourImage}
-                  title="TỐI ƯU
-TRẢI NGHIỆM"
-                  description="Khách hàng có thể trực tiếp tham gia vào quá trình sản xuất, thậm chí có thể tham gia quyết định chỉnh sửa thiết kế sản phẩm cũng như vật liệu ngay trong quá trình chế tác dưới sự hỗ trợ của đội ngũ các Nhà thiết kế, Nghệ nhân của Vũ Gia Furniture"
-               />
+               <div className="feature-first">
+                  <div className="feature-icon">
+                     <Image
+                        width={"100%"}
+                        height={"auto"}
+                        src={onedolaIcon}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+                  <div className="feature-title">
+                     TỐI ƯU<br /><span style={{ color: '#984B1A' }}> CHI PHÍ</span>
+                  </div>
+                  <div className="feature-description">
+                     Chi phí gia công chế tác được tính toán cẩn thận sao cho tối ưu nhất với mục tiêu giúp khách hàng Việt có thể tiếp cận các sản phẩm Nội thất chất lượng cao với mức chi phí hợp lý nhất.
+                  </div>
+                  <div className="feature-image">
+                     <Image
+                        width='100%'
+                        height='auto'
+                        style={{
+                           borderRadius: '30px'
+                        }}
+                        src={oneImage}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+               </div>
+
+               <div className="feature-second">
+                  <div className="feature-icon">
+                     <Image
+                        width={"100%"}
+                        height={"auto"}
+                        src={twodolaIcon}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+                  <div className="feature-title">
+                     TỐI ƯU<br /><span style={{ color: '#984B1A' }}> THỜI GIAN</span>
+                  </div>
+                  <div className="feature-description">
+                     Tinh tốc hoàn thiện sản phẩm, tối ưu thời gian chế tác của từng khâu, xóa bỏ mọi bước vận chuyển, cung cấp giải pháp sản xuất đồng bộ cho tất cả đồ nội thất.
+                  </div>
+                  <div className="feature-image">
+                     <Image
+                        width='100%'
+                        height='auto'
+                        style={{
+                           borderRadius: '30px'
+                        }}
+                        src={twoImage}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+               </div>
+
+               <div className="feature-third">
+                  <div className="feature-icon">
+                     <Image
+                        width={"100%"}
+                        height={"auto"}
+                        src={threedolaIcon}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+                  <div className="feature-title">
+                     TỐI ƯU<br /><span style={{ color: '#984B1A' }}> LINH HOẠT</span>
+                  </div>
+                  <div className="feature-description">
+                     Với một nhà máy độc quyền riêng biệt chỉ dành cho Vũ Gia, khách hàng có nhiều lựa chọn tinh chỉnh nội thất theo style cá nhân của chính mình.
+                  </div>
+                  <div className="feature-image">
+                     <Image
+                        width='100%'
+                        height='auto'
+                        style={{
+                           borderRadius: '30px'
+                        }}
+                        src={threeImage}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+               </div>
+               <div className="feature-fourth">
+                  <div className="feature-icon">
+                     <Image
+                        width={"100%"}
+                        height={"auto"}
+                        src={fourdolaIcon}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+                  <div className="feature-title">
+                     TỐI ƯU<br /><span style={{ color: '#984B1A' }}> TRẢI NGHIỆM</span>
+                  </div>
+                  <div className="feature-description">
+                     Khách hàng có thể trực tiếp tham gia vào quá trình sản xuất, thậm chí có thể tham gia quyết định chỉnh sửa thiết kế sản phẩm cũng như vật liệu ngay trong quá trình chế tác dưới sự hỗ trợ của đội ngũ các Nhà thiết kế, Nghệ nhân của Vũ Gia Furniture.
+                  </div>
+                  <div className="feature-image">
+                     <Image
+                        width='100%'
+                        height='auto'
+                        style={{
+                           borderRadius: '30px'
+                        }}
+                        src={fourImage}
+                        className="bg-white"
+                        preview={false}
+                     />
+                  </div>
+               </div>
             </div>
 
             <FooterComponent />
