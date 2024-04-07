@@ -46,8 +46,18 @@
   }
 }
 
-/* Class CSS cho thẻ <select> */
-.pending, .approved, .reject {
+.pending {
+  background-color: #FFF500;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.approved {
+  background-color: #18AA00;
   border-radius: 10px;
   border: 1px solid black;
   width: 140px;
@@ -57,22 +67,15 @@
   color: #fff;
 }
 
-.pending {
-  background-color: #cec72e;
-}
-
-.approved {
-  background-color: #18AA00;
-}
-
 .reject {
   background-color: #FF0000;
-}
-
-/* Class CSS cho các <option> khi dropdown */
-select option {
-  background-color: white; /* Đặt màu nền trắng cho tất cả các <option> */
-  color: black; /* Đặt màu chữ đen cho tất cả các <option> */
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 140px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
 }
 
 .custom-image-list {

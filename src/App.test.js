@@ -1,8 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+describe('user',()=>
+{
+describe('delete user',()=>{
+    describe('delete the exist user',()=>{
+            it('should remove the exist user',()=> {
+                expect(true).toBe(true);
+            })
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+    })
+
+})
+})

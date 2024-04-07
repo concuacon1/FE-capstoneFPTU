@@ -1,38 +1,18 @@
 import { Image } from 'antd';
 import { motion } from 'framer-motion';
 import React from 'react';
+import Video from '../../src/videos/noithatvugia.mp4';
 import { fadeIn } from '../Animation/variants';
 import FooterComponent from '../footer';
 import HeaderComponent from "../header/index";
-import fourdolaIcon from '../images/fouricon.png';
-import fourImage from '../images/fourimage.png';
 import AnhQuyen from '../images/image 30.png';
-import onedolaIcon from '../images/onedola.png';
-import oneImage from '../images/oneimage.png';
-import threedolaIcon from '../images/threeicon.png';
-import threeImage from '../images/threeimage.png';
-import twodolaIcon from '../images/twoicon.png';
-import twoImage from '../images/twoimage.png';
 import './about_screen.css';
+
 const AboutScreen = () => {
    const ImageContentStyle = {
       width: "470px",
       height: "470px"
    }
-   const Feature = ({ icon, image, title, description }) => (
-      <div className="feature">
-        <div className="feature-icon">
-          <img src={icon} alt={title} />
-        </div>
-        <div className="feature-image">
-          <img src={image} alt={title} />
-        </div>
-        <div className="feature-text">
-          <h3>{title}</h3>
-          <p>{description}</p>
-        </div>
-      </div>
-    );
    return (
       <div>
          <HeaderComponent />
@@ -117,38 +97,11 @@ const AboutScreen = () => {
                <span style={{ textAlign: 'left' }}>NỘI THẤT VŨ GIA _</span>
                <span style={{ textAlign: 'right' }}>_ ĐEM ƯỚC MƠ VỀ TỚI CỬA NHÀ</span>
             </div>
-           
-            <div className="features-container">
-    <Feature 
-      icon={onedolaIcon}
-      image={oneImage}
-      title="TỐI ƯU
- CHI PHÍ" 
-      description="Chi phí gia công chế tác được tính toán cẩn thận sao cho tối ưu nhất với mục tiêu giúp khách hàng Việt có thể tiếp cận các sản phẩm Nội thất chất lượng cao với mức chi phí hợp lý nhất. " 
-    />
-    <Feature 
-      icon={twodolaIcon}
-      image={twoImage} 
-      title="TỐI ƯU
- THỜI GIAN" 
-      description="Tinh tốc hoàn thiện sản phẩm, tối ưu thời gian chế tác của từng khâu, xóa bỏ mọi bước vận chuyển, cung cấp giải pháp sản xuất đồng bộ cho tất cả đồ nội thất. " 
-    />
-    <Feature 
-      icon={threedolaIcon}
-      image={threeImage}
-      title="TỐI ƯU
- LINH HOẠT" 
-      description="Với một nhà máy độc quyền riêng biệt chỉ dành cho Vũ Gia, khách hàng có nhiều lựa chọn tinh chỉnh nội thất theo style cá nhân của chính mình" 
-    />
-    <Feature 
-      icon={fourdolaIcon}
-      image={fourImage}
-      title="TỐI ƯU
-TRẢI NGHIỆM" 
-      description="Khách hàng có thể trực tiếp tham gia vào quá trình sản xuất, thậm chí có thể tham gia quyết định chỉnh sửa thiết kế sản phẩm cũng như vật liệu ngay trong quá trình chế tác dưới sự hỗ trợ của đội ngũ các Nhà thiết kế, Nghệ nhân của Vũ Gia Furniture" 
-    />
-  </div>
-           
+            <div className='about-screen video'>
+               <video autoPlay loop muted style={{ width: '100vw' }}>
+                  <source src={Video} type='video/mp4'></source>
+               </video>
+            </div>
             <FooterComponent />
          </motion.div>
       </div>

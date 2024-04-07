@@ -6,8 +6,9 @@ import { useParams } from "react-router-dom";
 import instance from "../configApi/axiosConfig";
 
 const ContractDetail = () => {
-    const {contract_id} = useParams()
+    const { contract_id } = useParams()
     const [data, setData] = useState([]);
+
     useEffect(() => {
         async function getAllUser() {
             try {
@@ -32,19 +33,17 @@ const ContractDetail = () => {
 
     return (
         <div className="h-screen">
-            <HeaderComponent />
             <ToastContainer />
             <div className="table-account ">
                 <embed
                     src={data.imageContract}
                     type="application/pdf"
                     width="100%"
-                    height="600px"
+                    height="100%"
                 />
             </div>
 
             <div className="border-2 pt-2 pb-2"></div>
-            <FooterComponent />
         </div>
     );
 };
