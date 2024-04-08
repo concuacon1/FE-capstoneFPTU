@@ -20,7 +20,6 @@ const ListProject = () => {
         color: '#000000',
         marginTop: '2%',
         fontFamily: 'Gabriela'
-        
     }
     const projectNameStyle = {
         display: 'block',
@@ -178,10 +177,10 @@ const ListProject = () => {
                 </div>
                 {/* <div>
             <div className='AIchatBoxIcon'>
-               <Image
-                  src={AIchatBoxIcon}
-                  preview={false}
-               />
+                <Image
+                    src={AIchatBoxIcon}
+                    preview={false}
+                />
             </div>
          </div> */}
             </div>

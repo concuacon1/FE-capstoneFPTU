@@ -20,6 +20,7 @@ const CreateSchedule = () => {
 
     const [busyDate, setBusyDate] = useState([]);
     const [workOnDate, setWorkOnDate] = useState([]);
+    const [penddingDate, setPenddingDate] = useState([]);
 
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
@@ -42,6 +43,7 @@ const CreateSchedule = () => {
                 const calendarRes = await instance.get('/create-schedule');
                 setBusyDate(calendarRes.data.busyDates);
                 setWorkOnDate(calendarRes.data.workOnDates);
+                setPenddingDate(calendarRes.data.pendingDates);
                 setUserId(calendarRes.data.designerId)
                 setScheduleId(calendarRes.data.scheduleId);
                 setIsBooked(calendarRes.data?.isSelectBook);
@@ -147,7 +149,7 @@ const CreateSchedule = () => {
         }
     };
 
-    const customDateCellRender = (date, busyDate, workOnDate) => {
+    const customDateCellRender = (date, busyDate, workOnDate, penddingDate) => {
         if (!busyDate || !workOnDate) {
             return <div></div>;
         }
@@ -158,6 +160,9 @@ const CreateSchedule = () => {
         const workOnDateObjects = workOnDate.map(dateString => dayjs(dateString));
         const isWorkOnDate = workOnDateObjects.find(d => d.isSame(date, 'day'));
 
+        const penddingDateObjects = penddingDate.map(dateString => dayjs(dateString));
+        const isPendingDate = penddingDateObjects.find(d => d.isSame(date, 'day'));
+
         let backgroundColor = 'transparent';
 
         if (isBusyDate) {
@@ -166,6 +171,10 @@ const CreateSchedule = () => {
 
         if (isWorkOnDate) {
             backgroundColor = 'green';
+        }
+
+        if (isPendingDate) {
+            backgroundColor = 'yellow';
         }
 
         return (
@@ -181,7 +190,7 @@ const CreateSchedule = () => {
     const CustomCalendar = ({ busyDate }) => {
         return (
             <div>
-                <Calendar cellRender={(date) => customDateCellRender(date, busyDate, workOnDate)} onSelect={handleDateSelect} />
+                <Calendar cellRender={(date) => customDateCellRender(date, busyDate, workOnDate, penddingDate)} onSelect={handleDateSelect} />
                 {
                     checkRole === "CUSTOMER" && (
                         <>
