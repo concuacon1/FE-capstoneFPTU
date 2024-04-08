@@ -82,7 +82,7 @@ const ScheduleList = () => {
                     return {
                         id: item_data.scheduleInfo._id,
                         customerName: item_data.customerInfo?.fullName,
-                        designerName: item_data.designerInfo.fullName,
+                        designerName: item_data.designerInfo?.fullName,
                         date: item_data.scheduleInfo.timeWork,
                         time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
                         status: item_data.scheduleInfo.status,

@@ -25,6 +25,7 @@ const DesignerSchedule = () => {
     const [scheduleBooked, setScheduleBooked] = useState({});
     const [busyDate, setBusyDate] = useState([]);
     const [workOnDate, setWorkOnDate] = useState([]);
+    const [penddingDate, setPenddingDate] = useState([]);
 
     const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
@@ -54,6 +55,7 @@ const DesignerSchedule = () => {
                 setIsBookedBefore(calendarRes.data?.isSelectBefore)
                 setDesignerInfo(designerRes.data.message[0].dataDesigner[0]);
                 setuserInfo(designerRes.data.userInfo);
+                setPenddingDate(calendarRes.data.pendingDates);
                 if (calendarRes.data.scheduleId) {
                     const res = await instance.get(`/schedule/${calendarRes.data.scheduleId}`);
                     setTimeOwnPending(res.data.data)
@@ -75,6 +77,11 @@ const DesignerSchedule = () => {
         const formattedDate = dayjs(date);
         const formattedDateString = formattedDate.format('YYYY-MM-DD');
 
+        if (penddingDate && penddingDate.includes(formattedDateString)) {
+            setWaitingForApprovalModalVisible(true);
+            return;
+        }
+        
         if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
             const scheduleInfo = await instance.get(`/schedule/${designer_id}/graySchedule`, {
                 params: {
@@ -90,22 +97,38 @@ const DesignerSchedule = () => {
             }
             return;
         }
-        if (isBooked && workOnDate.length === 0) {
-            setWaitingForApprovalModalVisible(true);
-            return;
-        }
+        
         if (isBooked && workOnDate.length > 0) {
-            setIsLoading(true);
-            const scheduleInfo = await instance.get('/schedule/user-info', {
-                params: {
-                    timeWork: formattedDateString
+            if (checkRole === 'ADMIN' || checkRole === 'STAFF') {
+                if (workOnDate.includes(formattedDateString)) {
+                    setIsLoading(true);
+                    const scheduleInfo = await instance.get('/schedule/user-info', {
+                        params: {
+                            timeWork: formattedDateString
+                        }
+                    });
+                    if (scheduleInfo.data.data.length > 0) {
+                        setScheduleBooked(scheduleInfo.data.data[0]);
+                        setConfirmBookModalVisible(true);
+                    }
+                    setIsLoading(false);
+                    return;
                 }
-            });
-            if (scheduleInfo.data.data.length > 0) {
-                setScheduleBooked(scheduleInfo.data.data[0]);
-                setConfirmBookModalVisible(true);
+                setSelectedDateModalVisible(true);
+                setSelectedDate(formattedDateString);
+            } else {
+                setIsLoading(true);
+                const scheduleInfo = await instance.get('/schedule/user-info', {
+                    params: {
+                        timeWork: formattedDateString
+                    }
+                });
+                if (scheduleInfo.data.data.length > 0) {
+                    setScheduleBooked(scheduleInfo.data.data[0]);
+                    setConfirmBookModalVisible(true);
+                }
+                setIsLoading(false);
             }
-            setIsLoading(false);
             return;
         }
         setSelectedDateModalVisible(true);
@@ -128,7 +151,7 @@ const DesignerSchedule = () => {
                 if (checkRole === 'ADMIN' || checkRole === 'STAFF') {
                     instance.post(`/schedule/${designer_id}/book`, {
                         timeSelect: timeOfDay,
-                        id_schedule: scheduleId,
+                        id_schedule: designer_id,
                         description_book: note,
                         timeWork: selectedDate,
                         phoneNumber: phoneNumber,
@@ -189,7 +212,7 @@ const DesignerSchedule = () => {
         setSelectedDateModalVisible(false);
     };
 
-    const customDateCellRender = (date, busyDate, workOnDate) => {
+    const customDateCellRender = (date, busyDate, workOnDate, penddingDate) => {
         if (!busyDate) {
             return <div></div>;
         }
@@ -199,6 +222,9 @@ const DesignerSchedule = () => {
 
         const workOnDateObjects = workOnDate.map(dateString => dayjs(dateString));
         const isWorkOnDate = workOnDateObjects.find(d => d.isSame(date, 'day'));
+
+        const penddingDateObjects = penddingDate.map(dateString => dayjs(dateString));
+        const isPendingDate = penddingDateObjects.find(d => d.isSame(date, 'day'));
 
         // Màu mặc định nếu không phải ngày bận hoặc ngày làm việc
         let backgroundColor = 'transparent';
@@ -217,11 +243,8 @@ const DesignerSchedule = () => {
             }
         }
 
-        // Nếu workOnDate là một mảng rỗng và isBooked là true, đặt màu vàng cho ngày cuối cùng trong busyDate
-        if (workOnDate.length === 0 && isBooked) {
-            if (dayjs(timeOwnPending).isSame(date, 'day')) {
-                backgroundColor = 'yellow';
-            }
+        if (isPendingDate) {
+            backgroundColor = 'yellow';
         }
 
         return (
@@ -233,7 +256,7 @@ const DesignerSchedule = () => {
     const CustomCalendar = ({ busyDate, workOnDate }) => {
         return (
             <div>
-                <Calendar cellRender={(date) => customDateCellRender(date, busyDate, workOnDate)} onSelect={handleDateSelect} />
+                <Calendar cellRender={(date) => customDateCellRender(date, busyDate, workOnDate, penddingDate)} onSelect={handleDateSelect} />
                 {
                     checkRole === "CUSTOMER" && (
                         <>
