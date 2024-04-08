@@ -27,6 +27,8 @@ import Service3 from './service-list/service-03';
 import StaffList from './staff-list';
 import UserSchedule from './user-schedule/UserSchedule';
 import WorkingProject from './working-project';
+import ContractDetail from './contract-detail';
+import ChatList from './chat-box/general-chat'
 
 function App() {
   return (
@@ -44,6 +46,7 @@ function App() {
         <Route path="/list-user-customer" element={<CustomerList />} />
         <Route path="/list-schedule" element={<ScheduleList />} />
         <Route path="/list-contract" element={<ContractList />} />
+        <Route path="/contract/:contract_id" element={<ContractDetail />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about-screen" element={<AboutScreen />} />
@@ -57,9 +60,12 @@ function App() {
         <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         <Route path="/create-schedule" element={<CreateSchedule />} />
         <Route path="/user-schedule" element={<UserSchedule />} />
+        <Route path="/list-chatbox/:staff_id" element={<ChatList />} />
+
       </Routes>
     </BrowserRouter>
   );
+  
 }
 
 export default App;

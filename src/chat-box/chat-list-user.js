@@ -155,9 +155,7 @@ const Chats = () => {
                         alignItem='center'
                         justifyContent='space-between'
                     >
-                        <Typography
-                            variant="h5"
-                            style={{ display: 'flex', alignContent: "center" }}>
+                        <Typography variant="h5">
                             Đoạn chat
                         </Typography>
                         <IconButton>
