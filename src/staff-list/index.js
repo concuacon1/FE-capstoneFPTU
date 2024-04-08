@@ -446,8 +446,6 @@ const StaffList = () => {
                                 value={formAdd.email}
                                 onChange={(e) => setFormAdd({ ...formAdd, email: e.target.value })}
                                 sx={{ m: 1, width: "222.45px" }}
-                                autoComplete="off" // Thêm thuộc tính này để tắt tính năng điền tự động
-
                             />
 
                             <TextField
@@ -459,7 +457,6 @@ const StaffList = () => {
                                 value={formAdd.phoneNumber}
                                 onChange={(e) => setFormAdd({ ...formAdd, phoneNumber: e.target.value })}
                                 sx={{ m: 1, width: "222.45px" }}
-                                
                             />
 
                             <div className="item flex justify-center items-center">
@@ -468,7 +465,6 @@ const StaffList = () => {
                                     <OutlinedInput
                                         id="outlined-adornment-password"
                                         type={showPassword ? 'text' : 'password'}
-                                        autoComplete="off" // Thêm thuộc tính này để tắt tính năng điền tự động
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
