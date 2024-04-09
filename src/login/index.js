@@ -1,35 +1,25 @@
-import { useEffect, useState } from "react";
-import { Image } from "antd";
-import RegisterCunstomerImage from "../images/register-customer.png";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import * as yup from "yup";
-import Checkbox from "@mui/material/Checkbox";
-import { useFormik } from "formik";
-import instance from "../configApi/axiosConfig";
-import { toast, ToastContainer } from "react-toastify";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import BannerLogin from "../images/banner_login.png";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { Image } from "antd";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import instance from "../configApi/axiosConfig";
+import BannerLogin from "../images/banner_login.png";
+import BackgroundImage from '../images/logo_banner_001.png';
 
 function a11yProps(index) {
     return {
@@ -94,8 +84,6 @@ const Login = () => {
         setFormPhone(dataPhone)
 
     }, [])
-
-    console.log(22222222222 , formPhone)
 
     const pushLink = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -167,22 +155,24 @@ const Login = () => {
     }
 
     return (
-        <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom">
+        <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom"
+            style={{ backgroundImage: `url(${BackgroundImage})` }}
+        >
             <div className="bg-white" style={{ height: "679px" }}>
                 <div className="max-w-custom-width-register-designer">
                     <Image
-                        width={500}
+                        width={'50%'}
                         height={679}
                         src={BannerLogin}
                         className="bg-white"
                         preview={false}
                     />
 
-                    <div className="flex items-center justify-center item-center m-auto pl-40" style={{ width: "300px" }}>
-                        <Box sx={{ width: "500px" }}>
+                    <div className="flex items-center justify-center item-center m-auto" style={{ width: "50%" }}>
+                        <Box>
                             <Box
                                 sx={{ borderColor: "divider" }}
-                                className="flex items-center justify-center item-center m-auto"
+                                className="flex items-center justify-center item-center"
                             >
                                 <Tabs
                                     value={value}
@@ -236,52 +226,50 @@ const Login = () => {
                                     </FormControl>
                                 </CustomTabPanel>}
 
-                                <div className="flex items-center justify-center item-center m-auto">
-                                    {value == 1 && <CustomTabPanel value={value} index={1} className="flex items-center justify-center m-auto">
-                                        <TextField
-                                            label="Email"
-                                            id="outlined-start-adornment"
-                                            sx={{ m: 1, width: "280px" }}
-                                            name="email"
+                                {value == 1 && <CustomTabPanel value={value} index={1} style={{ width: "330px" }} className="flex items-center justify-center m-auto">
+                                    <TextField
+                                        label="Email"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: "280px" }}
+                                        name="email"
+                                        onChange={handleChangeEmail}
+                                        value={formEmail.email}
+                                    />
+
+                                    <FormControl
+                                        sx={{ m: 1, width: "280px" }}
+                                        variant="outlined"
+                                    >
+                                        <InputLabel htmlFor="outlined-adornment-password">
+                                            Password
+                                        </InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-password"
+                                            type={showPassword ? "text" : "password"}
+                                            name="password"
+                                            value={formEmail.password}
                                             onChange={handleChangeEmail}
-                                            value={formEmail.email}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                        edge="end"
+                                                    >
+                                                        {showPassword ? (
+                                                            <VisibilityOff />
+                                                        ) : (
+                                                            <Visibility />
+                                                        )}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            label="Password"
                                         />
 
-                                        <FormControl
-                                            sx={{ m: 1, width: "280px" }}
-                                            variant="outlined"
-                                        >
-                                            <InputLabel htmlFor="outlined-adornment-password">
-                                                Password
-                                            </InputLabel>
-                                            <OutlinedInput
-                                                id="outlined-adornment-password"
-                                                type={showPassword ? "text" : "password"}
-                                                name="password"
-                                                value={formEmail.password}
-                                                onChange={handleChangeEmail}
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                            edge="end"
-                                                        >
-                                                            {showPassword ? (
-                                                                <VisibilityOff />
-                                                            ) : (
-                                                                <Visibility />
-                                                            )}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                }
-                                                label="Password"
-                                            />
-
-                                        </FormControl>
-                                    </CustomTabPanel>}
-                                </div>
+                                    </FormControl>
+                                </CustomTabPanel>}
                             </div>
                             <div className="flex items-center justify-around item-center m-auto mb-5">
                                 <button
@@ -298,7 +286,7 @@ const Login = () => {
                                 className="flex items-center justify-around item-center m-auto"
                                 style={{ width: "330px" }}
                             >
-                                <div>
+                                <div className="flex items-center">
                                     <Checkbox
                                         checked={onChangeCheckBox}
                                         onChange={(event) => {
@@ -315,20 +303,20 @@ const Login = () => {
 
                             <div
                                 className="flex items-center justify-around item-center m-auto"
-                                style={{ width: "330px" }}
+                                style={{ width: "330px", margin: '10px' }}
                             >
                                 <span className="border w-36 mr-5" />
-                                OR <span className="border w-36 ml-5" />
+                                HOẶC <span className="border w-36 ml-5" />
                             </div>
 
                             <div className="flex justify-around m-auto">
                                 <div>
-                                    Need an account ?{" "}
+                                    Bạn chưa có tài khoản ?{" "}
                                     <Link href="/register" className="pl-3 pr-3">
                                         {" "}
-                                        SIGN UP{" "}
+                                        Đăng ký{" "}
                                     </Link>{" "}
-                                    now !!
+                                    bây giờ !!
                                 </div>
                             </div>
                         </Box>
@@ -336,7 +324,7 @@ const Login = () => {
                 </div>
             </div>
             <ToastContainer />
-        </div>
+        </div >
     );
 };
 

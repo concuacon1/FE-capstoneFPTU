@@ -93,6 +93,22 @@
   font-family: Gabriela;
 }
 
+.first-values .delete {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  right: 5%;
+  top: 100px;
+  background: linear-gradient(180deg, #a8653b 0%, #a8653b 0%, #422817 100%);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 26px;
+  font-family: Gabriela;
+}
+
 .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   color: white;
   background: #a8653b;
@@ -125,14 +141,9 @@
 
 /* CSS button category */
 .ant-btn-primary {
-  width: 80%;
-  height: 80px;
   background: white;
   color: black;
-  font-size: 26px;
   text-align: start;
-  padding: 0 10%;
-  border-radius: 30px;
   border: 1px #a8653b solid;
 }
 

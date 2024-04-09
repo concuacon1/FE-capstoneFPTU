@@ -1,22 +1,7 @@
 
-import HomeIcon from '@mui/icons-material/Home';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
-import { useState } from 'react'
-import { styled, alpha } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Avatar from '@mui/material/Avatar';
-import { Image } from 'antd';
-import HomeOne from '../images/home_image_one.png'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import DeleteIcon from '@mui/icons-material/Delete';
-import LockIcon from '@mui/icons-material/Lock';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie'
-
+import Cookies from 'js-cookie';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -33,7 +18,7 @@ const FooterComponent = () => {
         <div className='cunstom-footer'>
             <div className='block_footer_one'>
                 <h2 className='tittle_footer'>VU GIA furniture</h2>
-                <p>Worldwide furniture store since 2020. We sell over 1000+ branded products on our website</p>
+                <p>Cửa hàng nội thất ở Việt Nam kể từ năm 2020. Chúng tôi bán hơn 1000 sản phẩm có thương hiệu trên trang web của mình</p>
                 <p className='flex'>
 
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,11 +29,11 @@ const FooterComponent = () => {
 
                     <svg width="26" height="29" viewBox="0 0 26 29" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_681_849)">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9721 20.463C16.2437 18.9283 21.7083 14.7081 21.7083 9.62508C21.7083 4.8156 17.8094 0.916748 13 0.916748C8.19048 0.916748 4.29163 4.8156 4.29163 9.62508C4.29163 14.7081 9.75623 18.9283 12.0278 20.463C12.6213 20.8639 13.3786 20.8639 13.9721 20.463ZM13 12.3751C14.5187 12.3751 15.75 11.1439 15.75 9.62508C15.75 8.1063 14.5187 6.87508 13 6.87508C11.4812 6.87508 10.25 8.1063 10.25 9.62508C10.25 11.1439 11.4812 12.3751 13 12.3751Z" fill="#898989" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M13.9721 20.463C16.2437 18.9283 21.7083 14.7081 21.7083 9.62508C21.7083 4.8156 17.8094 0.916748 13 0.916748C8.19048 0.916748 4.29163 4.8156 4.29163 9.62508C4.29163 14.7081 9.75623 18.9283 12.0278 20.463C12.6213 20.8639 13.3786 20.8639 13.9721 20.463ZM13 12.3751C14.5187 12.3751 15.75 11.1439 15.75 9.62508C15.75 8.1063 14.5187 6.87508 13 6.87508C11.4812 6.87508 10.25 8.1063 10.25 9.62508C10.25 11.1439 11.4812 12.3751 13 12.3751Z" fill="#898989" />
                         </g>
                         <defs>
-                            <filter id="filter0_d_681_849" x="-2" y="0" width="30" height="30" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <filter id="filter0_d_681_849" x="-2" y="0" width="30" height="30" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                <feFlood floodOpacity="0" result="BackgroundImageFix" />
                                 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                                 <feOffset dy="4" />
                                 <feGaussianBlur stdDeviation="2" />
@@ -61,31 +46,39 @@ const FooterComponent = () => {
                     </svg>
 
                     <span className='ml-3'> HaNoi, VietNam </span></p>
-                <div>www.noithatvugia.com</div>
+                <div className='nav-link'>
+                    <Link to="/home-page">www.noithatvugia.com</Link>
+                </div>
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Menu</h2>
-                <p>Projects</p>
-                <p>Rooms</p>
-                <p>Inspirations</p>
-                <div>About Us</div>
-                <div>Terms & Policy</div>
+                <h2 className='tittle_footer'>Danh sách</h2>
+                <div className='nav-link'>
+                    <Link to="/service">Gói dự án</Link>
+                </div>
+                <div className='nav-link'>Các phòng</div>
+                <div className='nav-link'>
+                    <Link to="/about-screen">Nguồn cảm hứng</Link>
+                </div>
+                <div className='nav-link'>Doanh nghiệp</div>
+                <div className='nav-link'>Điều khoản và chính sách</div>
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Stay Connected</h2>
-                <p>Facebook</p>
-                <p>Instagram</p>
-                <p>Twitter</p>
+                <h2 className='tittle_footer'>Mạng xã hội</h2>
+                <div className='nav-link'>Facebook</div>
+                <div className='nav-link'>Instagram</div>
+                <div className='nav-link'>Twitter</div>
 
             </div>
 
             <div className='block_footer_one'>
-                <h2 className='tittle_footer'>Account</h2>
-                <p>My Profile</p>
-                <p>My catalog</p>
-                <p onClick={logout} className="cursor-pointer">Log out</p>
+                <h2 className='tittle_footer'>Tài khoản</h2>
+                <div className='nav-link'>Hồ sơ của tôi</div>
+                <div className='nav-link'>Danh mục của tôi</div>
+                <div className='nav-link'>
+                    <p onClick={logout} className="cursor-pointer">Đăng xuất</p>
+                </div>
             </div>
 
         </div>

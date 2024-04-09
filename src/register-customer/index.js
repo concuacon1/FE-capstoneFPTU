@@ -1,30 +1,29 @@
-import { useState } from "react";
-import { Image } from "antd";
-import RegisterCunstomerImage from "../images/register-customer.png";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import * as yup from "yup";
 import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Image } from "antd";
+import dayjs from "dayjs";
 import { useFormik } from "formik";
-import instance from "../configApi/axiosConfig"
-import { toast, ToastContainer } from 'react-toastify'
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import * as yup from "yup";
+import instance from "../configApi/axiosConfig";
+import RegisterCunstomerImage from "../images/register-customer.png";
 
 const RegisterCustomer = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -57,13 +56,13 @@ const RegisterCustomer = () => {
             .required("Email không được để trống"),
         firstName: yup
             .string()
-            .required('FirstName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+            .required('Họ không được để trống')
+            // .min(3, "Tối thiểu 3 kí tự ")
             .max(100, "Tối đa 100 kí tự"),
         lastName: yup
             .string()
-            .required('LastName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+            .required('Tên không được để trống')
+            // .min(3, "Tối thiểu 3 kí tự ")
             .max(100, "Tối đa 100 kí tự"),
         dob: yup
             .date()
@@ -80,11 +79,11 @@ const RegisterCustomer = () => {
             .string()
             .required('Vui lòng nhập mật khẩu xác nhận')
             .oneOf([yup.ref('password'), null], 'Mật khẩu xác nhận không khớp'),
-        customerType: yup.string().required("Vui lòng chon CustomerType"),
-        gender: yup.string().required("Vui lòng chon gender"),
+        customerType: yup.string().required("Vui lòng chon Loại hình"),
+        gender: yup.string().required("Vui lòng chon giới tính"),
         businessName: yup.string().when('customerType', {
             is: (customerType) => customerType === "business",
-            then: yup.string().required('Vui lòng nhập Business Name'),
+            then: yup.string().required('Vui lòng nhập Tên Doanh Nghiệp'),
             otherwise: yup.string(), // No validation for non-business users
         }),
     });
@@ -97,7 +96,6 @@ const RegisterCustomer = () => {
             const data = {
                 fullName: `${values.firstName} ${values.lastName}`,
                 ...values,
-                dob: dayjs().format('YYYY/DD/MM'),
                 role: "CUSTOMER"
             }
             try {
@@ -164,12 +162,12 @@ const RegisterCustomer = () => {
                     <div className="with-banner-login-register-designer flex justify-center items-center">
                         <div>
                             <div className="text-xs font-bold  mb-1"> WELCOME </div>
-                            <div className="text-3xl font-bold mb-4"> Sign Up as: </div>
+                            <div className="text-3xl font-bold mb-4"> Đăng ký trở thành Khách Hàng </div>
                             <form onSubmit={handleSubmit}>
                                 <div className="flex">
                                     <div>
                                         <TextField
-                                            label="First name"
+                                            label="Họ"
                                             id="outlined-start-adornment"
                                             sx={{ m: 1, width: "280px" }}
                                             name="firstName"
@@ -188,7 +186,7 @@ const RegisterCustomer = () => {
 
                                     <div>
                                         <TextField
-                                            label="Last name"
+                                            label="Tên"
                                             id="outlined-start-adornment"
                                             name="lastName"
                                             onChange={handleChange}
@@ -213,7 +211,7 @@ const RegisterCustomer = () => {
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                             <DatePicker
                                                 sx={{ m: 1, width: "280px" }}
-                                                label="Date of birth"
+                                                label="Ngày sinh"
                                                 defaultValue={values.dob}
                                                 name="dob"
                                                 onChange={(date) => handleChange({ target: { name: "dob", value: date } })}
@@ -222,49 +220,49 @@ const RegisterCustomer = () => {
                                         {errors.dob && <p className="errors-file">{errors.dob}</p>}
                                     </div>
                                     <div className="flex">
-                                        <div className="text-base mt-1 mr-3 pl-2">Gender : </div>
-                                        <RadioGroup
-                                            aria-labelledby="demo-row-radio-buttons-group-label"
-                                            name="gender"
-                                            value={values.gender}
-                                            onChange={handleChange}
-                                        >
-                                            <FormControlLabel
-                                                value="Male"
-                                                control={
-                                                    <Radio
-                                                        sx={{
-                                                            "& .MuiSvgIcon-root": {
-                                                                fontSize: 18,
-                                                            },
-                                                            "&.Mui-checked": {
-                                                                color: "#5B3000", // Change this to the desired checked color
-                                                            },
-                                                        }}
-                                                    />
-                                                }
-                                                label="Male"
-                                            />
-                                            <FormControlLabel
-                                                value="Female"
-                                                control={
-                                                    <Radio
-                                                        sx={{
-                                                            "& .MuiSvgIcon-root": {
-                                                                fontSize: 18,
-                                                            },
-                                                            "&.Mui-checked": {
-                                                                color: "#5B3000", // Change this to the desired checked color
-                                                            },
-                                                        }}
-                                                    />
-                                                }
-                                                label="Female"
-                                            />
-                                        </RadioGroup>
+                                    <div className="text-base mt-1 mr-3 pl-2">Giới tính : </div>
+                                    <RadioGroup
+                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                        name="gender"
+                                        value={values.gender}
+                                        onChange={handleChange}
+                                    >
+                                        <FormControlLabel
+                                            value="Male"
+                                            control={
+                                                <Radio
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            fontSize: 18,
+                                                        },
+                                                        "&.Mui-checked": {
+                                                            color: "#5B3000", // Change this to the desired checked color
+                                                        },
+                                                    }}
+                                                />
+                                            }
+                                            label="Nam"
+                                        />
+                                        <FormControlLabel
+                                            value="Nữ"
+                                            control={
+                                                <Radio
+                                                    sx={{
+                                                        "& .MuiSvgIcon-root": {
+                                                            fontSize: 18,
+                                                        },
+                                                        "&.Mui-checked": {
+                                                            color: "#5B3000", // Change this to the desired checked color
+                                                        },
+                                                    }}
+                                                />
+                                            }
+                                            label="Nữ"
+                                        />
+                                    </RadioGroup>
 
-                                    </div>
                                 </div>
+                            </div>
 
                                 <div>
                                     <TextField
@@ -282,7 +280,7 @@ const RegisterCustomer = () => {
 
                                 <div>
                                     <TextField
-                                        label="Phone number"
+                                        label="Số điện thoại"
                                         id="outlined-start-adornment"
                                         sx={{ m: 1, width: "280px" }}
                                         name="phoneNumber"
@@ -295,7 +293,7 @@ const RegisterCustomer = () => {
                                 <div>
                                     <FormControl sx={{ m: 1, width: "280px" }} variant="outlined">
                                         <InputLabel htmlFor="outlined-adornment-password">
-                                            Password
+                                            Mật khẩu
                                         </InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-password"
@@ -321,7 +319,7 @@ const RegisterCustomer = () => {
 
                                     <FormControl sx={{ m: 1, width: "280px" }} variant="outlined">
                                         <InputLabel htmlFor="outlined-adornment-confirm-password">
-                                            Confirm password
+                                            Xác nhận mật khẩu
                                         </InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-confirm-password"
@@ -352,7 +350,7 @@ const RegisterCustomer = () => {
 
                                 <div className="flex">
                                     {" "}
-                                    <span className="mt-1 mr-4 pl-2"> Business type: </span>
+                                    <span className="mt-1 mr-4 pl-2"> Bạn là: </span>
                                     <RadioGroup
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="customerType"
@@ -374,7 +372,7 @@ const RegisterCustomer = () => {
                                                     }}
                                                 />
                                             }
-                                            label="Individual"
+                                            label="Cá Nhân"
                                         />
                                         <FormControlLabel
                                             value="business"
@@ -390,7 +388,7 @@ const RegisterCustomer = () => {
                                                     }}
                                                 />
                                             }
-                                            label="Business"
+                                            label="Doanh Nghiệp"
                                         />
                                     </RadioGroup>
 
@@ -399,7 +397,7 @@ const RegisterCustomer = () => {
 
                                 <div>
                                     <TextField
-                                        label="Business name"
+                                        label="Tên Doanh Nghiệp"
                                         id="outlined-start-adornment"
                                         name="businessName"
                                         sx={{ m: 1, width: "580px" }}
@@ -418,7 +416,7 @@ const RegisterCustomer = () => {
                                 <div >
                                     <Checkbox checked={onChangeCheckBox} onChange={(event) => {
                                         handleClickOnChangeCheckBox(event)
-                                    }} />  I have read, understood, and <Link href="#" className="link-color-register"> agree with the terms and conditions of company.</Link>
+                                    }} />  Tôi đã đọc, hiểu và  <Link href="#" className="link-color-register"> đồng ý với các điều khoản và điều kiện của công ty</Link>
                                     {messageCheckBox.length > 0 && <p className="errors-file">{messageCheckBox}</p>}
                                 </div>
 
@@ -427,7 +425,7 @@ const RegisterCustomer = () => {
                                     style={{ margin: "1", width: "100%" }}
                                     type="submit"
                                 >
-                                    CONTINUE
+                                    Xác nhận
                                 </button>
                             </form>
                         </div>

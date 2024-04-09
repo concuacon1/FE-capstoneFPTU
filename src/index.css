@@ -41,6 +41,40 @@
     cursor: pointer;
   }
 
+  .bg_active_item {
+    background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
+  }
+
+  .bg_edit_account {
+    background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
+    width: 55px;
+    height: 30px;
+    border-radius: 10px;
+    color: #fff;
+  }
+
+  .bg_confirm_schedule {
+    background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+    color: #fff;
+  }
+
+  .bg_book_schedule {
+    background-image: linear-gradient(to right, #e89f71, #5b3000) !important;
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px;
+  }
+
+  .bg_delete_account {
+    background-image: linear-gradient(to right, #cc6d32, #ec0c48) !important;
+    width: 60px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
   .banner-login-color {
     color: #212121;
     font-size: 18px;
@@ -74,18 +108,27 @@
   }
 
   .custombutton-register-designer {
-    background-color: #5b3000;
+    background-image: linear-gradient(to right, #e89f71, #5b3000);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    padding: 6px;
+    border-radius: 10px;
+  }
+
+  .button-add {
+    background-image: linear-gradient(to right, #3498db, #000000);
     color: white;
     font-size: 16px;
     font-weight: bold;
     width: 100%;
     padding: 12px;
-    margin-top: 20px;
+    border-radius: 10px;
   }
 
   .header-custom {
     height: 100px;
-    
     justify-content: space-around;
     font-size: 16px;
     align-items: center;
@@ -195,7 +238,6 @@
   }
 
   .change-password-custom {
-    width: 1300px;
     background-color: white;
   }
   .with-banner-change-pass {
@@ -205,13 +247,14 @@
   }
 
   .bg-account {
-    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    background: linear-gradient(90deg, black 0%, #A8653B 100%);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
     width: 100%;
-    padding-left: 120px;
-    padding: 30px 0px 30px 120px;
+    padding: 0;
   }
 
   .table-account {
+   
     width: 100%;
   }
 
@@ -232,28 +275,61 @@
   .custom_step div:first-child {
     line-height: 0px !important;
   }
+  .px-56 {
+    background-color: #F5F5F5;
+      width: 70%;
+      height: auto;
+      margin: 100px auto;
+      padding: 70px;
+  }
+  .custom_step .ant-steps-item-icon {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom_step .ant-steps-icon {
+    line-height: 40px;
+  }
+
+  .custom_step .ant-steps-item-active .ant-steps-item-icon {
+    font-size: 32px;
+    width: 60px;
+    height: 60px;
+  }
 
   .item_categorys {
     background-image: linear-gradient(to left, #e89f71, #a8653b);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    width: 300px;
     word-wrap: break-word;
     color: white;
+    width: 80%;
+    height: 80px;
+    background: white;
+    color: black;
+    font-size: 26px;
+    text-align: center;
+    padding: 0 10%;
+    border-radius: 30px;
+    border: 1px #a8653b solid;
   }
 
-  .item_categorysNo{
-    padding: 10px;
-    border-radius: 5px;
+  .item_categorysNo {
     margin-bottom: 10px;
-    width: 300px;
+    width: 80%;
     word-wrap: break-word;
     color: black;
+    height: 80px;
+    border-radius: 30px;
+    font-size: 26px;
+    padding: 0 10%;
+    text-align: center;
   }
 
   .block_left_category {
-    width: 400px;
+    width: 40%;
   }
   .MuiImageListItemBar-root.MuiImageListItemBar-positionBottom.css-ztrqiq-MuiImageListItemBar-root {
     background: none !important;
@@ -268,9 +344,42 @@
     border-radius: 10px;
   }
 
+  button.button-upload-images.add-images {
+    margin-bottom: 23px !important;
+}
+
   .button-add-link {
     background-image: linear-gradient(to left, #e89f71, #a8653b);
     padding: 10px;
     margin-right: 20px;
   }
+}
+
+.MuiStack-root {
+  /* overflow: hidden; */
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root, .css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root {
+  height: 56px !important;
+}
+
+.css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 16.5px 14px !important;
+}
+
+label[data-shrink=false]+.MuiInputBase-formControl .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input{
+  height: 40px !important;
+}
+
+.css-1pysi21-MuiFormLabel-root-MuiInputLabel-root {
+  top: 8px !important;
+}
+
+.css-y8ay40-MuiTableCell-root, .css-dwuj3p-MuiTableCell-root {
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+.css-10hburv-MuiTypography-root {
+  font-size: 0.8rem;
 }

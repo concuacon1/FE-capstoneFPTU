@@ -1,19 +1,35 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
-import './index.css'
-import Register from "./register/index"
-import RegisterCustomer from "./register-customer/index"
-import HomePage from "./homePage/index"
-import RegisterDesigner from './register-designer/index'
-import EditPasswordOtp from './edit-password-otp'
-import ChangePassword from "./change-password/index"
-import Login from "./login/index"
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
-import CreateProject from "./create-project/index"
-import ListProject from "./projects_category/list-project"
-import ProjectValue from "./projects_category/project-value"
-import ProjectServices from "./projects/project-services"
+import ChangePassword from "./change-password/index";
+import ContractList from './contract-list';
+import CreateProject from "./create-project/index";
+import CreateSchedule from './create-schedule';
+import CustomerList from './customer-list';
+import DesignerList from './designer-list';
+import DesignerSchedule from './designer-schedule';
+import EditPasswordOtp from './edit-password-otp';
+import HomePage from "./homePage/index";
+import './index.css';
+import Login from "./login/index";
+import ListProject from "./projects_category/list-project";
+import ProjectValue from "./projects_category/project-value";
+import RegisterCustomer from "./register-customer/index";
+import RegisterDesigner from './register-designer/index';
+import Register from "./register/index";
+import ScheduleList from './schedule-list';
+import ProjectServices from './service-list/project-services';
+import Service1 from './service-list/service-01';
+import Service2 from './service-list/service-02';
+import Service3 from './service-list/service-03';
+import StaffList from './staff-list';
+import UserSchedule from './user-schedule/UserSchedule';
+import WorkingProject from './working-project';
+import ContractDetail from './contract-detail';
+import ChatList from './chat-box/general-chat'
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,15 +41,31 @@ function App() {
         <Route path="/edit-password-otp" element={<EditPasswordOtp />} />
         <Route path="/home-page" element={<HomePage />} />
         <Route path="/list-user-admin" element={<AccountList />} />
+        <Route path="/list-user-staff" element={<StaffList />} />
+        <Route path="/list-user-designer" element={<DesignerList />} />
+        <Route path="/list-user-customer" element={<CustomerList />} />
+        <Route path="/list-schedule" element={<ScheduleList />} />
+        <Route path="/list-contract" element={<ContractList />} />
+        <Route path="/contract/:contract_id" element={<ContractDetail />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/project-list" element={<ListProject />} />
+        <Route path="/about-screen" element={<AboutScreen />} />
+        <Route path="/project-list/:project_type" element={<ListProject />} />
         <Route path="/project/:project_id" element={<ProjectValue />} />
         <Route path="/service" element={<ProjectServices />} />
+        <Route path="/service/01" element={<Service1 />} />
+        <Route path="/service/02" element={<Service2 />} />
+        <Route path="/service/03" element={<Service3 />} />
+        <Route path="/working-profile" element={<WorkingProject />} />
+        <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
+        <Route path="/create-schedule" element={<CreateSchedule />} />
+        <Route path="/user-schedule" element={<UserSchedule />} />
+        <Route path="/list-chatbox/:staff_id" element={<ChatList />} />
 
       </Routes>
     </BrowserRouter>
   );
+  
 }
 
 export default App;

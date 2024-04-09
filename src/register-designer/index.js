@@ -1,32 +1,31 @@
-import { useState, useRef } from "react";
-import { Image } from "antd";
-import RegisterCunstomerImage from "../images/register-customer.png";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import dayjs, { Dayjs } from "dayjs";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
-import * as yup from "yup";
-import Checkbox from "@mui/material/Checkbox";
-import { useFormik } from "formik";
-import instance from "../configApi/axiosConfig"
-import { toast, ToastContainer } from 'react-toastify'
-import Cookies from 'js-cookie'
-import { useNavigate } from 'react-router-dom';
+import { MenuItem, Select } from '@mui/material';
 import Button from '@mui/material/Button';
-import { UploadFileCloudinary } from "../uploadImage/index";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Image } from "antd";
+import dayjs from "dayjs";
+import { useFormik } from "formik";
+import Cookies from 'js-cookie';
+import { useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import * as yup from "yup";
+import instance from "../configApi/axiosConfig";
+import RegisterCunstomerImage from "../images/register-customer.png";
 
 const RegisterDesigner = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -59,13 +58,13 @@ const RegisterDesigner = () => {
             .required("Email không được để trống"),
         firstName: yup
             .string()
-            .required('FirstName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+            .required('Họ không được để trống')
+            // .min(3, "Tối thiểu 3 kí tự ")
             .max(100, "Tối đa 100 kí tự"),
         lastName: yup
             .string()
-            .required('LastName không được để trống')
-            .min(3, "Tối thiểu 3 kí tự ")
+            .required('Tên không được để trống')
+            // .min(3, "Tối thiểu 3 kí tự ")
             .max(100, "Tối đa 100 kí tự"),
         dob: yup
             .date()
@@ -78,11 +77,13 @@ const RegisterDesigner = () => {
             .required('Vui lòng nhập mật khẩu xác nhận')
             .min(3, "Tối thiểu 3 kí tự ")
             .max(100, "Tối đa 100 kí tự"),
+        address: yup.string()
+            .required('Vui lòng chọn lịch'),
         confirmPassword: yup
             .string()
             .required('Vui lòng nhập mật khẩu xác nhận')
             .oneOf([yup.ref('password'), null], 'Mật khẩu xác nhận không khớp'),
-        gender: yup.string().required("Vui lòng chon gender"),
+        gender: yup.string().required("Vui lòng chọn giới tính"),
     });
 
     const submitData = async (values) => {
@@ -93,24 +94,23 @@ const RegisterDesigner = () => {
             return setMessageChekbox("Vui lòng click checkbox")
         } else {
             setMessageChekbox("")
-           
+
             try {
                 const formDataFile = new FormData();
                 formDataFile.append('file', selectedCV);
-                const uploafFile = await instance.post("/upload-file", formDataFile ,{
+                const uploafFile = await instance.post("/upload-file", formDataFile, {
                     headers: {
-                      'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'multipart/form-data',
                     },
-                  });
-                if(!uploafFile.data.success){
-                     return toast.error("Upload error")
+                });
+                if (!uploafFile.data.success) {
+                    return toast.error("Upload error")
                 }
                 const data = {
                     fullName: `${values.firstName} ${values.lastName}`,
                     ...values,
-                    dob: dayjs().format('YYYY/DD/MM'),
                     role: "DESIGNER",
-                    cv:uploafFile.data.filename
+                    cv: uploafFile.data.filename
                 }
                 const dataCreate = await instance.post("/register", data);
                 Cookies.set('tokenfpt', dataCreate.data.data.cookie)
@@ -137,6 +137,7 @@ const RegisterDesigner = () => {
             gender: "Male",
             phoneNumber: "",
             password: "",
+            address: "",
             confirmPassword: "",
         },
         validationSchema,
@@ -144,9 +145,6 @@ const RegisterDesigner = () => {
             await submitData(values)
         },
     });
-
-
-
 
     const handleButtonClick = () => {
         // Trigger the file input click when the button is clicked
@@ -179,12 +177,12 @@ const RegisterDesigner = () => {
                 <div className="with-banner-login-register-designer flex justify-center items-center">
                     <div>
                         <div className="text-xs font-bold  mb-1"> WELCOME </div>
-                        <div className="text-3xl font-bold mb-4"> Sign Up as: </div>
+                        <div className="text-3xl font-bold mb-4"> Đăng ký trở thành Kiến Trúc Sư: </div>
                         <form onSubmit={handleSubmit}>
                             <div className="flex">
                                 <div>
                                     <TextField
-                                        label="First name"
+                                        label="Họ"
                                         id="outlined-start-adornment"
                                         sx={{ m: 1, width: "280px" }}
                                         name="firstName"
@@ -203,7 +201,7 @@ const RegisterDesigner = () => {
 
                                 <div>
                                     <TextField
-                                        label="Last name"
+                                        label="Tên"
                                         id="outlined-start-adornment"
                                         name="lastName"
                                         onChange={handleChange}
@@ -219,8 +217,6 @@ const RegisterDesigner = () => {
                                     {touched.lastName && errors.lastName && <p className="errors-file">{errors.lastName}</p>}
                                 </div>
 
-
-
                             </div>
 
                             <div className="flex">
@@ -228,7 +224,7 @@ const RegisterDesigner = () => {
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
                                             sx={{ m: 1, width: "280px" }}
-                                            label="Date of birth"
+                                            label="Ngày sinh"
                                             defaultValue={values.dob}
                                             name="dob"
                                             onChange={(date) => handleChange({ target: { name: "dob", value: date } })}
@@ -237,7 +233,7 @@ const RegisterDesigner = () => {
                                     {errors.dob && <p className="errors-file">{errors.dob}</p>}
                                 </div>
                                 <div className="flex">
-                                    <div className="text-base mt-1 mr-3 pl-2">Gender : </div>
+                                    <div className="text-base mt-1 mr-3 pl-2">Giới tính : </div>
                                     <RadioGroup
                                         aria-labelledby="demo-row-radio-buttons-group-label"
                                         name="gender"
@@ -258,10 +254,10 @@ const RegisterDesigner = () => {
                                                     }}
                                                 />
                                             }
-                                            label="Male"
+                                            label="Nam"
                                         />
                                         <FormControlLabel
-                                            value="Female"
+                                            value="Nữ"
                                             control={
                                                 <Radio
                                                     sx={{
@@ -274,13 +270,12 @@ const RegisterDesigner = () => {
                                                     }}
                                                 />
                                             }
-                                            label="Female"
+                                            label="Nữ"
                                         />
                                     </RadioGroup>
 
                                 </div>
                             </div>
-
                             <div>
                                 <TextField
                                     label="Email"
@@ -292,26 +287,71 @@ const RegisterDesigner = () => {
                                 />
 
                                 {touched.email && errors.email && <p className="errors-file">{errors.email}</p>}
-
                             </div>
+                            <div style={{ display: 'flex' }}>
+                                <div>
+                                    <TextField
+                                        label="Số điện thoại"
+                                        id="outlined-start-adornment"
+                                        sx={{ m: 1, width: "280px" }}
+                                        name="phoneNumber"
+                                        onChange={handleChange}
+                                    />
 
-                            <div>
-                                <TextField
-                                    label="Phone number"
-                                    id="outlined-start-adornment"
-                                    sx={{ m: 1, width: "280px" }}
-                                    name="phoneNumber"
-                                    onChange={handleChange}
-                                />
-
-                                {touched.phoneNumber && errors.phoneNumber && <p className="errors-file">{errors.phoneNumber}</p>}
+                                    {touched.phoneNumber && errors.phoneNumber && <p className="errors-file">{errors.phoneNumber}</p>}
+                                </div>
+                                <div style={{ margin: '8px 0 0 8px' }}>
+                                    <FormControl fullWidth sx={{ width: '280px' }}>
+                                        <InputLabel id="select-label">Quận/Huyện Tp. Hà Nội</InputLabel>
+                                        <Select
+                                            labelId="select-label"
+                                            id="select"
+                                            name="address"
+                                            value={values.address}
+                                            label="Quận/Huyện Tp. Hà Nội"
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value="Huyện Ba Vì">Huyện Ba Vì </MenuItem>
+                                            <MenuItem value="Huyện Chương Mỹ">Huyện Chương Mỹ </MenuItem>
+                                            <MenuItem value="Huyện Đan Phượng">Huyện Đan Phượng </MenuItem>
+                                            <MenuItem value="Huyện Đông Anh">Huyện Đông Anh </MenuItem>
+                                            <MenuItem value="Huyện Gia Lâm">Huyện Gia Lâm </MenuItem>
+                                            <MenuItem value="Huyện Hoài Đức">Huyện Hoài Đức </MenuItem>
+                                            <MenuItem value="Huyện Mê Linh">Huyện Mê Linh </MenuItem>
+                                            <MenuItem value="Huyện Mỹ Đức">Huyện Mỹ Đức </MenuItem>
+                                            <MenuItem value="Huyện Phú Xuyên">Huyện Phú Xuyên </MenuItem>
+                                            <MenuItem value="Huyện Phúc Thọ">Huyện Phúc Thọ</MenuItem>
+                                            <MenuItem value="Huyện Quốc Oai">Huyện Quốc Oai </MenuItem>
+                                            <MenuItem value="Huyện Sóc Sơn">Huyện Sóc Sơn</MenuItem>
+                                            <MenuItem value="Huyện Thạch Thất">Huyện Thạch Thất</MenuItem>
+                                            <MenuItem value="Huyện Thanh Oai">Huyện Thanh Oai</MenuItem>
+                                            <MenuItem value="Huyện Thanh Trì">Huyện Thanh Trì</MenuItem>
+                                            <MenuItem value="Huyện Thường Tín">Huyện Thường Tín</MenuItem>
+                                            <MenuItem value="Quận Bắc Từ Liêm">Quận Bắc Từ Liêm</MenuItem>
+                                            <MenuItem value="Huyện Ứng Hòa">Huyện Ứng Hòa</MenuItem>
+                                            <MenuItem value="Quận Ba Đình">Quận Ba Đình</MenuItem>
+                                            <MenuItem value="Quận Cầu Giấy">Quận Cầu Giấy</MenuItem>
+                                            <MenuItem value="Quần Đống Đa">Huyện Ứng Hòa</MenuItem>
+                                            <MenuItem value="Quận Hai Bà Trưng">Quận Hai Bà Trưng</MenuItem>
+                                            <MenuItem value="Quận Hoàn Kiếm">Quận Hoàn Kiếm</MenuItem>
+                                            <MenuItem value="Quận Hoang Mai">Quận Hoàng Mai</MenuItem>
+                                            <MenuItem value="Quận Long Biên">Quận Long Biên</MenuItem>
+                                            <MenuItem value="Quận Tây Hồ">Quận Tây Hồ</MenuItem>
+                                            <MenuItem value="Quận Thanh Xuân">Quận Thanh Xuân</MenuItem>
+                                            <MenuItem value="Quận Hà Đông">Quận Hà Đông</MenuItem>
+                                            <MenuItem value="Thị xã Sơn Tây">Thị xã Sơn Tây</MenuItem>
+                                            <MenuItem value="Quận Nam Từ Liêm">Quận Nam Từ Liêm</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    {touched.address && errors.address && <p className="errors-file">{errors.address}</p>}
+                                </div>
                             </div>
 
                             <div>
                                 <div className="flex">
-                                    <p className="pr-3">Upload CV :</p>
+                                    <p className="pr-3">Tải lên CV :</p>
                                     <Button variant="contained" onClick={handleButtonClick}>
-                                        Choose file...
+                                        Chọn file...
                                     </Button>
                                     {/* Hidden file input */}
                                     <input
@@ -333,7 +373,7 @@ const RegisterDesigner = () => {
                             <div>
                                 <FormControl sx={{ m: 1, width: "280px" }} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">
-                                        Password
+                                        Mật khẩu
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-password"
@@ -359,7 +399,7 @@ const RegisterDesigner = () => {
 
                                 <FormControl sx={{ m: 1, width: "280px" }} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-confirm-password">
-                                        Confirm password
+                                        Xác nhận mật khẩu
                                     </InputLabel>
                                     <OutlinedInput
                                         id="outlined-adornment-confirm-password"
@@ -390,7 +430,7 @@ const RegisterDesigner = () => {
                             <div >
                                 <Checkbox checked={onChangeCheckBox} onChange={(event) => {
                                     handleClickOnChangeCheckBox(event)
-                                }} />  I have read, understood, and <Link href="#" className="link-color-register"> agree with the terms and conditions of company.</Link>
+                                }} />  Tôi đã đọc, hiểu và  <Link href="#" className="link-color-register">  đồng ý với các điều khoản và điều kiện của công ty </Link>
                                 {messageCheckBox.length > 0 && <p className="errors-file">{messageCheckBox}</p>}
                             </div>
 
@@ -399,7 +439,7 @@ const RegisterDesigner = () => {
                                 style={{ margin: "1", width: "100%" }}
                                 type="submit"
                             >
-                                CONTINUE
+                                Xác nhận
                             </button>
 
 

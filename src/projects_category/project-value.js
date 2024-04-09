@@ -1,20 +1,19 @@
+import { Avatar, Button, Col, Flex, FloatButton, Image, Popover, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Image } from 'antd';
-import { Button, Flex, Popover } from 'antd';
-import { Avatar } from 'antd';
-import { FloatButton, Row, Col } from 'antd';
-import ProjectValueBannerImage from '../images/project-screen-banner.png'
-import AvatarCustomer from '../images/avatar-customer.png';
-import AIchatBoxIcon from '../images/support.png'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import '../App.css';
 import instance from "../configApi/axiosConfig";
-import { toast, ToastContainer } from 'react-toastify'
+import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import FooterComponent from "../footer/index"
-import '../App.css'
-import './project-value.css'
+import { formatDate } from '../helper/formatDate';
+import AvatarCustomer from '../images/avatar-customer.png';
+import AIchatBoxIcon from '../images/support.png';
+import './project-value.css';
 
 const ProjectValue = () => {
+    const navigate = useNavigate();
+
     const [clicked, setClicked] = useState(false);
     const [hovered, setHovered] = useState(false);
     const hide = () => {
@@ -31,6 +30,7 @@ const ProjectValue = () => {
     };
     const { project_id } = useParams();
     const [listCategoris, setListCategoris] = useState([])
+
     useEffect(() => {
         async function getItemProject() {
             try {
@@ -52,8 +52,23 @@ const ProjectValue = () => {
         getItemProject()
 
     }, [])
-   
-    console.log(listCategoris)
+
+    const [isActive, setIsActive] = useState(0);
+    const onClickActive = (index) => {
+        setIsActive(index);
+    }
+
+    const removeProject = async (id) => {
+        try {
+            const del = await instance.delete(`/del_project/${id}`);
+            toast.success(del.data.message);
+            setTimeout(() => {
+                navigate('/home-page');
+            }, 1000);
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
+    };
 
     const hoverContent = <div style={{ fontSize: "24px" }}>Có thể giúp gì cho bạn ... ?</div>;
     const clickContent = <div ></div>;
@@ -62,41 +77,43 @@ const ProjectValue = () => {
             <HeaderComponent />
             <ToastContainer />
 
-            <div className="project-value-screen" style={{ backgroundColor: '#DED49F' }}>
+            <div className="project-value-screen" style={{ backgroundColor: '#FFFFFF' }}>
                 <div className='project-value-screen__image-banner'>
-                    <Image
+                    {/* <Image
                         style={{ width: "100vw", height: "auto" }}
                         src={ProjectValueBannerImage}
                         className='bg-white'
                         preview={false}
-                    />
+                    /> */}
                 </div>
                 <div className='project-value-screen__content'>
                     <div className='project-feedback'>
-                        <div className='feedback-title'>FEEDBACK</div>
+                        <div className='feedback-title'>Phản hồi</div>
                         <div className='feedback-container'>
                             <div className='feedback-avatar'>
-                                <Avatar
-                                    size={343}
-                                    src={<img src={AvatarCustomer} alt="avatar" />}
-                                />
+                                {
+                                    listCategoris?.customerImage?.length > 0 ? <Avatar
+                                        size={343}
+                                        src={<img src={`http://localhost:8000/img/${listCategoris?.customerImage}`} alt="avatar" />}
+                                    /> : <Avatar
+                                        size={343}
+                                        src={<img src={AvatarCustomer} alt="avatar" />}
+                                    />
+                                }
                             </div>
                             <div className='feedback-content'>
-                                " Cuối cùng thì mình cũng đã tìm được lời giải cho bài
-                                toán khó nhất từ trước đến giờ của mình, chọn được mảnh đất
-                                để làm nơi an cư lạc nghiệp đã khó ( Nhất Vị, Nhị Hướng ),
-                                chọn được phương án thiết kế, thi công theo đúng sở thích
-                                và công việc còn khó khăn hơn rất nhiều. Sau đúng 6 tháng
-                                đưa lên đặt xuống, cuối cùng tôi và Ekip đã tìm dc lời giải
-                                cho bài toán khó của mình. “
+                                " {listCategoris?.description} “
                             </div>
                         </div>
                     </div>
                     <div className='project-value-container'>
                         <div className='title'>Sản phẩm hoàn thiện</div>
                         <div className='first-values'>
-                            <div className='project-name'>{listCategoris.name}</div>
-                            <Button className='catalog'>Catalog</Button>
+                            <div className='project-name'>{listCategoris?.name}</div>
+                            <a href={listCategoris?.catalog}>
+                                <Button className='catalog'>Catalog</Button>
+                            </a>
+                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Xoá dự án</Button>
                         </div>
                         <div className='second-values'>
                             <div className='project-values'>
@@ -105,23 +122,21 @@ const ProjectValue = () => {
                                         <Flex vertical gap="20px" style={{ width: '100%' }}>
 
                                             {
-                                                listCategoris.categoryData.length > 0 && listCategoris.categoryData.map((item ,index) => {
+                                                listCategoris?.categoryData?.length > 0 && listCategoris?.categoryData.map((item, index) => {
                                                     return (
-                                                        <Button type="primary" autoFocus key={index}>
+                                                        <Button key={index} className={isActive === index ? "item_categorys cursor-pointer bg_active_item category-button" : "category-button item_categorysNo cursor-pointer"} onClick={() => onClickActive(index)} >
                                                             {item.categoriesName}
                                                         </Button>
                                                     )
                                                 })
                                             }
-
-
                                         </Flex>
                                     </div>
                                     <div className='date'>
                                         <label className='design-date'>
-                                            Design date : <span className='date-value'>20/10/2024</span></label>
+                                            Ngày thi công : <span className='date-value'> {formatDate(listCategoris?.designerDate)} </span></label>
                                         <label className='construction-date'>
-                                            Construction date: <span className='date-value'>20/10/2024</span></label>
+                                            Ngày hoàn thành : <span className='date-value'>{formatDate(listCategoris?.constructionDate)} </span></label>
                                     </div>
                                 </div>
                                 <div className='middle-line'>
@@ -129,62 +144,22 @@ const ProjectValue = () => {
                                 </div>
                                 <div className='category-images'>
                                     <Row gutter={[40, 24]}>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={AvatarCustomer}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
-                                        <Col className="gutter-row" span={12}>
-                                            <Image
-                                                src={ProjectValueBannerImage}
-                                                className='bg-white'
-                                                preview={true}
-                                            />
-                                        </Col>
+                                        {
+                                            !!listCategoris?.categoryData && listCategoris?.categoryData.length > 0 && listCategoris?.categoryData[isActive]?.images.length > 0 &&
+                                            listCategoris?.categoryData[isActive]?.images?.map(e => {
+                                                return (
+                                                    <Col className="gutter-row" span={12}>
+                                                        <Image
+                                                            src={`http://localhost:8000/img/${e}`}
+                                                            className='bg-white'
+                                                            preview={true}
+                                                        />
+                                                    </Col>
+                                                );
+                                            }
+                                            )
+                                        }
+
                                     </Row>
                                 </div>
                             </div>
@@ -194,7 +169,7 @@ const ProjectValue = () => {
                                 <hr />
                             </div>
                             <div className='designer-info'>
-                                Design by <span className='designer-name'>Văn Minh Tuấn</span>
+                                Thiết kế - <span className='designer-name'>{listCategoris?.userData?.length > 0 && listCategoris?.userData[0]?.fullName} </span>
                             </div>
                         </div>
                     </div>
