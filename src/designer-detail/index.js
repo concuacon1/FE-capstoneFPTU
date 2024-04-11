@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import instance from "../configApi/axiosConfig";
 
-const ContractDetail = () => {
-    const { contract_id } = useParams()
+const DesignerDetail = () => {
+    const { designerId } = useParams()
     const [data, setData] = useState([]);
 
     useEffect(() => {
         async function getAllUser() {
             try {
-                const dataRes = await instance.get(`/contract_detail/${contract_id}`);
-                const dataDB = dataRes.data.data.contract;
-                setData(dataDB[0]);
+                const dataRes = await instance.get(`/cv/${designerId}`);
+                const dataDB = dataRes.data.userInfo;
+                setData(dataDB);
             } catch (error) {
                 if (error?.response?.status === 402) {
                     return toast.error(error.response.data.errors[0].msg)
@@ -32,10 +32,10 @@ const ContractDetail = () => {
     return (
         <div className="h-screen">
             <div className="table-account ">
-                <iframe src={`http://localhost:8000/img/${data?.imageContract}`} width="100%" height="1000px"></iframe>;
+                <iframe src={`http://localhost:8000/img/${data?.cv}`} width="100%" height="1000px"></iframe>
             </div>
         </div>
     );
 };
 
-export default ContractDetail;
+export default DesignerDetail;

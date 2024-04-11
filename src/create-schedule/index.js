@@ -121,7 +121,6 @@ const CreateSchedule = () => {
             const formattedDate = dayjs(date);
             const formattedDateString = formattedDate.format('YYYY-MM-DD');
             if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
-                console.log("userData == ", userData);
                 const scheduleInfo = await instance.get(`/schedule/${userId}/graySchedule`, {
                     params: {
                         timeWork: formattedDateString

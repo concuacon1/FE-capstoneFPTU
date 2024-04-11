@@ -46,11 +46,12 @@ const generateRandomString = (length) => {
 
 const ContractList = () => {
     const [formSearch, setFormSearch] = useState({
-        userCode: "",
-        fullName: "",
-        role: "All",
+        codeContract: "",
+        nameContract: "",
+        customerName: "",
         startDate: "",
         endDate: "",
+        nameSignature: ""
     });
 
     const [formAdd, setFormAdd] = useState({
@@ -60,12 +61,14 @@ const ContractList = () => {
         nameSignature: "",
         timeSigned: "",
         imageContract: "",
+        imageContractGender: "",
         customerName: "",
         custormerId: ""
     })
 
     const filePdfRef = useRef(null);
     const [callApiReset, setCallApiReset] = useState(false)
+    const [selectedCV, setSelectedCV] = useState(null);
 
     useEffect(() => {
         async function getAllUser() {
@@ -82,7 +85,7 @@ const ContractList = () => {
                             'customerCode': item_data.customerCode,
                             'nameSignature': item_data.nameSignature,
                             'timeSigned': formatDate(item_data.timeSigned),
-                            'customerName': item_data.customerName,
+                            'customerName': item_data.customerData[0].fullName,
                             'action': <div >
                                 <button className="bg_edit_account mr-5">
                                     <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
@@ -116,9 +119,11 @@ const ContractList = () => {
     const handlePdfChange = (event) => {
         const file = event.target.files[0];
         if (file && file.type === 'application/pdf') {
+            setFormAdd({ ...formAdd, imageContract: file });
+            setSelectedCV(file)
             const reader = new FileReader();
             reader.onloadend = () => {
-                setFormAdd({ ...formAdd, imageContract: reader.result });
+                setFormAdd({ ...formAdd, imageContractGender: reader.result });
             };
             reader.readAsDataURL(file);
         } else {
@@ -153,7 +158,6 @@ const ContractList = () => {
         }
     ];
 
-
     const [rowsData, setRowData] = useState([])
 
     const [openDelete, setOpenDelete] = useState(false);
@@ -179,7 +183,7 @@ const ContractList = () => {
 
     const deleteContractAsync = async () => {
         try {
-            await instance.delete(`/delete_user/${idDeleteContract}`);
+            await instance.delete(`/delete_contact/${idDeleteContract}`);
             setCallApiReset(prev => !prev);
             toast.success("Xóa thành công");
             setOpenDelete(false)
@@ -197,10 +201,26 @@ const ContractList = () => {
     }
 
     const createContract = async () => {
-        console.log(formAdd);
         try {
-            const dataSearch = await instance.post("/create_contract", formAdd);
-            console.log("dataSearch == ", dataSearch);
+            const formDataFile = new FormData();
+            console.log("formAdd.imageContract -- ", selectedCV);
+            formDataFile.append('file', selectedCV);
+            const uploafFile = await instance.post("/upload-file", formDataFile, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (!uploafFile.data.success) {
+                return toast.error("Upload error")
+            }
+            formAdd.imageContract = uploafFile.data.filename;
+            const currentDate = new Date();
+
+            const formattedDate = currentDate.toLocaleDateString('en-GB');
+            formAdd.timeSigned = formattedDate;
+            delete formAdd.imageContractGender;
+            await instance.post("/create_contract", formAdd);
+            // window.location.reload();
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -226,14 +246,15 @@ const ContractList = () => {
     const apiSearch = async () => {
         try {
             const dataSeachForm = {
-                userCode: formSearch.userCode,
-                fullName: formSearch.fullName,
-                role: formSearch.role === "All" ? "" : formSearch.role,
-                startDate: formSearch.startDate,
-                endDate: formSearch.endDate
+                codeContract: formSearch.codeContract.trim(),
+                nameContract: formSearch.nameContract.trim(),
+                startDate: formSearch.startDate.trim,
+                endDate: formSearch.endDate.trim,
+                nameSignature: formSearch.nameSignature.trim(),
+                customerName: formSearch.customerName.trim()
             }
-            const dataSearch = await instance.post("/search_user_role_admin", dataSeachForm);
-            const dataDB = dataSearch.data.data;
+            const dataSearch = await instance.post("/search_contract", dataSeachForm);
+            const dataDB = dataSearch.data.data.contract;
             const item = [];
             if (dataDB.length > 0) {
                 dataDB.map(item_data => {
@@ -241,13 +262,12 @@ const ContractList = () => {
                         'id': item_data._id,
                         'codeContract': item_data.codeContract,
                         'nameContract': item_data.nameContract,
-                        'customerCode': item_data.customerCode,
                         'nameSignature': item_data.nameSignature,
                         'timeSigned': formatDate(item_data.timeSigned),
-                        'customerName': item_data.customerName,
+                        'customerName': item_data.dataCustomer.fullName,
                         'action': <div >
                             <button className="bg_edit_account mr-5">
-                                <Link to={`/contract/${item_data._id}`}>Xem</Link>
+                                <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
                             </button>
                             <button className="bg_delete_account" onClick={() => deleteContract(item_data._id)}>Xoá</button>
                         </div>
@@ -301,12 +321,10 @@ const ContractList = () => {
 
     const checkCode = async () => {
         const dataCheck = {
-            params: {
-                userCode: formAdd.customerCode
-            }
+            userCode: formAdd.customerCode
         }
         try {
-            const dataRes = await instance.get("/check_contract", dataCheck);
+            const dataRes = await instance.post("/check_contract", dataCheck);
             const dataFind = dataRes.data.data.dataCustomer;
             if (!dataFind?.fullName) {
                 return toast.error("Khong ton tai design code")
@@ -355,10 +373,10 @@ const ContractList = () => {
                 >
                     <ModalContent >
                         <h2 id="parent-modal-title" className="modal-title">
-                            Delete Account
+                            Xóa hợp đồng
                         </h2>
                         <p id="parent-modal-description" className="modal-description">
-                            Bạn chắc chắn muốn xóa account này chứ
+                            Bạn chắc chắn muốn xóa hợp đồng này chứ
                         </p>
 
                         <div className="flex justify-end">
@@ -433,7 +451,7 @@ const ContractList = () => {
                                             <TextField
                                                 style={{ width: 242 }}
                                                 id="outlined-start-adornment"
-                                                name="customerCode"
+                                                name="customerName"
                                                 value={formAdd.customerName}
                                                 sx={{ m: 1, width: "280px", height: "50px" }}
                                                 disabled
@@ -455,28 +473,7 @@ const ContractList = () => {
                                 />
                             </div>
 
-                            <div className="item flex items-center">
-                                <div style={{ width: 200 }}>Ngày kí kết: </div>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer
-                                        components={[
-                                            "DatePicker",
-                                            "TimePicker",
-                                            "DateTimePicker",
-                                            "DateRangePicker",
-                                        ]}
-                                    >
-                                        <DemoItem component="DateRangePicker">
-                                            <DatePicker
-                                                value={formAdd.timeSigned}
-                                                onChange={(date) => setFormAdd({ ...formAdd, timeSigned: date })}
-                                                renderInput={(params) => <TextField {...params} fullWidth />}
-                                                sx={{ width: '100%' }}
-                                            />
-                                        </DemoItem>
-                                    </DemoContainer>
-                                </LocalizationProvider>
-                            </div>
+
                             <div className="item flex items-center" style={{ padding: '8px 0' }}>
                                 <div style={{ width: 200 }}>Chi tiết: </div>
                                 <button
@@ -495,9 +492,9 @@ const ContractList = () => {
                                     onChange={handlePdfChange}
                                 />
                             </div>
-                            {formAdd.imageContract && (
+                            {formAdd.imageContractGender && (
                                 <embed
-                                    src={formAdd.imageContract}
+                                    src={formAdd.imageContractGender}
                                     type="application/pdf"
                                     width="100%"
                                     height="600px"
@@ -516,31 +513,28 @@ const ContractList = () => {
                         <div className="flex mt-5 items-center justify-center">
                             <div className="flex items-center justify-around">
                                 <div className="flex items-center justify-around">
-                                    <div className="text-2xl font-semibold pr-5">Chức vụ</div>
-                                    <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                                        <InputLabel id="demo-select-small-label">
-                                            --Chọn--
-                                        </InputLabel>
-                                        <Select
-                                            labelId="demo-select-small-label"
-                                            defaultValue="All"
-                                            id="demo-select-small"
-                                            value={formSearch.role}
-                                            label="--Chọn--"
-                                            onChange={onChangeInput}
-                                            name="role"
-                                        >
-                                            <MenuItem value={"DESIGNER"}>DESIGNER</MenuItem>
-                                            <MenuItem value={"STAFF"}>STAFF</MenuItem>
-                                            <MenuItem value={"CUSTOMER"}>CUSTOMER</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                    <div className="text-2xl font-semibold pr-5">
+                                        Mã hợp đồng{" "}
+                                    </div>
+                                    <TextField
+                                        label="Mã hợp đồng"
+                                        id="outlined-start-adornment"
+                                        name="codeContract"
+                                        onChange={onChangeInput}
+                                        value={formSearch.codeContract}
+                                        sx={{ m: 1, width: "280px" }}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start"></InputAdornment>
+                                            ),
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="date_time_search flex items-center justify-center pl-10">
                                     <div className="text-2xl font-semibold pr-5">
                                         {" "}
-                                        Ngày tạo{" "}
+                                        Ngày ký kết{" "}
                                     </div>
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DemoContainer
@@ -581,14 +575,14 @@ const ContractList = () => {
                                 <div className="flex mt-5 items-center justify-around">
                                     <div className="flex items-center justify-around ">
                                         <div className="text-2xl font-semibold pr-5">
-                                            Mã tài khoản{" "}
+                                            Tên người kí{" "}
                                         </div>
                                         <TextField
-                                            label="Mã tài khoản"
+                                            label="Tên người kí"
                                             id="outlined-start-adornment"
-                                            name="userCode"
+                                            name="nameSignature"
                                             onChange={onChangeInput}
-                                            value={formSearch.userCode}
+                                            value={formSearch.nameSignature}
                                             sx={{ m: 1, width: "280px", height: "50px" }}
                                             InputProps={{
                                                 startAdornment: (
@@ -600,14 +594,14 @@ const ContractList = () => {
 
                                     <div className="flex items-center justify-center pl-10">
                                         <div className="text-2xl font-semibold pr-5">
-                                            Tên tài khoản{" "}
+                                            Tên khách hàng{" "}
                                         </div>
                                         <TextField
-                                            label="Tên tài khoản"
+                                            label="Tên khách hàng"
                                             id="outlined-start-adornment"
-                                            name="fullName"
+                                            name="customerName"
                                             onChange={onChangeInput}
-                                            value={formSearch.fullName}
+                                            value={formSearch.customerName}
                                             sx={{ m: 1, width: "280px" }}
                                             InputProps={{
                                                 startAdornment: (

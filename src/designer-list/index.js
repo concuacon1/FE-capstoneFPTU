@@ -26,6 +26,7 @@ import { Image, Switch } from "antd";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { formatDate } from "../helper/formatDate";
+import { Link } from "react-router-dom";
 
 const DesignerList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -33,7 +34,7 @@ const DesignerList = () => {
         fullName: "",
         role: "DESIGNER",
         address: "",
-        projectType: "",
+        design_field: "",
         startDate: "",
         endDate: "",
     });
@@ -45,6 +46,12 @@ const DesignerList = () => {
         permission: ""
     })
 
+    const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
+    const listType = JSON.parse(localStorage.getItem('listType'));
+    const findType = (id) => {
+        const mapTypeName = listType.length > 0 && listType.find(item => item._id === id)
+        return mapTypeName.nameProjectType;
+    }
 
     const onChangeEditForm = (event, nameProps) => {
         const formEditOld = { ...formEdit };
@@ -75,6 +82,14 @@ const DesignerList = () => {
             minWidth: 170, fontWeight: 600, fontSize: 20,
         },
     ];
+
+    if (checkRole == 'ADMIN' || checkRole === 'STAFF') {
+        columns.push({
+            id: 'cv',
+            label: 'CV',
+            minWidth: 170, fontWeight: 600, fontSize: 20,
+        })
+    }
 
     const [formShow, setFormShow] = useState({});
 
@@ -111,9 +126,15 @@ const DesignerList = () => {
                             'fullName': item_data.fullName,
                             'permission': item_data.role,
                             'created_date': formatDate(item_data?.createdAt),
+                            'design_field': findType(item_data.dataDesigner.designfile),
                             'information': <div >
                                 <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
-                            </div>
+                            </div>,
+                            'cv': <div >
+                                <button className="bg_edit_account mr-5">
+                                    <Link to={`/cv/${item_data._id}`} target="_blank">Xem</Link>
+                                </button>
+                            </div>,
                         };
                         item.push(objectPush); // Push the object to the array
                     });
@@ -216,7 +237,8 @@ const DesignerList = () => {
                 userCode: formSearch.userCode,
                 fullName: formSearch.fullName,
                 address: formSearch.address,
-                flagGetUser: "DESIGNER"
+                flagGetUser: "DESIGNER",
+                designfile: formSearch.design_field
             }
             const dataSearch = await instance.post("/list-user", dataSeachForm);
             const dataDB = dataSearch.data.data;
@@ -233,9 +255,15 @@ const DesignerList = () => {
                         'fullName': item_data.fullName,
                         'permission': item_data.role,
                         'created_date': formatDate(item_data?.createdAt),
+                        'design_field': findType(item_data.dataDesigner.designfile),
                         'information': <div >
                             <button className="bg_edit_account mr-5" onClick={() => showInfo(item_data)}>Xem</button>
-                        </div>
+                        </div>,
+                        'cv': <div >
+                            <button className="bg_edit_account mr-5">
+                                <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
+                            </button>
+                        </div>,
                     };
                     item.push(objectPush); // Push the object to the array
                     console.log("item == ", item);
@@ -716,19 +744,36 @@ const DesignerList = () => {
                                         <div className="text-2xl pr-5">
                                             Lĩnh vực thiết kế{" "}
                                         </div>
-                                        <TextField
+                                        <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                                            <Select
+                                                labelId="demo-select-small-label"
+                                                defaultValue="All"
+                                                id="demo-select-small"
+                                                value={formSearch.design_field}
+                                                onChange={onChangeInput}
+                                                name="design_field"
+                                            >
+                                                <MenuItem value={""}>--Chọn--</MenuItem>
+                                                {
+                                                    listType.length > 0 && listType.map(type => (
+                                                        <MenuItem value={type._id}>{type.nameProjectType}</MenuItem>
+                                                    ))
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                        {/* <TextField
                                             size="small"
                                             id="outlined-start-adornment"
-                                            name="projectType"
+                                            name="design_field"
                                             onChange={onChangeInput}
-                                            value={formSearch.projectType}
+                                            value={formSearch.design_field}
                                             sx={{ m: 1, width: "280px", }}
                                             InputProps={{
                                                 startAdornment: (
                                                     <InputAdornment position="start"></InputAdornment>
                                                 ),
                                             }}
-                                        />
+                                        /> */}
                                     </div>
                                 </div>
                             </div>

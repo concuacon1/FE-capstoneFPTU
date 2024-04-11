@@ -138,7 +138,7 @@ const ScheduleList = () => {
                 startDate: formSearch.startDate,
                 endDate: formSearch.endDate,
             };
-
+            console.log("dataSeachForm == ", dataSeachForm);
             const dataRes = await instance.post("/list-search-all-schedule", dataSeachForm);
             const dataDB = dataRes.data.data;
             const rowData = dataDB.map((item_data, index) => {
@@ -269,16 +269,12 @@ const ScheduleList = () => {
     };
 
     const handleDateRangeChange = (newDateRange) => {
-        if (newDateRange && newDateRange.length === 2) {
-            const startDate = newDateRange[0] ? dayjs(newDateRange[0]).format('YYYY-MM-DD') : null;
-            const endDate = newDateRange[1] ? dayjs(newDateRange[1]).format('YYYY-MM-DD') : null;
-            const data = {
-                ...formSearch,
-                startDate: startDate,
-                endDate: endDate,
-            };
-            setFormSearch(data);
-        }
+        const data = {
+            ...formSearch,
+            startDate: newDateRange[0],
+            endDate: newDateRange[1],
+        };
+        setFormSearch(data);
     };
 
     return (
@@ -407,7 +403,10 @@ const ScheduleList = () => {
                 </div>
 
                 <Paper sx={{ width: '100%', overflow: 'hidden', height: '850px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
-                    <TableContainer sx={{}}>
+                    <TableContainer sx={{
+                        maxHeight: '700px',
+                        overflow: 'auto'
+                    }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
                                 <TableRow>

@@ -29,6 +29,8 @@ import UserSchedule from './user-schedule/UserSchedule';
 import WorkingProject from './working-project';
 import ContractDetail from './contract-detail';
 import ChatList from './chat-box/general-chat'
+import DesignerDetail from './designer-detail';
+import Profile from './profile';
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
         <Route path="/list-user-admin" element={<AccountList />} />
         <Route path="/list-user-staff" element={<StaffList />} />
         <Route path="/list-user-designer" element={<DesignerList />} />
+        <Route path="/cv/:designerId" element={<DesignerDetail />} />
         <Route path="/list-user-customer" element={<CustomerList />} />
         <Route path="/list-schedule" element={<ScheduleList />} />
         <Route path="/list-contract" element={<ContractList />} />
@@ -57,6 +60,7 @@ function App() {
         <Route path="/service/02" element={<Service2 />} />
         <Route path="/service/03" element={<Service3 />} />
         <Route path="/working-profile" element={<WorkingProject />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/schedule/:designer_id" element={<DesignerSchedule />} />
         <Route path="/create-schedule" element={<CreateSchedule />} />
         <Route path="/user-schedule" element={<UserSchedule />} />
@@ -65,7 +69,7 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-  
+
 }
 
 export default App;

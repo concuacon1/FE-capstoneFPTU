@@ -81,7 +81,11 @@ const DesignerSchedule = () => {
             setWaitingForApprovalModalVisible(true);
             return;
         }
-        
+
+        if ((new Date()).toLocaleDateString('en-GB') > formattedDate.format('DD/MM/YYYY')) {
+            return;
+        }
+
         if (busyDate && busyDate.includes(formattedDateString) && !workOnDate.includes(formattedDateString)) {
             const scheduleInfo = await instance.get(`/schedule/${designer_id}/graySchedule`, {
                 params: {
@@ -97,7 +101,7 @@ const DesignerSchedule = () => {
             }
             return;
         }
-        
+
         if (isBooked && workOnDate.length > 0) {
             if (checkRole === 'ADMIN' || checkRole === 'STAFF') {
                 if (workOnDate.includes(formattedDateString)) {
@@ -131,6 +135,7 @@ const DesignerSchedule = () => {
             }
             return;
         }
+
         setSelectedDateModalVisible(true);
         setSelectedDate(formattedDateString);
     };

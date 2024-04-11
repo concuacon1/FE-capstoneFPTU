@@ -40,6 +40,7 @@ const HeaderComponent = () => {
         async function getListProjectType() {
             try {
                 const resData = await instance.get("/get_project_type");
+                localStorage.setItem("listType", JSON.stringify(resData.data.data.listProjectType))
                 const dataRes = resData.data.data.listProjectType;
                 setListType(dataRes)
             } catch (error) {
