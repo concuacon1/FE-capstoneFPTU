@@ -185,7 +185,7 @@ const StaffList = () => {
         try {
             await instance.delete(`/delete_user/${idDeleteAccount}`);
             setCallApiReset(prev => !prev);
-            toast.success("Xóa thành công");
+            toast.success("Xóa tài khoản thành công");
             setOpenDelete(false)
         } catch (error) {
             if (error.response.status === 402) {
@@ -204,11 +204,11 @@ const StaffList = () => {
         try {
             console.log("formAdd == ", formAdd);
             if (formAdd.password.length < 1 || formAdd.passwordConfirm.length < 1) {
-                return toast.error("Vui lòng nhập password")
+                return toast.error("Vui lòng nhập mật khẩu")
             }
 
             if (formAdd.password != formAdd.passwordConfirm) {
-                return toast.error("Password không đúng")
+                return toast.error("Mật khẩu không đúng")
             }
 
             const formDataAdd = {
@@ -220,7 +220,7 @@ const StaffList = () => {
                 dob: formAdd.dob
             }
             await instance.post(`/register`, formDataAdd);
-            toast.success("Tạo Staff thành công");
+            toast.success("Tạo nhân viên mới thành công");
             setCallApiReset(prev => !prev);
             setOpenAdd(false)
         } catch (error) {
@@ -357,7 +357,7 @@ const StaffList = () => {
                             Xóa nhân viên
                         </h2>
                         <p id="parent-modal-description" className="modal-description">
-                            Bạn chắc chắn muốn xóa nhân viên này chứ
+                            Bạn chắc chắn muốn xóa nhân viên này chứ!
                         </p>
 
                         <div className="flex justify-end">
@@ -689,7 +689,16 @@ const StaffList = () => {
                     </div>
                 </div>
 
-                <Paper sx={{ width: '100%', overflow: 'hidden', height: '850px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
+                <Paper sx={{ width: '100%', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        count={rowsData.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                     <TableContainer sx={{}}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>

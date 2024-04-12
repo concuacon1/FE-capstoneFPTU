@@ -122,7 +122,6 @@ const ProjectValue = () => {
                                 <div className='categories-and-date'>
                                     <div className='category' >
                                         <Flex vertical gap="20px" style={{ width: '100%' }}>
-
                                             {
                                                 listCategoris?.categoryData?.length > 0 && listCategoris?.categoryData.map((item, index) => {
                                                     return (

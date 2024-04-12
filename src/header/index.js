@@ -137,7 +137,7 @@ const HeaderComponent = () => {
             setFormEdit(newData);
         }
     };
-    
+
 
     const StyledMenu = styled((props) => (
         <Menu
@@ -331,7 +331,7 @@ const HeaderComponent = () => {
                             <Link to="/list-user-customer" className="cursor-pointer">Khách hàng</Link>
                         </motion.div>
                     }
-                    
+
                     {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
                         <motion.div
                             whileHover={{
@@ -341,26 +341,19 @@ const HeaderComponent = () => {
                             }}
                             transition={{ duration: 0.2 }} // Thời gian chuyển đổi
                         >
-
-                            <Link to="/about-screen" className='cursor-pointer'
-
-                            >
-                                Doanh nghiệp
-                            </Link>
+                            <Link to="/about-screen" className='cursor-pointer'>Doanh nghiệp</Link>
                         </motion.div>
                     }
-                    {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER" || checkRole === "") &&
-                        <motion.div
-                            whileHover={{
-                                backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
-                                scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
-                                padding: "5px 10px"
-                            }}
-                            transition={{ duration: 0.2 }} // Thời gian chuyển đổi
-                        >
-                            <Link to="/service" className='cursor-pointer'>Dịch vụ </Link>
-                        </motion.div>
-                    }
+                    <motion.div
+                        whileHover={{
+                            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                            scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                            padding: "5px 10px"
+                        }}
+                        transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                    >
+                        <Link to="/service" className='cursor-pointer'>Dịch vụ </Link>
+                    </motion.div>
                 </motion.div>
             </div>
 
@@ -380,23 +373,48 @@ const HeaderComponent = () => {
                         <NotificationsIcon className='cursor-pointer' />
                     </Button> </div>
 
-                <Button
-                    id="listInAvarat-customized-button"
-                    aria-controls={openListAvatarBool ? 'listInAvarat-customized-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openListAvatarBool ? 'true' : undefined}
-                    variant="contained"
-                    disableElevation
-                    style={{ background: 'none', textTransform: 'none' }}
-                    onClick={handleClickOpenListInAvatar}
-                    
-                    
-                >
-                     <Avatar
-                        size={50}
-                        src={<img src={avatarUrl} alt="avatar" />}
-                    />
-                </Button>
+                {checkRole == "" &&
+                    <motion.div
+                        whileHover={{
+                            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                            scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                            padding: "5px 10px"
+                        }}
+                        transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                    >
+                        <Link to="/login" className='cursor-pointer'>Đăng nhập </Link>
+                    </motion.div>
+                }
+                {checkRole == "" &&
+                    <motion.div
+                        whileHover={{
+                            backgroundColor: "#898989", // Đổi màu nền khi trỏ chuột vào
+                            scale: 1.5,// Tăng kích thước chữ lên 110% khi trỏ chuột vào
+                            padding: "5px 10px"
+                        }}
+                        transition={{ duration: 0.2 }} // Thời gian chuyển đổi
+                    >
+                        <Link to="/register" className='cursor-pointer'>Đăng ký </Link>
+                    </motion.div>
+                }
+
+                {(checkRole === "ADMIN" || checkRole === "DESIGNER" || checkRole === "STAFF" || checkRole === "CUSTOMER") &&
+                    <Button
+                        id="listInAvarat-customized-button"
+                        aria-controls={openListAvatarBool ? 'listInAvarat-customized-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openListAvatarBool ? 'true' : undefined}
+                        variant="contained"
+                        disableElevation
+                        style={{ background: 'none', textTransform: 'none' }}
+                        onClick={handleClickOpenListInAvatar}
+                    >
+                        <Avatar
+                            size={50}
+                            src={<img src={avatarUrl} alt="avatar" />}
+                        />
+                    </Button>
+                }
             </div>
 
             <StyledMenu
@@ -430,22 +448,10 @@ const HeaderComponent = () => {
                 open={openListAvatarBool}
                 onClose={handleCloseListInAvatar}
             >
-                {checkRole == "" && (
-                    <>
-                        <MenuItem onClick={logout} disableRipple>
-                            Đăng Nhập
-                        </MenuItem>
-                        <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={register} disableRipple>
-                            Đăng ký
-                        </MenuItem>
-                    </>
-
-                )}
                 {checkRole == "ADMIN" && (
                     <>
-                    <MenuItem >
-                    <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
+                        <MenuItem >
+                            <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={contract} disableRipple>
@@ -461,7 +467,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
+                            <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -472,7 +478,7 @@ const HeaderComponent = () => {
                 {checkRole == "CUSTOMER" && (
                     <>
                         <MenuItem >
-                        <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
+                            <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={contract} disableRipple>
@@ -484,7 +490,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
+                            <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -495,7 +501,7 @@ const HeaderComponent = () => {
                 {checkRole == "STAFF" && (
                     <>
                         <MenuItem >
-                        <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
+                            <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={contract} disableRipple>
@@ -511,7 +517,7 @@ const HeaderComponent = () => {
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
+                            <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
@@ -522,20 +528,20 @@ const HeaderComponent = () => {
                 {checkRole == "DESIGNER" && (
                     <>
                         <MenuItem >
-                        <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
+                            <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
                             <Link to="/working-profile"> Hồ sơ & Công việc</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                      
+
                         <MenuItem >
                             <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
-                        <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
+                            <Link to="/policiesandtermsofservice" className="cursor-pointer" target='_blank'>Điều khoản dịch vụ</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem onClick={logout} disableRipple>
