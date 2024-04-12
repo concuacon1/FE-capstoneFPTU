@@ -103,7 +103,12 @@ const AboutScreen = () => {
 
             <div className="features-container">
                <div className="feature-first">
-                  <div className="feature-icon">
+                  <motion.div className="feature-icon"
+                  variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      <Image
                         width={"100%"}
                         height={"auto"}
@@ -111,10 +116,15 @@ const AboutScreen = () => {
                         className="bg-white"
                         preview={false}
                      />
-                  </div>
-                  <div className="feature-title">
+                  </motion.div>
+                  <motion.div className="feature-title"
+                  variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      TỐI ƯU<br /><span style={{ color: '#984B1A' }}> CHI PHÍ</span>
-                  </div>
+                  </motion.div>
                   <div className="feature-description">
                      Chi phí gia công chế tác được tính toán cẩn thận sao cho tối ưu nhất với mục tiêu giúp khách hàng Việt có thể tiếp cận các sản phẩm Nội thất chất lượng cao với mức chi phí hợp lý nhất.
                   </div>
@@ -133,7 +143,12 @@ const AboutScreen = () => {
                </div>
 
                <div className="feature-second">
-                  <div className="feature-icon">
+                  <motion.div className="feature-icon"
+                  variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      <Image
                         width={"100%"}
                         height={"auto"}
@@ -141,10 +156,15 @@ const AboutScreen = () => {
                         className="bg-white"
                         preview={false}
                      />
-                  </div>
-                  <div className="feature-title">
+                  </motion.div>
+                  <motion.div className="feature-title"
+                  variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      TỐI ƯU<br /><span style={{ color: '#984B1A' }}> THỜI GIAN</span>
-                  </div>
+                  </motion.div>
                   <div className="feature-description">
                      Tinh tốc hoàn thiện sản phẩm, tối ưu thời gian chế tác của từng khâu, xóa bỏ mọi bước vận chuyển, cung cấp giải pháp sản xuất đồng bộ cho tất cả đồ nội thất.
                   </div>
@@ -163,7 +183,12 @@ const AboutScreen = () => {
                </div>
 
                <div className="feature-third">
-                  <div className="feature-icon">
+                  <motion.div className="feature-icon"
+                  variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      <Image
                         width={"100%"}
                         height={"auto"}
@@ -171,10 +196,15 @@ const AboutScreen = () => {
                         className="bg-white"
                         preview={false}
                      />
-                  </div>
-                  <div className="feature-title">
+                  </motion.div>
+                  <motion.div className="feature-title"
+                  variants={fadeIn('right', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      TỐI ƯU<br /><span style={{ color: '#984B1A' }}> LINH HOẠT</span>
-                  </div>
+                  </motion.div>
                   <div className="feature-description">
                      Với một nhà máy độc quyền riêng biệt chỉ dành cho Vũ Gia, khách hàng có nhiều lựa chọn tinh chỉnh nội thất theo style cá nhân của chính mình.
                   </div>
@@ -192,7 +222,12 @@ const AboutScreen = () => {
                   </div>
                </div>
                <div className="feature-fourth">
-                  <div className="feature-icon">
+                  <motion.div className="feature-icon"
+                  variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      <Image
                         width={"100%"}
                         height={"auto"}
@@ -200,10 +235,15 @@ const AboutScreen = () => {
                         className="bg-white"
                         preview={false}
                      />
-                  </div>
-                  <div className="feature-title">
+                  </motion.div>
+                  <motion.div className="feature-title"
+                  variants={fadeIn('left', 0.2)}
+                                 initial="hidden"
+                                 whileInView={"show"}
+                                 viewport={{ once: false, amount: 0.7 }}
+                  >
                      TỐI ƯU<br /><span style={{ color: '#984B1A' }}> TRẢI NGHIỆM</span>
-                  </div>
+                  </motion.div>
                   <div className="feature-description">
                      Khách hàng có thể trực tiếp tham gia vào quá trình sản xuất, thậm chí có thể tham gia quyết định chỉnh sửa thiết kế sản phẩm cũng như vật liệu ngay trong quá trình chế tác dưới sự hỗ trợ của đội ngũ các Nhà thiết kế, Nghệ nhân của Vũ Gia Furniture.
                   </div>

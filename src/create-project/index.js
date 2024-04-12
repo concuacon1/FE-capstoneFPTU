@@ -284,7 +284,7 @@ const CreateProject = () => {
             console.log("listData == ", listData);
             await instance.post("/create_project", listData);
             toast.success("Tạo thành công")
-            // return navigate('/home-page')
+            return navigate('/home-page')
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)

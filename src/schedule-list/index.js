@@ -27,6 +27,7 @@ import { Image } from "antd";
 import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
+import { LoadingOverlay } from "../helper/loadingOverlay";
 
 const ScheduleList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -36,6 +37,8 @@ const ScheduleList = () => {
         startDate: "",
         endDate: "",
     });
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const columns = [
         { id: 'customerName', label: 'Tên khách hàng', minWidth: 170, fontWeight: 600, fontSize: 20 },
@@ -76,6 +79,7 @@ const ScheduleList = () => {
     useEffect(() => {
         async function getAllUser() {
             try {
+                setIsLoading(true);
                 const dataRes = await instance.get(`/list-all-schedule`);
                 const dataDB = dataRes.data.data;
                 const rowData = dataDB.map((item_data, index) => {
@@ -96,8 +100,9 @@ const ScheduleList = () => {
 
                 setRowsData(rowData);
                 rowsDataRef.current = rowData;
+                setIsLoading(false);
             } catch (error) {
-                console.log(error);
+                setIsLoading(false);
                 switch (error?.response?.status) {
                     case 402:
                         toast.error(error.response.data.errors[0].msg);
@@ -131,6 +136,7 @@ const ScheduleList = () => {
 
     const apiSearch = async () => {
         try {
+            setIsLoading(true);
             const dataSeachForm = {
                 time: formSearch.time,
                 designerName: formSearch.designerName,
@@ -159,7 +165,9 @@ const ScheduleList = () => {
 
             setRowsData(rowData);
             rowsDataRef.current = rowData;
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
             } else if (error.response.status === 400) {
@@ -191,12 +199,14 @@ const ScheduleList = () => {
                 status: rowsDataRef.current[id].status,
                 timeSelect: rowsDataRef.current[id].time === "Sáng" ? "BRIGHT" : "AFTERNOON",
             };
+            setIsLoading(true);
             const dataRes = await instance.patch(`/schedule/${item.scheduleInfo._id}/update`, dataUpdate);
-            console.log(dataRes);
+            setIsLoading(false);
             if (dataRes.status === 200) {
                 return toast.success(dataRes.data.message)
             }
         } catch (error) {
+            setIsLoading(false);
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
             } else if (error.response.status === 400) {
@@ -290,7 +300,9 @@ const ScheduleList = () => {
                     />
                     <div style={{ marginLeft: '40px' }}>Danh sách lịch hẹn</div>
                 </div>
-
+                {
+                    isLoading && <LoadingOverlay />
+                }
                 <div className="flex justify-center">
                     <div>
                         <div className="flex mt-5 items-center justify-center">

@@ -84,7 +84,7 @@ const ContractList = () => {
                             'nameContract': item_data.nameContract,
                             'customerCode': item_data.customerCode,
                             'nameSignature': item_data.nameSignature,
-                            'timeSigned': formatDate(item_data.timeSigned),
+                            'timeSigned': formatDate(item_data.createdAt),
                             'customerName': item_data.customerData[0].fullName,
                             'action': <div >
                                 <button className="bg_edit_account mr-5">
@@ -99,7 +99,7 @@ const ContractList = () => {
                 }
             } catch (error) {
 
-                console.log(error)
+                console.log("error == ", error)
 
                 if (error?.response?.status === 402) {
                     return toast.error(error.response.data.errors[0].msg)
@@ -203,7 +203,6 @@ const ContractList = () => {
     const createContract = async () => {
         try {
             const formDataFile = new FormData();
-            console.log("formAdd.imageContract -- ", selectedCV);
             formDataFile.append('file', selectedCV);
             const uploafFile = await instance.post("/upload-file", formDataFile, {
                 headers: {
@@ -220,7 +219,7 @@ const ContractList = () => {
             formAdd.timeSigned = formattedDate;
             delete formAdd.imageContractGender;
             await instance.post("/create_contract", formAdd);
-            // window.location.reload();
+            window.location.reload();
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -263,7 +262,7 @@ const ContractList = () => {
                         'codeContract': item_data.codeContract,
                         'nameContract': item_data.nameContract,
                         'nameSignature': item_data.nameSignature,
-                        'timeSigned': formatDate(item_data.timeSigned),
+                        'timeSigned': formatDate(item_data.createdAt),
                         'customerName': item_data.dataCustomer.fullName,
                         'action': <div >
                             <button className="bg_edit_account mr-5">
