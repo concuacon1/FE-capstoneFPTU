@@ -180,9 +180,9 @@ const AccountList = () => {
     const editAccountAsync = async () => {
         try {
 
-            // if (formEdit.passwordNew.length < 1) {
-            //     return toast.error("Vui lòng nhập password mới")
-            // }
+            if (formEdit.passwordNew.length < 1) {
+                return toast.error("Vui lòng nhập password mới")
+            }
 
             const formDataEdit = {
                 email: formEdit.email,
