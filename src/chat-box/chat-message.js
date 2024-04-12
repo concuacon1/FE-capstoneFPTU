@@ -20,19 +20,12 @@ const Message = () => {
                                 case "doc":
                                     //doc-msg
                                     return <DocMsg el={el} />
-                                case "link":
-                                    //link-msg
-                                    return <LinkMsg el={el} />
-                                case "reply":
-                                    //reply-msg
-                                    return <ReplyMsg el={el} />
                                 default:
                                     //text-msg
                                     return <TextMsg el={el} />
                             }
                             break;
                     }
-
                 })}
             </Stack>
         </Box >
