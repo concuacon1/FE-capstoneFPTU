@@ -414,10 +414,9 @@ const ScheduleList = () => {
                     </div>
                 </div>
 
-                <Paper sx={{ width: '100%', overflow: 'hidden', height: '850px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
+                <Paper sx={{ width: '100%', overflow: 'hidden', height: '1000px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className="px-20 pt-10">
                     <TableContainer sx={{
-                        maxHeight: '700px',
-                        overflow: 'auto'
+                        maxHeight: '900px'
                     }}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead style={{ background: 'linear-gradient(90deg, #422817 0%, #A8653B 100%)', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)' }}>
@@ -433,7 +432,7 @@ const ScheduleList = () => {
                                     ))}
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            <TableBody sx={{ overflow: "auto" }}>
                                 {rowsData
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row) => (
