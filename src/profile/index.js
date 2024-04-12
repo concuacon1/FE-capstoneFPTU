@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Image } from "antd";
-import AvatarCustomer from '../images/avatar-customer.png';
-import { toast } from 'react-toastify';
-import ProfileHeader from "../images/profile_header.png";
-import TextField from "@mui/material/TextField";
-import './index.css'
-import instance from '../configApi/axiosConfig';
 import CreateIcon from '@mui/icons-material/Create';
-import { formatDate } from '../helper/formatDate';
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Link } from 'react-router-dom';
+import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { Avatar, Image } from "antd";
 import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import instance from '../configApi/axiosConfig';
+import { formatDate } from '../helper/formatDate';
+import AvatarCustomer from '../images/image-fb.jpg';
+import ProfileHeader from "../images/pngtreebackground.png";
+import './index.css';
 
 const Profile = () => {
     const [isEdit, setIsEdit] = useState(false);
@@ -27,6 +27,7 @@ const Profile = () => {
         dob: "",
         image: "",
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function getUser() {
@@ -88,26 +89,37 @@ const Profile = () => {
         if (!formEdit.dob) {
             return toast.error("Ngày sinh không được để trống")
         }
-        const formDataFileOne = new FormData();
-        formDataFileOne.append('file', formEdit.image);
-        const resOneFile = await instance.post("/upload-file", formDataFileOne, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        const listData = {
-            ...formEdit,
-            image: resOneFile.data.filename,
+        let listData;
+        if (formEdit.image) {
+            const formDataFileOne = new FormData();
+            formDataFileOne.append('file', formEdit.image);
+            const resOneFile = await instance.post("/upload-file", formDataFileOne, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            listData = {
+                ...formEdit,
+                image: resOneFile.data.filename,
+            }
+        } else {
+            listData = {
+                ...formEdit,
+                image: formEdit.imageUser
+            }
         }
-        console.log("data == ", listData);
+
         await instance.post("/update_profile", listData);
-        toast.success("Tạo thành công")
+        toast.success("Cập nhật thông tin thành công")
+        return navigate('/home-page')
     }
 
     return (
         <div className="h-screen">
+            <ToastContainer />
             <Image
                 height={'340px'}
+                width={'100%'}
                 src={ProfileHeader}
                 preview={false}
             />

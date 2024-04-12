@@ -203,7 +203,7 @@ const DesignerSchedule = () => {
                         });
                         setSelectedDateModalVisible(false);
                     } else {
-                        toast.error('Bạn đã đặt lịch hẹn với giảng viên này');
+                        toast.error('Bạn đã đặt lịch hẹn với kiến trúc sư này');
                     }
                 }
             },

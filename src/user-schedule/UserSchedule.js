@@ -1,11 +1,12 @@
 import { Card } from 'antd';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from '../footer';
-import { Link } from 'react-router-dom';
 import HeaderComponent from '../header';
+import { LoadingOverlay } from '../helper/loadingOverlay';
 
 const { Meta } = Card;
 
@@ -57,17 +58,26 @@ const ScheduleCard = ({ key, designerName, scheduleInfo }) => {
 
 const UserSchedule = () => {
     const [scheduleData, setScheduleData] = useState([]);
+    const [pendingData, setPendingData] = useState([]);
     const [message, setMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
             try {
+                setIsLoading(true);
                 const calendarRes = await instance.get('/schedule/user-list-schedule');
-                if (calendarRes.data.data.length === 0) {
+                
+                if (calendarRes.data.data.pendingSchedule.length > 0) {
+                    setMessage('Bạn đã đặt lịch .Vui lòng đợi nhân viên chúng tôi xác nhận lịch của bạn ')
+                } else {
                     setMessage('Vui lòng liên hệ với nhân viên chúng tôi hoặc đặt lịch với Kiến Trúc Sư ')
                 }
-                setScheduleData(calendarRes.data.data);
+                setPendingData(calendarRes.data.data.pendingSchedule)
+                setScheduleData(calendarRes.data.data.scheduleList);
+                setIsLoading(false);
             } catch (error) {
+                setIsLoading(false);
                 console.log(error);
             }
         }
@@ -79,6 +89,9 @@ const UserSchedule = () => {
             <HeaderComponent />
             <ToastContainer />
             <main style={{ flex: 1 }}>
+                {
+                    isLoading && <LoadingOverlay />
+                }
                 {scheduleData.length > 0 ? scheduleData.map((item, index) => (
                     <ScheduleCard
                         key={index}
@@ -95,11 +108,13 @@ const UserSchedule = () => {
                     width: '780px'
                 }}>
                     {message}
-                    <Link to="/list-user-designer"><span style={{ textDecoration: 'underline' }}>tại đây </span>!</Link>
+                    {scheduleData.length === 0 && pendingData.length === 0 && <Link to="/list-user-designer"><span style={{ textDecoration: 'underline' }}>tại đây </span>!</Link>}
+                    {scheduleData && scheduleData.length > 0 && <Link to="/list-user-designer"><span style={{ textDecoration: 'underline' }}>tại đây </span>!</Link>}
+                    {pendingData.length > 0 && <Link to={`/schedule/${pendingData[0]?.designerId}`}> <span style={{ textDecoration: 'underline' }}>tại đây </span>!</Link>}
                 </div>}
-            </main>
+            </main >
             <FooterComponent />
-        </div>
+        </div >
     );
 };
 

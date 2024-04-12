@@ -4,16 +4,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
+import ChatList from './chat-box/general-chat';
+import ContractDetail from './contract-detail';
 import ContractList from './contract-list';
+import ContractUser from './contract-list/contract-user';
 import CreateProject from "./create-project/index";
 import CreateSchedule from './create-schedule';
 import CustomerList from './customer-list';
+import DesignerDetail from './designer-detail';
 import DesignerList from './designer-list';
 import DesignerSchedule from './designer-schedule';
 import EditPasswordOtp from './edit-password-otp';
 import HomePage from "./homePage/index";
 import './index.css';
 import Login from "./login/index";
+import PoliciesService from './policies-service';
+import Profile from './profile';
 import ListProject from "./projects_category/list-project";
 import ProjectValue from "./projects_category/project-value";
 import RegisterCustomer from "./register-customer/index";
@@ -27,10 +33,6 @@ import Service3 from './service-list/service-03';
 import StaffList from './staff-list';
 import UserSchedule from './user-schedule/UserSchedule';
 import WorkingProject from './working-project';
-import ContractDetail from './contract-detail';
-import ChatList from './chat-box/general-chat'
-import DesignerDetail from './designer-detail';
-import Profile from './profile';
 
 function App() {
   return (
@@ -49,6 +51,7 @@ function App() {
         <Route path="/list-user-customer" element={<CustomerList />} />
         <Route path="/list-schedule" element={<ScheduleList />} />
         <Route path="/list-contract" element={<ContractList />} />
+        <Route path="/contract-user" element={<ContractUser />} />
         <Route path="/contract/:contract_id" element={<ContractDetail />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/login" element={<Login />} />
@@ -65,6 +68,7 @@ function App() {
         <Route path="/create-schedule" element={<CreateSchedule />} />
         <Route path="/user-schedule" element={<UserSchedule />} />
         <Route path="/list-chatbox/:staff_id" element={<ChatList />} />
+        <Route path="/policiesandtermsofservice" element={<PoliciesService />} />
 
       </Routes>
     </BrowserRouter>

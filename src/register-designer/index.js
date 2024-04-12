@@ -8,7 +8,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
-import Link from "@mui/material/Link";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -21,7 +20,7 @@ import dayjs from "dayjs";
 import { useFormik } from "formik";
 import Cookies from 'js-cookie';
 import { useRef, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from "yup";
 import instance from "../configApi/axiosConfig";
@@ -430,7 +429,7 @@ const RegisterDesigner = () => {
                             <div >
                                 <Checkbox checked={onChangeCheckBox} onChange={(event) => {
                                     handleClickOnChangeCheckBox(event)
-                                }} />  Tôi đã đọc, hiểu và  <Link href="#" className="link-color-register">  đồng ý với các điều khoản và điều kiện của công ty </Link>
+                                }} />  Tôi đã đọc, hiểu và  <Link to="/policiesandtermsofservice" className="link-color-register" target='_blank'>đồng ý với các điều khoản và điều kiện của công ty</Link>
                                 {messageCheckBox.length > 0 && <p className="errors-file">{messageCheckBox}</p>}
                             </div>
 

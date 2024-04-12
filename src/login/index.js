@@ -200,7 +200,7 @@ const Login = () => {
 
                                     <FormControl sx={{ m: 1, width: "280px" }} variant="outlined">
                                         <InputLabel htmlFor="outlined-adornment-password">
-                                            Password
+                                            Mật Khẩu
                                         </InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-password"
@@ -241,7 +241,7 @@ const Login = () => {
                                         variant="outlined"
                                     >
                                         <InputLabel htmlFor="outlined-adornment-password">
-                                            Password
+                                            Mật Khẩu
                                         </InputLabel>
                                         <OutlinedInput
                                             id="outlined-adornment-password"
@@ -278,7 +278,7 @@ const Login = () => {
                                     type="submit"
                                     onClick={value == 0 ? submitDataPhone : submitData}
                                 >
-                                    LOGIN
+                                    Đăng Nhập
                                 </button>
                             </div>
 
