@@ -13,7 +13,7 @@ import './project-value.css';
 
 const ProjectValue = () => {
     const navigate = useNavigate();
-
+    const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
     const [clicked, setClicked] = useState(false);
     const [hovered, setHovered] = useState(false);
     const hide = () => {
@@ -113,7 +113,9 @@ const ProjectValue = () => {
                             <a href={listCategoris?.catalog}>
                                 <Button className='catalog'>Catalog</Button>
                             </a>
-                            <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Xoá dự án</Button>
+                            {(checkRole === "ADMIN" || checkRole === "STAFF") &&
+                                <Button onClick={() => removeProject(listCategoris._id)} className='delete'>Xoá dự án</Button>
+                            }
                         </div>
                         <div className='second-values'>
                             <div className='project-values'>
