@@ -29,11 +29,10 @@ const CreateProject = () => {
 
     const [listCategory, setListCategory] = useState([]);
 
-    const [titleStep, setTitleStep] = useState("Create new Project")
-
+    const [titleStep, setTitleStep] = useState("Thêm dự án mới")
 
     const [checkNewProject, setCheckNewProject] = useState(false);
-    
+
     useEffect(() => {
         async function getAll() {
             try {
@@ -140,7 +139,7 @@ const CreateProject = () => {
         const dataRes = await instance.post("/check_design", dataCheck);
         const dataFind = dataRes.data.data.data;
         if (!dataFind?.fullName) {
-            return toast.error("Khong ton tai design code")
+            return toast.error("Mã kiến trúc sư không tồn tại")
         } else {
             const dataOle = {
                 ...formCreateProject,
@@ -181,7 +180,7 @@ const CreateProject = () => {
 
         const cateName = formCreateProject.categoriesAdd
         if (cateName.length < 1) {
-            return toast.error("Vui long nhap categories")
+            return toast.error("Vui lòng thêm tên cho phòng/ khu vực")
         }
         const dataOle = [...listCategory];
         dataOle.push({
@@ -410,8 +409,7 @@ const CreateProject = () => {
                             style={{ height: 50 }}
                             className="text-4xl  mb-10 mt-7 text-black font-bold"
                         >
-                            {" "}
-                            Categories​{" "}
+                            Loại phòng
                         </div>
                         <div className="flex" style={{ width: '100%' }}>
                             <div className="block_left_category" style={{ width: '40%' }}>
@@ -665,13 +663,13 @@ const CreateProject = () => {
                 }
             }
             if (!formCreateProject.designerDate || !formCreateProject.constructionDate) {
-                return toast.error("Vui lòng chọn date")
+                return toast.error("Vui lòng chọn ngày")
             }
             if (formCreateProject.designerDate >= formCreateProject.constructionDate) {
                 return toast.error("Ngày thi công phải trước ngày hoàn thành")
             }
             if (!dataFind?.fullName) {
-                return toast.error("Không tồn tại thiết kế")
+                return toast.error("Không tồn tại kiến trúc sư")
             } else {
                 const dataOle = {
                     ...formCreateProject,
@@ -681,25 +679,25 @@ const CreateProject = () => {
                 setFormCretaeProject(dataOle)
             }
             if (dataFind?.fullName < 1) {
-                return toast.error("Không tồn tại thiết kế")
+                return toast.error("Không tồn tại kiến trúc sư")
             }
-            setTitleStep("Add Category")
+            setTitleStep("Tạo phòng")
         } else if (check === 2) {
             if (!formCreateProject.categoriesAdd) {
-                return toast.error("Vui lòng thêm thể loại")
+                return toast.error("Vui lòng thêm phòng/ khu vực")
             }
             if (listCategory[0].images.length == 0) {
                 return toast.error("Vui lòng thêm ảnh")
             }
-            setTitleStep("Add catalogue")
+            setTitleStep("Thêm catalog và phản hồi từ khách hàng")
         } else if (check === 3) {
             if (!formCreateProject.catalog) {
-                return toast.error("Vui lòng nhập Link catalogue")
+                return toast.error("Vui lòng thêm catalog sản phẩm cho dự án")
             }
             if (!formCreateProject.description) {
-                return toast.error("Vui lòng nhập phản hồi")
+                return toast.error("Vui lòng thêm phản hồi từ khách hàng")
             }
-            setTitleStep("Last confirm update")
+            setTitleStep("Xác nhận thêm dự án mới")
         }
         setCurrent(current + 1);
     };
@@ -709,11 +707,11 @@ const CreateProject = () => {
 
         setCurrent(current - 1);
         if (check === 1) {
-            setTitleStep("Add Category")
+            setTitleStep("Phòng căn và khu vực")
         } else if (check === 2) {
-            setTitleStep("Add catalogue")
+            setTitleStep("Catalog và phản hồi")
         } else if (check === 0) {
-            setTitleStep("Create new Project")
+            setTitleStep("Thêm dự án mới")
         }
     };
 
@@ -731,7 +729,7 @@ const CreateProject = () => {
     return (
         <div className="px-56">
             <ToastContainer />
-            <div className="flex text-4xl  mt-5 text-black font-bold items-center justify-center mb-10">
+            <div className="flex text-4xl  mt-5 text-black font-bold items-center justify-center mb-10" style={{ textAlign: 'center' }}>
                 {titleStep}
             </div>
             <Steps current={current} items={items} className="custom_step" style={{ fontSize: '150%', alignItems: 'center' }} />
