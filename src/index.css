@@ -302,16 +302,16 @@
   }
 
   .item_categorys {
-    background-image: linear-gradient(to left, #e89f71, #a8653b);
+    background: linear-gradient(to left, #e89f71, #a8653b);
     word-wrap: break-word;
     color: white;
     width: 80%;
-    height: 80px;
+    height: auto;
     background: white;
     color: black;
     font-size: 26px;
-    text-align: center;
-    padding: 0 10%;
+    text-align: start;
+    padding: 5% 10%;
     border-radius: 30px;
     border: 1px #a8653b solid;
   }
@@ -321,11 +321,11 @@
     width: 80%;
     word-wrap: break-word;
     color: black;
-    height: 80px;
+    height: auto;
     border-radius: 30px;
     font-size: 26px;
-    padding: 0 10%;
-    text-align: center;
+    padding: 5% 10%;
+    text-align: start;
   }
 
   .block_left_category {
