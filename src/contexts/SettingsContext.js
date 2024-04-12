@@ -47,7 +47,7 @@ const initialState = {
   onResetSetting: () => { },
 };
 
-export const SettingsContext = createContext(initialState);
+const SettingsContext = createContext(initialState);
 
 const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useLocalStorage("settings", {
@@ -75,6 +75,7 @@ const SettingsProvider = ({ children }) => {
       ...settings,
       themeMode: settings.themeMode === "light" ? "dark" : "light",
     });
+    console.log("setting: ", settings);
   };
 
   const onChangeMode = (event) => {
@@ -211,4 +212,5 @@ const SettingsProvider = ({ children }) => {
   );
 };
 
+export { SettingsContext };
 export default SettingsProvider;

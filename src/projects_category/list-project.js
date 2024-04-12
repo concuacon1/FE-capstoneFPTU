@@ -20,7 +20,7 @@ const ListProject = () => {
         color: '#000000',
         marginTop: '2%',
         fontFamily: 'Gabriela'
-        
+
     }
     const projectNameStyle = {
         display: 'block',
@@ -82,19 +82,11 @@ const ListProject = () => {
             <HeaderComponent />
             <ToastContainer />
             <div className='list-project-screen' style={{ backgroundColor: '#FFFFFF', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <div className='list-project-screen__image-banner'>
-                    {/* <Image
-                        style={{ width: "100vw", height: "auto" }}
-                        src={ProjectListBannerImage}
-                        className='bg-white'
-                        preview={false}
-                    /> */}
-                </div>
                 <Divider orientation="center" style={dividerStyle}>{listAll.nameProjectType}</Divider>
                 <hr style={{
                     border: 'none',
                     borderTop: '2px solid #000000',
-                    margin: 'auto',
+                    margin: '20px auto',
                     width: '50%'
                 }} />
                 <div className='list-project-screen__container' style={{ marginTop: '2%' }}>
@@ -184,6 +176,14 @@ const ListProject = () => {
                />
             </div>
          </div> */}
+                <div className='list-project-screen__image-banner'>
+                    {/* <Image
+                        style={{ width: "100vw", height: "auto" }}
+                        src={ProjectListBannerImage}
+                        className='bg-white'
+                        preview={false}
+                    /> */}
+                </div>
             </div>
 
             <div className='mt-5'></div>

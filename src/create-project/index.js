@@ -307,15 +307,7 @@ const CreateProject = () => {
                 <div
                     className="flex items-center justify-center m-auto"
                     style={{ width: 600 }}>
-                       
-
-
-
-                
                     <div className="py-10">
-                   
-               
-
                         <div className="flex items-center ">
                             <AutoComplete
                                 style={{ width: 250, height: 35, marginRight: 100 }}
@@ -621,7 +613,6 @@ const CreateProject = () => {
                                     <ImageList sx={{ width: 500, height: 450 }} cols={2} rowHeight={164}>
                                         {listCategory[isActive]?.images?.length > 0 &&
                                             [...listCategory[isActive].images].map((image, imageIndex) => {
-
                                                 return (
                                                     <ImageListItem key={`${isActive}-${imageIndex}`}>
                                                         <img
@@ -754,11 +745,9 @@ const CreateProject = () => {
                         Tiếp
                     </Button>
                 )}
-
                 {current === steps.length - 1 && (
                     <Button
                         className="buttonNext"
-
                         onClick={uploadDataCreateProject}
                     >
                         Xác nhận
