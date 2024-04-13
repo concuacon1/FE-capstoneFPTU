@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import instance from '../configApi/axiosConfig';
 import { formatDate } from '../helper/formatDate';
 import AvatarCustomer from '../images/image-fb.jpg';
-import ProfileHeader from "../images/pngtreebackground.png";
+import ProfileHeader from "../images/Backgroundheaderprofile.jpg";
 import './index.css';
 
 const Profile = () => {
