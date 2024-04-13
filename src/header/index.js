@@ -31,6 +31,7 @@ const HeaderComponent = () => {
     const openNotipushBool = Boolean(openNotipush);
     const openListAvatarBool = Boolean(openListInAvatar);
     const [activeElem, setActiveElem] = useState(null);
+    const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -59,8 +60,9 @@ const HeaderComponent = () => {
                 }
             }
         }
-
-        getUser()
+        if (checkRole === "ADMIN" || checkRole === "STAFF" || checkRole === "DESIGNER" || checkRole === "CUSTOMER") {
+            getUser()
+        } else { }
     }, [])
 
 
@@ -181,7 +183,6 @@ const HeaderComponent = () => {
     }));
 
     const pushLink = useNavigate();
-    const checkRole = JSON.parse(localStorage.getItem('datawebfpt'))?.role || '';
 
     const logout = () => {
         localStorage.removeItem('datawebfpt')
