@@ -10,6 +10,20 @@ const ChatList = [
         unread: 0,
         pinned: true,
         online: true,
+        history: [
+            {
+                type: "msg",
+                message: "Hi 👋🏻, How are ya ?",
+                incoming: true,
+                outgoing: false,
+            },
+            {
+                type: "msg",
+                message: "Hi 👋 Panda, not bad, u ?",
+                incoming: false,
+                outgoing: true,
+            },
+        ]
     },
     {
         id: 1,
@@ -20,6 +34,20 @@ const ChatList = [
         unread: 2,
         pinned: true,
         online: false,
+        history: [
+            {
+                type: "msg",
+                message: "Can you send me an abstarct image?",
+                incoming: false,
+                outgoing: true,
+            },
+            {
+                type: "msg",
+                message: "Ya sure, sending you a pic",
+                incoming: true,
+                outgoing: false,
+            },
+        ]
     },
     {
         id: 2,
@@ -30,6 +58,16 @@ const ChatList = [
         unread: 3,
         pinned: false,
         online: true,
+        history: [
+            {
+                type: "msg",
+                subtype: "img",
+                message: "Here You Go",
+                img: MsgImage,
+                incoming: true,
+                outgoing: false,
+            },
+        ]
     },
     {
         id: 3,
@@ -40,6 +78,22 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: true,
+        history: [
+            {
+                type: "msg",
+                message: "Can you please send this in file format?",
+                incoming: false,
+                outgoing: true,
+            },
+
+            {
+                type: "msg",
+                subtype: "doc",
+                message: "Yes sure, here you go.",
+                incoming: true,
+                outgoing: false,
+            },
+        ]
     },
     {
         id: 4,
@@ -50,6 +104,16 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: false,
+        history: [
+            {
+                type: "msg",
+                subtype: "link",
+                preview: MsgImage,
+                message: "Yep, I can also do that",
+                incoming: true,
+                outgoing: false,
+            },
+        ]
     },
     {
         id: 5,
@@ -60,6 +124,16 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: false,
+        history: [
+            {
+                type: "msg",
+                subtype: "reply",
+                reply: "This is a reply",
+                message: "Yep, I can also do that",
+                incoming: false,
+                outgoing: true,
+            },
+        ]
     },
     {
         id: 6,
@@ -70,6 +144,7 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: false,
+        history: []
     },
     {
         id: 7,
@@ -80,6 +155,7 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: false,
+        history: []
     },
     {
         id: 8,
@@ -90,79 +166,10 @@ const ChatList = [
         unread: 0,
         pinned: false,
         online: false,
+        history: []
     },
 ]
 
-const Chat_History = [
-    {
-        type: "msg",
-        message: "Hi 👋🏻, How are ya ?",
-        incoming: true,
-        outgoing: false,
-    },
-    {
-        type: "divider",
-        text: "Today",
-    },
-    {
-        type: "msg",
-        message: "Hi 👋 Panda, not bad, u ?",
-        incoming: false,
-        outgoing: true,
-    },
-    {
-        type: "msg",
-        message: "Can you send me an abstarct image?",
-        incoming: false,
-        outgoing: true,
-    },
-    {
-        type: "msg",
-        message: "Ya sure, sending you a pic",
-        incoming: true,
-        outgoing: false,
-    },
-
-    {
-        type: "msg",
-        subtype: "img",
-        message: "Here You Go",
-        img: MsgImage,
-        incoming: true,
-        outgoing: false,
-    },
-    {
-        type: "msg",
-        message: "Can you please send this in file format?",
-        incoming: false,
-        outgoing: true,
-    },
-
-    {
-        type: "msg",
-        subtype: "doc",
-        message: "Yes sure, here you go.",
-        incoming: true,
-        outgoing: false,
-    },
-    {
-        type: "msg",
-        subtype: "link",
-        preview: MsgImage,
-        message: "Yep, I can also do that",
-        incoming: true,
-        outgoing: false,
-    },
-    {
-        type: "msg",
-        subtype: "reply",
-        reply: "This is a reply",
-        message: "Yep, I can also do that",
-        incoming: false,
-        outgoing: true,
-    },
-];
 export {
     ChatList,
-    Chat_History
 };

@@ -16,6 +16,7 @@ const Timeline = ({ el }) => {
 };
 
 const TextMsg = ({ el }) => {
+    console.log("el == ", el);
     const theme = useTheme();
     return (
         <Stack direction={'row'} justifyContent={el.incoming ? "start" : "end"}>

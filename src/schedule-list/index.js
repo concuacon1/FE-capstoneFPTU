@@ -144,7 +144,6 @@ const ScheduleList = () => {
                 startDate: formSearch.startDate,
                 endDate: formSearch.endDate,
             };
-            console.log("dataSeachForm == ", dataSeachForm);
             const dataRes = await instance.post("/list-search-all-schedule", dataSeachForm);
             const dataDB = dataRes.data.data;
             const rowData = dataDB.map((item_data, index) => {
