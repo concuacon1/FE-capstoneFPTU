@@ -117,11 +117,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-const ChatElement = ({ id, name, img, msg, time, unread, online }) => {
+const ChatElement = ({ id, name, img, msg, time, unread, online, onChatClick }) => {
     const [isActive, setIsActive] = useState(false);
 
     const handleClick = () => {
         setIsActive(!isActive); // Toggle trạng thái isActive khi click
+        onChatClick(id);
     };
 
     return (
@@ -196,8 +197,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         width: '100%'
     },
 }));
-const Chats = () => {
+const Chats = ({ onChatClick }) => {
     const { onToggleMode } = useSettings();
+
     return (
         <Stack direction={'row'}>
             <Box sx={{
@@ -233,16 +235,16 @@ const Chats = () => {
                             <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                                 Pined
                             </Typography>
-                            {ChatList.filter((el) => el.pinned).map((el) => {
-                                return <ChatElement {...el} />
+                            {ChatList.filter((el) => el.pinned).map((el, key) => {
+                                return <ChatElement key={key} {...el} onChatClick={onChatClick} />
                             })}
                         </Stack>
                         <Stack spacing={2.4}>
                             <Typography variant="subtitle2" sx={{ color: "#676767", marginTop: "2px" }} >
                                 All chat
                             </Typography>
-                            {ChatList.filter((el) => !el.pinned).map((el) => {
-                                return <ChatElement {...el} />
+                            {ChatList.filter((el) => !el.pinned).map((el, key) => {
+                                return <ChatElement key={key} {...el} onChatClick={onChatClick} />
                             })}
                         </Stack>
                         {/* </SimpleBarStyle> */}

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Stack, Typography, Avatar, IconButton, TextField } from "@mui/material";
 import Chat from './chat-list-user'
 import { styled, useTheme } from "@mui/material/styles"
-import { Chat_History } from "../data/chat.data";
+import { ChatList, Chat_History } from "../data/chat.data";
 import { TextMsg, Timeline, MediaMsg, DocMsg } from "./msg-type";
 import StyledBadge from "../component/styledBadge"
 import AvatarImage from "../images/avatar-customer.png"
@@ -40,10 +40,19 @@ const ChatInput = ({ setOpenPicker }) => {
 const GeneralChat = () => {
     const theme = useTheme();
     const [openPicker, setOpenPicker] = React.useState(false);
+    const [groupId, setGroupId] = useState(0);
+
+    const onChatClick = (id) => {
+        console.log('id == ', id);
+        setGroupId(id)
+    }
+
+    const currentUser = ChatList.find(el => el.id === groupId);
+
     return (
         <Stack direction={'row'} sx={{ width: '100%', height: "100%" }}>
             {/* Chat list */}
-            <Chat />
+            <Chat onChatClick={onChatClick} />
             {/* Box Chat */}
             <Box
                 sx={{
@@ -51,8 +60,10 @@ const GeneralChat = () => {
                     width: '100%',
                     backgroundColor: theme.palette.mode === "light" ? "#FFF" : theme.palette.background.default
                 }}>
+
                 {/* Conversation */}
                 <Stack height={'100vh'} maxHeight={'100vh'} width='100%'>
+
                     {/* Chat header */}
                     <Box
                         p={5}
@@ -78,44 +89,46 @@ const GeneralChat = () => {
                                         }}
                                         variant="dot"
                                     >
-                                        <Avatar alt="Full Name" src={AvatarImage} />
+                                        <Avatar alt={currentUser?.name} src={currentUser?.img} />
                                     </StyledBadge>
                                 </Box>
 
                                 <Stack spacing={0.2}>
-                                    <Typography variant="subtitle2">Full name</Typography>
-                                    <Typography variant="caption">Online</Typography>
+                                    {/* Sử dụng thông tin từ currentUser */}
+                                    <Typography variant="subtitle2">{currentUser?.name}</Typography>
+                                    <Typography variant="caption">{currentUser?.online ? "Online" : "Offline"}</Typography>
                                 </Stack>
                             </Stack>
                         </Stack>
                     </Box>
+
                     {/* Message */}
                     <Box width={"100%"} sx={{ flexGrow: 1, height: "100%", overflow: "hidden scroll" }}>
                         <Box p={3}>
                             <Stack spacing={3}>
-                                {Chat_History.map((el) => {
-                                    switch (el.type) {
-                                        case "divider":
-                                            //time-line    
-                                            return <Timeline el={el} />
-                                        case "msg":
-                                            switch (el.subtype) {
+                                {ChatList.map((el) => {
+                                    if (el.id === groupId) {
+                                        return el.history.map((il) => { // Thêm return ở đây để trả về kết quả của map
+                                            switch (il.type) {
+                                                case "msg":
+                                                    //text-msg
+                                                    return <TextMsg key={il.message} el={il} /> // Đảm bảo mỗi component con có key
                                                 case "img":
                                                     //img-msg
-                                                    return <MediaMsg el={el} />
+                                                    return <MediaMsg key={il.message} el={il} />
                                                 case "doc":
                                                     //doc-msg
-                                                    return <DocMsg el={el} />
+                                                    return <DocMsg key={il.message} el={il} />
                                                 default:
-                                                    //text-msg
-                                                    return <TextMsg el={el} />
+                                                    return null;
                                             }
-                                            break;
+                                        })
                                     }
                                 })}
                             </Stack>
                         </Box >
                     </Box>
+
                     {/* Chat footer */}
                     <Box
                         p={2}
