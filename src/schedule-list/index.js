@@ -24,7 +24,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { Image } from "antd";
-import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { LoadingOverlay } from "../helper/loadingOverlay";
@@ -37,6 +37,8 @@ const ScheduleList = () => {
         startDate: "",
         endDate: "",
     });
+
+    const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -76,6 +78,10 @@ const ScheduleList = () => {
 
     const [rowsData, setRowsData] = useState([])
 
+    const createContract = (item) => {
+        return navigate(`/list-contract?des=${item.designerInfo.userCode}&cus=${item.customerInfo.userCode}`);
+    }
+
     useEffect(() => {
         async function getAllUser() {
             try {
@@ -91,8 +97,9 @@ const ScheduleList = () => {
                         time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
                         status: item_data.scheduleInfo.status,
                         action: (
-                            <div>
+                            <div style={{ display: 'flex', gap: '10px' }}>
                                 <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
+                                <button className="bg_confirm_schedule" onClick={() => createContract(item_data)}>Tạo hợp đồng</button>
                             </div>
                         )
                     };
@@ -155,8 +162,9 @@ const ScheduleList = () => {
                     time: item_data.scheduleInfo.timeSelect === "BRIGHT" ? "Sáng" : "Chiều",
                     status: item_data.scheduleInfo.status,
                     action: (
-                        <div>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                             <button className="bg_confirm_schedule" onClick={() => confirm(item_data, index)}>Cập nhật</button>
+                            <button className="bg_confirm_schedule" onClick={() => createContract(item_data)}>Tạo hợp đồng</button>
                         </div>
                     )
                 };
@@ -362,7 +370,7 @@ const ScheduleList = () => {
                                         type="submit"
                                         onClick={apiSearch}
                                     >
-                                        Search
+                                        Tìm kiếm
                                     </button>
                                 </div>
                             </div>

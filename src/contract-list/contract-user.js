@@ -1,19 +1,17 @@
+import { Card, Image } from 'antd';
 import React, { useEffect, useState } from "react";
+import { ToastContainer } from 'react-toastify';
+import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
-import dayjs from 'dayjs';
 import HeaderComponent from "../header/index";
 import VuGia from "../images/Vu_gia.png";
-import { Card } from 'antd';
-import { Image, Switch } from "antd";
-import { ToastContainer, toast } from 'react-toastify';
-import instance from "../configApi/axiosConfig";
 
 const { Meta } = Card;
 
 const ScheduleCard = () => {
     return (
         <Card style={{ marginBottom: 16 }}>
-            <div style={{ display: 'flex', justifyContent: 'center', background: 'rgba(102, 112, 133, 0.20)', width: '80%', padding: '50px', margin: '0 auto' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', background: 'rgba(102, 112, 133, 0.20)', padding: '50px', margin: '0 auto' }}>
                 <div style={{ width: '182px', height: '210px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         height={'100%'}
@@ -33,12 +31,17 @@ const ScheduleCard = () => {
 
 const ContractUser = () => {
 
+    const [listContract, setListContract] = useState([]);
+
     useEffect(() => {
         async function fetchData() {
             try {
-                const calendarRes = await instance.get('/schedule/user-list-schedule');
-                if (calendarRes.data.data.length === 0) {
+                const calendarRes = await instance.get('/list_contract_user');
+                console.log('calendarRes == ', calendarRes);
+                if (calendarRes.data.data.listContract.length === 0) {
+                    
                 }
+                setListContract(calendarRes.data.data.listContract)
             } catch (error) {
                 console.log(error);
             }
@@ -47,14 +50,12 @@ const ContractUser = () => {
     }, []);
 
     return (
-        <div className="h-screen">
+        <div className="h-screen" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <HeaderComponent />
             <ToastContainer />
-            <div className="table-account ">
-                <div className="text-4xl bg-account text-white font-bold flex" style={{ alignItems: 'center', height: '100px' }}>
-                    <ScheduleCard />
-                </div>
-            </div>
+            <main style={{ flex: 1 }}>
+                <ScheduleCard />
+            </main>
             <div className="border-2 pt-2 pb-2"></div>
             <FooterComponent />
         </div>
