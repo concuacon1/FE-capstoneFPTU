@@ -13,3 +13,16 @@ export function formatDate(inputDate) {
 
     return formattedDate;
 }
+
+export function formatContractCode() {
+    const date = new Date();  // Lấy ngày hiện tại
+    let day = date.getDate();  // Lấy ngày trong tháng (1-31)
+    let month = date.getMonth() + 1;  // Lấy tháng (0-11) và cộng thêm 1 để có giá trị từ 1-12
+    let year = date.getFullYear().toString().slice(-2);  // Lấy 2 chữ số cuối của năm
+
+    // Đảm bảo ngày và tháng có 2 chữ số bằng cách thêm '0' nếu cần
+    day = day < 10 ? '0' + day : day;
+    month = month < 10 ? '0' + month : month;
+
+    return `${day}${month}${year}`;  // Trả về chuỗi định dạng DDMMYY
+}

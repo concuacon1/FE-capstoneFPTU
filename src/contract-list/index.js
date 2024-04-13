@@ -7,12 +7,8 @@ import { Button } from '@mui/base/Button';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import AddIcon from '@mui/icons-material/Add';
 import Fade from '@mui/material/Fade';
-import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import Paper from '@mui/material/Paper';
-import Select from "@mui/material/Select";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,25 +20,15 @@ import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Image, Switch } from "antd";
-import { ToastContainer, toast } from 'react-toastify';
-import instance from "../configApi/axiosConfig";
-import { formatDate } from "../helper/formatDate";
+import { Image } from "antd";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-
-const generateRandomString = (length) => {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
+import { ToastContainer, toast } from 'react-toastify';
+import instance from "../configApi/axiosConfig";
+import { formatContractCode, formatDate } from "../helper/formatDate";
 
 const ContractList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -54,8 +40,10 @@ const ContractList = () => {
         nameSignature: ""
     });
 
+    const buttonRef = useRef(null);
+
     const [formAdd, setFormAdd] = useState({
-        codeContract: generateRandomString(8),
+        codeContract: "",
         nameContract: "",
         customerCode: "",
         nameSignature: "",
@@ -63,18 +51,42 @@ const ContractList = () => {
         imageContract: "",
         imageContractGender: "",
         customerName: "",
-        custormerId: ""
+        custormerId: "",
+        designerCode: "",
+        designerName: "",
+        designerId: ""
     })
-
     const filePdfRef = useRef(null);
     const [callApiReset, setCallApiReset] = useState(false)
     const [selectedCV, setSelectedCV] = useState(null);
 
+    const handleNumber = (number) => {
+        if (number < 10) return `0${number}`
+        else return number;
+    }
+
     useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const des = searchParams.get('des');
+        const cus = searchParams.get('cus');
+
+        if (des && cus) {
+            setFormAdd(prev => ({
+                ...prev,
+                customerCode: des,
+                designerCode: cus
+            }));
+        }
+
         async function getAllUser() {
             try {
                 const dataRes = await instance.get('/list_contract');
                 const dataDB = dataRes.data.data.listContract;
+                const code = 'HD' + handleNumber(dataRes.data.data.count) + formatContractCode();
+                setFormAdd(prev => ({
+                    ...prev,
+                    codeContract: code,
+                }));
                 const item = [];
                 if (dataDB.length > 0) {
                     dataDB.map(item_data => {
@@ -114,6 +126,12 @@ const ContractList = () => {
         }
 
         getAllUser()
+
+        if (des && cus && buttonRef.current) {
+            setTimeout(() => {
+                buttonRef.current.click();
+            }, 1000);
+        }
     }, [callApiReset])
 
     const handlePdfChange = (event) => {
@@ -200,6 +218,16 @@ const ContractList = () => {
         }
     }
 
+    function removeAllQueryParams() {
+        const url = new URL(window.location);
+
+        url.search = '';
+
+        window.history.replaceState({}, '', url);
+
+        window.location.reload();
+    }
+
     const createContract = async () => {
         try {
             const formDataFile = new FormData();
@@ -213,13 +241,9 @@ const ContractList = () => {
                 return toast.error("Upload error")
             }
             formAdd.imageContract = uploafFile.data.filename;
-            const currentDate = new Date();
-
-            const formattedDate = currentDate.toLocaleDateString('en-GB');
-            formAdd.timeSigned = formattedDate;
             delete formAdd.imageContractGender;
             await instance.post("/create_contract", formAdd);
-            window.location.reload();
+            removeAllQueryParams();
         } catch (error) {
             if (error.response.status === 402) {
                 return toast.error(error.response.data.errors[0].msg)
@@ -348,6 +372,38 @@ const ContractList = () => {
         }
     }
 
+    const checkCodeDes = async () => {
+        const dataCheck = {
+            userCode: formAdd.designerCode
+        }
+        try {
+            const dataRes = await instance.post("/check_contract", dataCheck);
+            const dataFind = dataRes.data.data.dataCustomer;
+            if (!dataFind?.fullName) {
+                return toast.error("Khong ton tai design code")
+            } else {
+                const dataOle = {
+                    ...formAdd,
+                    "designerName": dataFind.fullName,
+                    "designerId": dataFind._id
+                };
+                setFormAdd(dataOle)
+            }
+        } catch (error) {
+            if (error.response.status === 402) {
+                return toast.error(error.response.data.errors[0].msg)
+            } else if (error.response.status === 400) {
+                return toast.error(error.response.data.message)
+            } else if (error.response.status === 403) {
+                return toast.error(error.response.data.message)
+            } else {
+                return toast.error("Server error")
+            }
+        }
+    }
+
+    console.log('formAdd == ', formAdd);
+
     return (
         <div className="h-screen">
             <HeaderComponent />
@@ -459,6 +515,39 @@ const ContractList = () => {
                                     )
                                 }
                             </div>
+                            <div className="item flex items-center">
+                                <div style={{ width: 200 }}>Mã người tạo : </div>
+                                <TextField
+                                    style={{ width: 242 }}
+                                    id="outlined-start-adornment"
+                                    name="designerCode"
+                                    onChange={(event) => onChangeAddForm(event, "designerCode")}
+                                    value={formAdd?.designerCode}
+                                    sx={{ m: 1, width: "280px", height: "50px" }}
+                                />
+                                <button
+                                    className="custombutton-register-designer"
+                                    style={{ width: "100px", marginLeft: '10px' }}
+                                    onClick={checkCodeDes}
+                                >Kiểm tra</button>
+                            </div>
+                            <div className="item flex items-center">
+                                {
+                                    formAdd.designerName && (
+                                        <>
+                                            <div style={{ width: 200 }}>Tên người tạo: </div>
+                                            <TextField
+                                                style={{ width: 242 }}
+                                                id="outlined-start-adornment"
+                                                name="designerName"
+                                                value={formAdd.designerName}
+                                                sx={{ m: 1, width: "280px", height: "50px" }}
+                                                disabled
+                                            />
+                                        </>
+                                    )
+                                }
+                            </div>
 
                             <div className="item flex items-center">
                                 <div style={{ width: 200 }}>Tên người ký: </div>
@@ -472,6 +561,27 @@ const ContractList = () => {
                                 />
                             </div>
 
+                            <div className="item flex items-center" style={{ padding: '8px 0' }}>
+                                <div style={{ width: 208 }}>Ngày kí kết: </div>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DemoContainer
+                                        components={[
+                                            "DatePicker",
+                                            "TimePicker",
+                                            "DateTimePicker",
+                                            "DateRangePicker",
+                                        ]}
+                                    >
+                                        <DemoItem component="DateRangePicker">
+                                            <DatePicker
+                                                value={formAdd.dob}
+                                                onChange={(date) => setFormAdd({ ...formAdd, timeSigned: date })}
+                                                renderInput={(params) => <TextField {...params} />}
+                                            />
+                                        </DemoItem>
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            </div>
 
                             <div className="item flex items-center" style={{ padding: '8px 0' }}>
                                 <div style={{ width: 200 }}>Chi tiết: </div>
@@ -611,8 +721,9 @@ const ContractList = () => {
                                     </div>
                                     <div className="flex items-center justify-center pl-10 pt-2">
                                         <button
+                                            ref={buttonRef}
                                             className="button-add"
-                                            style={{ width: "150px", marginTop: "5" }}
+                                            style={{ width: "150px", marginTop: "5px" }}
                                             type="submit"
                                             onClick={addContract}
                                         >

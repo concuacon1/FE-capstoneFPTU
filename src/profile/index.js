@@ -76,6 +76,11 @@ const Profile = () => {
         }));
     };
 
+    function validateEmail(email) {
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return regex.test(String(email).toLowerCase());
+    }
+
     const update = async () => {
         if (formEdit.phoneNumber.length !== 10) {
             return toast.error("Số điện thoại không hợp lệ")
@@ -85,6 +90,9 @@ const Profile = () => {
         }
         if (!formEdit.email) {
             return toast.error("Email không được để trống")
+        }
+        if (!validateEmail(formEdit.email)) {
+            return toast.error("Email không hợp lệ");
         }
         if (!formEdit.dob) {
             return toast.error("Ngày sinh không được để trống")

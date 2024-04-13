@@ -25,6 +25,22 @@ const WorkingProject = () => {
 
     const [listCategory, setListCategory] = useState([]);
 
+    const listSKill = [
+        'Kỹ năng thiết kế và sáng tạo',
+        'Kỹ năng sử dụng phần mềm thiết kế',
+        'Kỹ năng công nghệ và đổi mới',
+        'Kỹ năng giao tiếp và trình bày',
+        'Kỹ năng quản lý dự án',
+        'Kỹ năng giải quyết vấn đề',
+    ];
+
+    const listExperience = [
+        'Kinh nghiệm hiểu biết về vật liệu',
+        'Kinh nghiệm về xu hướng thiết kế',
+        'Kinh nghiệm triển khai các dự án thực tế',
+        'Kinh nghiệm thực hiện và phân tích nghiên cứu thị trường',
+    ]
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -284,7 +300,7 @@ const WorkingProject = () => {
                                     <Grid item xs={6} key={index}>
                                         <TextField
                                             fullWidth
-                                            label={`Kỹ năng ${index + 1}`}
+                                            label={`${listSKill[index]}`}
                                             InputProps={{
                                                 disableUnderline: true,
                                                 style: {
@@ -301,7 +317,7 @@ const WorkingProject = () => {
                                     <Grid item xs={6} key={index}>
                                         <TextField
                                             fullWidth
-                                            label={`Kỹ năng ${index + 1}`}
+                                            label={`${listSKill[index]}`}
                                             InputProps={{
                                                 disableUnderline: true,
                                                 style: {
@@ -322,7 +338,7 @@ const WorkingProject = () => {
                                     <Grid item xs={6} key={index}>
                                         <TextField
                                             fullWidth
-                                            label={`Kinh nghiệm ${index + 1}`}
+                                            label={`${listExperience[index]}`}
                                             InputProps={{
                                                 disableUnderline: true,
                                                 style: {
@@ -339,7 +355,7 @@ const WorkingProject = () => {
                                     <Grid item xs={6} key={index}>
                                         <TextField
                                             fullWidth
-                                            label={`Kinh nghiệm ${index + 1}`}
+                                            label={`${listExperience[index]}`}
                                             InputProps={{
                                                 disableUnderline: true,
                                                 style: {
