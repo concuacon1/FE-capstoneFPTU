@@ -56,12 +56,11 @@ const WorkingProject = () => {
                         images: [baseImageUrl + imageUrl]
                     }));
                 }
-                console.log("newCategory == ", newCategory);
                 setListCategory(newCategory);
                 const user = designerRes.data.message[0];
                 setEditData(prevData => ({
                     ...prevData,
-                    imageDesigner: user?.imageDesigner || '',
+                    imageDesigner: user?.dataDesigner[0].imageUser || '',
                     listImageProject: user?.listImageProject || [],
                     skill: user?.skill || Array(6).fill(''),
                     experiences: user?.experience || Array(4).fill(''),
@@ -210,7 +209,6 @@ const WorkingProject = () => {
                             style={{ display: 'none' }}
                             onChange={handleAvatarChange}
                         />
-                        <button className="button-upload-images" onClick={() => avatarRef.current.click()}>Đổi avatar</button>
                     </div>
                     <div style={{ margin: '20px', width: '100%' }}>
                         <div className="flex justify-around items-center">
