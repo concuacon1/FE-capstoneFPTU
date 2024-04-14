@@ -7,13 +7,15 @@ import { motion } from 'framer-motion';
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 import Video from '../../src/videos/noithatvugia.mp4';
 import { fadeIn } from '../Animation/variants';
 import { waveVariants } from "../Animation/waveVariants";
+import instance from '../configApi/axiosConfig';
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
-import BuildImage from "../images/manhome1.png";
 import DesignImage from "../images/Manhome.png";
+import BuildImage from "../images/manhome1.png";
 import './index.css';
 
 const HomePage = () => {
@@ -41,11 +43,16 @@ const HomePage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        // Do something with formData
-        handleCloseModal(); // Close modal after submission
+        await instance.post('/email_colsulation', {
+            emailCustomer: formData.email,
+            fullName: formData.name,
+            phone: formData.phone,
+            note: formData.note,
+            address: formData.address
+        })
+        toast.success('Send message successfully')
     };
 
     const handleOpenModal = () => {
@@ -316,7 +323,7 @@ const HomePage = () => {
                                     />
                                     <motion.button
                                         className="button"
-                                        type="button"
+                                        type="submit"
                                         initial="hidden"
                                         whileInView={"show"}
                                         viewport={{ once: false, amount: 0.7 }}

@@ -482,9 +482,8 @@ const HeaderComponent = () => {
                             <Link to="/profile" className="cursor-pointer">Thông tin cá nhân</Link>
                         </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
-                        <MenuItem onClick={contract} disableRipple>
-                            Hợp đồng
-                        </MenuItem>
+                        <MenuItem >
+                        <Link to="/contract-user" className="cursor-pointer">Hợp đồng</Link>                        </MenuItem>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem >
                             <Link to="/edit-password" className="cursor-pointer">Đổi mật khẩu</Link>

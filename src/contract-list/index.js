@@ -82,7 +82,7 @@ const ContractList = () => {
             try {
                 const dataRes = await instance.get('/list_contract');
                 const dataDB = dataRes.data.data.listContract;
-                const code = 'HD' + handleNumber(dataRes.data.data.count) + formatContractCode();
+                const code = 'HD' + handleNumber(dataRes.data.data.count + 1) + formatContractCode();
                 setFormAdd(prev => ({
                     ...prev,
                     codeContract: code,
@@ -483,7 +483,7 @@ const ContractList = () => {
                             </div>
 
                             <div className="item flex items-center">
-                                <div style={{ width: 200 }}>Mã khách hàng: </div>
+                                <div style={{ width: 200 }}>Mã kiến trúc sư: </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
@@ -502,7 +502,7 @@ const ContractList = () => {
                                 {
                                     formAdd.customerName && (
                                         <>
-                                            <div style={{ width: 200 }}>Tên khách hàng: </div>
+                                            <div style={{ width: 200 }}>Tên kiến trúc sư: </div>
                                             <TextField
                                                 style={{ width: 242 }}
                                                 id="outlined-start-adornment"
@@ -516,7 +516,7 @@ const ContractList = () => {
                                 }
                             </div>
                             <div className="item flex items-center">
-                                <div style={{ width: 200 }}>Mã người tạo : </div>
+                                <div style={{ width: 200 }}>Mã khách hàng : </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
@@ -535,7 +535,7 @@ const ContractList = () => {
                                 {
                                     formAdd.designerName && (
                                         <>
-                                            <div style={{ width: 200 }}>Tên người tạo: </div>
+                                            <div style={{ width: 200 }}>Tên khách hàng: </div>
                                             <TextField
                                                 style={{ width: 242 }}
                                                 id="outlined-start-adornment"
