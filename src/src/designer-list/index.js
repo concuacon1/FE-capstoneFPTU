@@ -23,10 +23,10 @@ import TableRow from '@mui/material/TableRow';
 import TextField from "@mui/material/TextField";
 import { css, styled } from '@mui/system';
 import { Image, Switch } from "antd";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import { formatDate } from "../helper/formatDate";
-import { Link } from "react-router-dom";
 
 const DesignerList = () => {
     const [formSearch, setFormSearch] = useState({
@@ -582,7 +582,7 @@ const DesignerList = () => {
                                         style={{ borderRadius: '50%' }}
                                         height={250}
                                         width={250}
-                                        src={`http://localhost:8000/img/${formShow?.dataDesigner?.imageDesigner}`}
+                                        src={`http://localhost:8000/img/${formShow.imageUser}`}
                                         preview={true}
                                     />
                                     <div>{formShow?.fullName}</div>
