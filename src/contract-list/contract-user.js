@@ -1,12 +1,12 @@
 import { Card, Image } from 'antd';
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import { formatDate } from "../helper/formatDate";
 import Contract from "../images/contract.png";
+import { formatDate } from "../helper/formatDate";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
@@ -23,6 +23,7 @@ const ScheduleCard = ({ contract }) => {
                 </div>
                 <div style={{ marginLeft: 100, fontSize: 40, fontWeight: 500, color: 'black', fontFamily: 'Roboto' }}>
                     <p>{contract.nameContract}</p>
+                    <p>Kiến trúc sư: {contract.designerData[0].fullName}</p>
                     <p>Ngày {formatDate(contract.timeSigned)}</p>
                     <button style={{ height: '40px' }} className="custombutton-register-designer">
                         <Link to={`/contract/${contract._id}`} target="_blank">Xem chi tiết</Link>
