@@ -3,10 +3,12 @@ import { TextField } from '@mui/material';
 import { Image } from "antd";
 import { motion } from "framer-motion";
 import { default as React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 import Video from '../../src/videos/VideoXuong1.mp4';
 import { fadeIn } from "../Animation/variants";
 import { waveVariants } from "../Animation/waveVariants";
+import instance from '../configApi/axiosConfig';
 import FooterComponent from "../footer";
 import HeaderComponent from "../header";
 import Service3K from "../images/Service3.0.png";
@@ -33,11 +35,18 @@ const Service = () => {
       }));
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+  const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log(formData);
-      // Do something with formData
-      handleCloseModal(); // Close modal after submission
+      await instance.post('/email_colsulation', {
+          emailCustomer: formData.email,
+          fullName: formData.name,
+          phone: formData.phone,
+          note: formData.note,
+          address: formData.address
+      })
+      toast.success('Send message successfully')
+      return navigate('/home-page')
   };
 
   const handleOpenModal = () => {
@@ -181,7 +190,7 @@ const Service = () => {
                             {/* Nội dung modal */}
                             <div className="modal">
                                 <h2 id="modal-title" className="modal-title">Đặt lịch tư vấn</h2>
-                                <form onSubmit={handleSubmit}>
+                                <form >
                                     <TextField
                                         id="name"
                                         label="Họ và tên"
@@ -247,6 +256,7 @@ const Service = () => {
                                         initial="hidden"
                                         whileInView={"show"}
                                         viewport={{ once: false, amount: 0.7 }}
+                                       onClick={handleSubmit}
                                     >
                                         <>Gửi yêu cầu</>
                                     </motion.button>
