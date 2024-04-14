@@ -42,7 +42,7 @@ const HomePage = () => {
             [name]: value
         }));
     };
-
+    const navigate = useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         await instance.post('/email_colsulation', {
@@ -53,6 +53,7 @@ const HomePage = () => {
             address: formData.address
         })
         toast.success('Send message successfully')
+        return navigate('/service')
     };
 
     const handleOpenModal = () => {
@@ -261,7 +262,7 @@ const HomePage = () => {
                             {/* Nội dung modal */}
                             <div className="modal">
                                 <h2 id="modal-title" className="modal-title">Nhận tư vấn báo giá</h2>
-                                <form onSubmit={handleSubmit}>
+                                <form >
                                     <TextField
                                         id="name"
                                         label="Họ và tên"
@@ -327,6 +328,7 @@ const HomePage = () => {
                                         initial="hidden"
                                         whileInView={"show"}
                                         viewport={{ once: false, amount: 0.7 }}
+                                        onClick={handleSubmit}
                                     >
                                         <>Gửi yêu cầu</>
                                     </motion.button>

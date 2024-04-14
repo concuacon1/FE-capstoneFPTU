@@ -4,7 +4,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LockIcon from '@mui/icons-material/Lock';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Menu from '@mui/material/Menu';
@@ -361,18 +360,7 @@ const HeaderComponent = () => {
 
             <div className='header_noti_user flex'>
                 <div className='cursor-pointer'>
-                    <Button
-                        id="notipush-customized-button"
-                        aria-controls={openNotipushBool ? 'notipush-customized-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openNotipushBool ? 'true' : undefined}
-                        variant="contained"
-                        disableElevation
-                        style={{ background: 'none', textTransform: 'none' }}
-                        onClick={handleClickOpenNotiPush}
-                    >
-                        <NotificationsIcon className='cursor-pointer' />
-                    </Button> </div>
+                     </div>
 
                 {checkRole == "" &&
                     <motion.div
