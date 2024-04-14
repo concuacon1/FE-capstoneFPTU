@@ -582,7 +582,7 @@ const DesignerList = () => {
                                         style={{ borderRadius: '50%' }}
                                         height={250}
                                         width={250}
-                                        src={`http://localhost:8000/img/${formShow?.dataDesigner?.imageDesigner}`}
+                                        src={`http://localhost:8000/img/${formShow.imageUser}`}
                                         preview={true}
                                     />
                                     <div>{formShow?.fullName}</div>
