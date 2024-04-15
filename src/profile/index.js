@@ -11,8 +11,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import instance from '../configApi/axiosConfig';
 import { formatDate } from '../helper/formatDate';
+import ProfileHeader from "../images/Backgroundprofile000.jpg";
 import AvatarCustomer from '../images/image-fb.jpg';
-import ProfileHeader from "../images/pngtreebackground.png";
 import './index.css';
 
 const Profile = () => {
