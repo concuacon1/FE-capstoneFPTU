@@ -45,10 +45,10 @@ const ScheduleCard = ({ key, designerName, scheduleInfo }) => {
                         daysUntilBooked > 0 && <p>- Còn {daysUntilBooked} ngày ...</p>
                     }
                     {
-                        daysUntilBooked == 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy !</p>
+                        daysUntilBooked == 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy :))</p>
                     }
                     {
-                        daysUntilBooked < 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy !</p>
+                        daysUntilBooked < 0 && <p>Bạn nên đến điểm đặt lịch hẹn thôi, muộn giờ rồi đấy :))</p>
                     }
                 </div>
             </div>

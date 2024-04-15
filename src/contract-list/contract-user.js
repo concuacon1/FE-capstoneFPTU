@@ -1,12 +1,12 @@
 import { Card, Image } from 'antd';
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import { formatDate } from "../helper/formatDate";
 import Contract from "../images/contract.png";
+import { formatDate } from "../helper/formatDate";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
@@ -37,13 +37,14 @@ const ScheduleCard = ({ contract }) => {
 const ContractUser = () => {
 
     const [listContract, setListContract] = useState([]);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const calendarRes = await instance.get('/list_contract_user');
                 if (calendarRes.data.data.listContract.length === 0) {
-
+                    setMessage('Bạn chưa có hợp đồng nào với công ty')
                 }
                 setListContract(calendarRes.data.data.listContract)
             } catch (error) {
@@ -62,6 +63,9 @@ const ContractUser = () => {
                     listContract.length > 0 && listContract.map((contract, index) => (
                         <ScheduleCard key={index} contract={contract} />
                     ))
+                }
+                {
+                    message && <div style={{ marginTop: '200px', fontSize: '40px' }}>{message}</div>
                 }
             </main>
             <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
