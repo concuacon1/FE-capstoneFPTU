@@ -1,12 +1,12 @@
 import { Card, Image } from 'antd';
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import instance from "../configApi/axiosConfig";
 import FooterComponent from "../footer/index";
 import HeaderComponent from "../header/index";
-import { formatDate } from "../helper/formatDate";
 import Contract from "../images/contract.png";
+import { formatDate } from "../helper/formatDate";
+import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 
