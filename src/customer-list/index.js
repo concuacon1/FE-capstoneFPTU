@@ -453,7 +453,7 @@ const CustomerList = () => {
                     <ModalContent >
                         <div>
                             <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Mã nhân viên : </div>
+                                <div style={{ width: 200 }}>Mã khách hàng : </div>
                                 <TextField
                                     size="small"
                                     style={{ width: 222.45 }}
@@ -465,7 +465,7 @@ const CustomerList = () => {
                                 />
                             </div>
                             <div className="item flex justify-center items-center">
-                                <div style={{ width: 200 }}>Tên nhân viên : </div>
+                                <div style={{ width: 200 }}>Tên khách hàng : </div>
                                 <TextField
                                     size="small"
                                     style={{ width: 222.45 }}
