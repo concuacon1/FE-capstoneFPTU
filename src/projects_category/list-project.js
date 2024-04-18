@@ -90,7 +90,7 @@ const ListProject = () => {
                     width: '50%'
                 }} />
                 <div className='list-project-screen__container' style={{ marginTop: '2%' }}>
-                    <Carousel className='customCarousel' dotPosition="bottom">
+                    <Carousel className='customCarousel' dotPosition="bottom" autoplay>
                         <div>
                             <div className='list-project-screen__projects' style={{ margin: '2% 5%' }} >
                                 <Row gutter={[40, 24]}>
