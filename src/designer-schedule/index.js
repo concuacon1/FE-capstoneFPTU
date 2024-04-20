@@ -81,7 +81,7 @@ const DesignerSchedule = () => {
             setWaitingForApprovalModalVisible(true);
             return;
         }
-        
+
         if (new Date() > new Date(date)) {
             return;
         }
@@ -136,8 +136,15 @@ const DesignerSchedule = () => {
             return;
         }
 
-        setSelectedDateModalVisible(true);
-        setSelectedDate(formattedDateString);
+        const today = dayjs();
+        if (formattedDate.isSame(today.add(1, 'month'), 'day') || formattedDate.isAfter(today.add(1, 'month'))) {
+            console.log("Ngày chọn lớn hơn hoặc bằng thời gian hiện tại 1 tháng.");
+        } else if (formattedDate.isSame(today.add(1, 'year'), 'day') || formattedDate.isAfter(today.add(1, 'year'))) {
+            console.log("Ngày chọn lớn hơn hoặc bằng thời gian hiện tại 1 năm.");
+        } else {
+            setSelectedDateModalVisible(true);
+            setSelectedDate(formattedDateString);
+        }
     };
 
     const handleDateModalOk = () => {
