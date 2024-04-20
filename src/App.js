@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import AboutScreen from './about-screen/about_screen';
 import AccountList from "./account-list/index";
 import ChangePassword from "./change-password/index";
-import ChatBot from './chat-bot';
 import ChatList from './chat-box/general-chat';
 import ContractDetail from './contract-detail';
 import ContractList from './contract-list';
@@ -16,7 +15,6 @@ import DesignerDetail from './designer-detail';
 import DesignerList from './designer-list';
 import DesignerSchedule from './designer-schedule';
 import EditPasswordOtp from './edit-password-otp';
-import { LoadingOverlay } from './helper/loadingOverlay';
 import HomePage from "./homePage/index";
 import './index.css';
 import Login from "./login/index";
@@ -35,6 +33,8 @@ import Service3 from './service-list/service-03';
 import StaffList from './staff-list';
 import UserSchedule from './user-schedule/UserSchedule';
 import WorkingProject from './working-project';
+import ChatBot from './chat-bot';
+import { LoadingOverlay } from './helper/loadingOverlay';
 
 function App() {
   const [role, setRole] = useState('');

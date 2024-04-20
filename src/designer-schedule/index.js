@@ -81,8 +81,8 @@ const DesignerSchedule = () => {
             setWaitingForApprovalModalVisible(true);
             return;
         }
-
-        if ((new Date()).toLocaleDateString('en-GB') > formattedDate.format('DD/MM/YYYY')) {
+        
+        if (new Date() > new Date(date)) {
             return;
         }
 
