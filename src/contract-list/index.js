@@ -197,10 +197,6 @@ const ContractList = () => {
         setIdDeleteContract(id)
     }
 
-    const showContract = (item) => {
-        console.log(item);
-    }
-
     const handleCloseAdd = () => {
         setOpenAdd(false);
     };
@@ -275,17 +271,19 @@ const ContractList = () => {
 
     const apiSearch = async () => {
         try {
+            console.log('formSearch == ', formSearch);
             const dataSeachForm = {
                 codeContract: formSearch.codeContract.trim(),
                 nameContract: formSearch.nameContract.trim(),
-                startDate: formSearch.startDate.trim,
-                endDate: formSearch.endDate.trim,
+                startDate: formSearch.startDate,
+                endDate: formSearch.endDate,
                 nameSignature: formSearch.nameSignature.trim(),
                 customerName: formSearch.customerName.trim()
             }
             const dataSearch = await instance.post("/search_contract", dataSeachForm);
             const dataDB = dataSearch.data.data.contract;
             const item = [];
+            console.log('dataDB == ', dataDB);
             if (dataDB.length > 0) {
                 dataDB.map(item_data => {
                     const objectPush = {
@@ -293,8 +291,9 @@ const ContractList = () => {
                         'codeContract': item_data.codeContract,
                         'nameContract': item_data.nameContract,
                         'nameSignature': item_data.nameSignature,
-                        'timeSigned': formatDate(item_data.createdAt),
+                        'timeSigned': formatDate(item_data.timeSigned),
                         'customerName': item_data.dataCustomer.fullName,
+                        'designerName': item_data.designerData[0].fullName,
                         'action': <div >
                             <button className="bg_edit_account mr-5">
                                 <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
@@ -305,6 +304,8 @@ const ContractList = () => {
                     item.push(objectPush);
                 });
                 setRowData(item);
+            } else {
+                setRowData([])
             }
         } catch (error) {
             if (error.response.status === 402) {
@@ -408,8 +409,6 @@ const ContractList = () => {
             }
         }
     }
-
-    console.log('formAdd == ', formAdd);
 
     return (
         <div className="h-screen">
