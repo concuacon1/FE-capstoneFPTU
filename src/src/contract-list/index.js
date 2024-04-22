@@ -73,8 +73,8 @@ const ContractList = () => {
         if (des && cus) {
             setFormAdd(prev => ({
                 ...prev,
-                customerCode: des,
-                designerCode: cus
+                customerCode: cus,
+                designerCode: des
             }));
         }
 
@@ -82,7 +82,7 @@ const ContractList = () => {
             try {
                 const dataRes = await instance.get('/list_contract');
                 const dataDB = dataRes.data.data.listContract;
-                const code = 'HD' + handleNumber(dataRes.data.data.count) + formatContractCode();
+                const code = 'HD' + handleNumber(dataRes.data.data.count + 1) + formatContractCode();
                 setFormAdd(prev => ({
                     ...prev,
                     codeContract: code,
@@ -96,8 +96,9 @@ const ContractList = () => {
                             'nameContract': item_data.nameContract,
                             'customerCode': item_data.customerCode,
                             'nameSignature': item_data.nameSignature,
-                            'timeSigned': formatDate(item_data.createdAt),
+                            'timeSigned': formatDate(item_data.timeSigned),
                             'customerName': item_data.customerData[0].fullName,
+                            'designerName': item_data.designerData[0].fullName,
                             'action': <div >
                                 <button className="bg_edit_account mr-5">
                                     <Link to={`/contract/${item_data._id}`} target="_blank">Xem</Link>
@@ -162,6 +163,11 @@ const ContractList = () => {
         {
             id: 'nameSignature',
             label: 'Tên người ký',
+            minWidth: 170,
+        },
+        {
+            id: 'designerName',
+            label: 'Tên kiến trúc sư',
             minWidth: 170,
         },
         {
@@ -242,6 +248,7 @@ const ContractList = () => {
             }
             formAdd.imageContract = uploafFile.data.filename;
             delete formAdd.imageContractGender;
+            console.log('formAdd == ', formAdd);
             await instance.post("/create_contract", formAdd);
             removeAllQueryParams();
         } catch (error) {
@@ -516,7 +523,7 @@ const ContractList = () => {
                                 }
                             </div>
                             <div className="item flex items-center">
-                                <div style={{ width: 200 }}>Mã người tạo : </div>
+                                <div style={{ width: 200 }}>Mã kiến trúc sư : </div>
                                 <TextField
                                     style={{ width: 242 }}
                                     id="outlined-start-adornment"
@@ -535,7 +542,7 @@ const ContractList = () => {
                                 {
                                     formAdd.designerName && (
                                         <>
-                                            <div style={{ width: 200 }}>Tên người tạo: </div>
+                                            <div style={{ width: 200 }}>Tên kiến trúc sư: </div>
                                             <TextField
                                                 style={{ width: 242 }}
                                                 id="outlined-start-adornment"
