@@ -119,7 +119,8 @@ const DesignerSchedule = () => {
                     return;
                 }
                 setSelectedDateModalVisible(true);
-                setSelectedDate(formattedDateString);
+                setSelectedDate(formattedDateString);//Bat mockup thong tin cua ngay dat lich
+                //Lay ra thong tin cac ngay mau xanh - co the tao duoc nhieu ngay mau xanh (Admin-Staff)
             } else {
                 setIsLoading(true);
                 const scheduleInfo = await instance.get('/schedule/user-info', {

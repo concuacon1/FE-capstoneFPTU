@@ -1,3 +1,4 @@
+import HomeIcon from '@mui/icons-material/Home';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Box from "@mui/material/Box";
@@ -20,6 +21,7 @@ import { ToastContainer, toast } from "react-toastify";
 import instance from "../configApi/axiosConfig";
 import BannerLogin from "../images/banner_login.png";
 import BackgroundImage from '../images/logo_banner_001.png';
+
 
 function a11yProps(index) {
     return {
@@ -158,6 +160,20 @@ const Login = () => {
         <div className="flex items-center justify-center item-center m-auto h-screen banner-bg-all change-password-custom"
             style={{ backgroundImage: `url(${BackgroundImage})` }}
         >
+
+<div style={{
+    position: "absolute",
+    top: "3%",
+    left: "3%",
+    color: "white",
+    width: "30px"
+}}>
+<Link href="/home-page" className="link-color-register">
+                                    {" "}
+                                    <HomeIcon />
+                                </Link>
+                                </div>
+                   
             <div className="bg-white" style={{ height: "679px" }}>
                 <div className="max-w-custom-width-register-designer">
                     <Image
